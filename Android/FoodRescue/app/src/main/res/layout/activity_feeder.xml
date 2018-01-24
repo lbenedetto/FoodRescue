@@ -3,7 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="edu.ewu.team1.foodrescue.FeederActivity">
+    <TextView
+        android:id="@+id/textViewBuilding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/select_nearest_building"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
         android:id="@+id/spinner"
@@ -11,10 +22,9 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewBuilding" />
 
     <Button
         android:id="@+id/buttonSubmit"
@@ -29,6 +39,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="368dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
@@ -51,7 +62,7 @@
                 android:id="@+id/textViewCustomizeLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Customize Exact Location:" />
+                android:text="@string/customize_exact_location" />
 
             <com.google.android.gms.maps.MapView
                 android:id="@+id/mapView"
@@ -69,6 +80,7 @@
                 android:id="@+id/textViewCustomizeMessage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="@string/custom_message" />
 
             <EditText
