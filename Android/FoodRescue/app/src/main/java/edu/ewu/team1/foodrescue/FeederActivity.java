@@ -8,6 +8,6 @@ public class FeederActivity  extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sso);
+        setContentView(R.layout.activity_feeder);
     }
 }
