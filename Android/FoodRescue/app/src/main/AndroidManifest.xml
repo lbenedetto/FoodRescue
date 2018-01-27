@@ -35,10 +35,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".EaterActivity"
+            android:name=".eater.EaterActivity"
             android:label="Active Food Events" />
         <activity
-            android:name=".FeederActivity"
+            android:name=".feeder.FeederActivity"
             android:label="Create Food Announcement" />
     </application>
 

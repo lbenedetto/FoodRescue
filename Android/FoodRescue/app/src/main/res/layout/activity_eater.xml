@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="edu.ewu.team1.foodrescue.EaterActivity">
+    tools:context="edu.ewu.team1.foodrescue.eater.EaterActivity">
 
     <TextView
         android:id="@+id/textView3"

@@ -1,10 +1,13 @@
-package edu.ewu.team1.foodrescue;
+package edu.ewu.team1.foodrescue.eater;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import edu.ewu.team1.foodrescue.feeder.FeederActivity;
+import edu.ewu.team1.foodrescue.R;
 
 public class EaterActivity extends AppCompatActivity {
 

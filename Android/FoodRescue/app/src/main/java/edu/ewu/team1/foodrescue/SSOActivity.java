@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import edu.ewu.team1.foodrescue.eater.EaterActivity;
+import edu.ewu.team1.foodrescue.feeder.FeederActivity;
+
 public class SSOActivity extends AppCompatActivity {
 
     @Override
@@ -26,7 +29,7 @@ public class SSOActivity extends AppCompatActivity {
         if (id == R.id.itemFeeder) {
             startActivity(new Intent(this, FeederActivity.class));
             return true;
-        }else if (id == R.id.itemEater){
+        } else if (id == R.id.itemEater) {
             startActivity(new Intent(this, EaterActivity.class));
             return true;
         }
