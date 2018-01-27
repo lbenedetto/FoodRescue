@@ -18,7 +18,7 @@
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="368dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -40,11 +40,11 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="368dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/buttonSubmit"
@@ -63,11 +63,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/customize_exact_location" />
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/mapView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
-            <com.google.android.gms.maps.MapView
-                android:id="@+id/mapView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                <ImageView
+                    android:id="@+id/imageViewCrosshair"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/crosshair"
+                    android:contentDescription="@string/crosshair_location_selector" />
+            </RelativeLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -81,6 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:focusableInTouchMode="true"
                 android:text="@string/custom_message" />
 
             <EditText
@@ -88,7 +101,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:ems="10"
-                android:inputType="textMultiLine"
+                android:gravity="top"
+                android:inputType="textCapSentences|textMultiLine"
+                android:maxLength="1000"
+                android:maxLines="4"
                 app:layout_constraintBottom_toTopOf="@+id/buttonSubmit"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

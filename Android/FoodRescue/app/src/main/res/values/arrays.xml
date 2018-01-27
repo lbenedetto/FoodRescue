@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="locationNames">
+        <item>Other</item>
+        <item>ART - Art Building</item>
+        <item>CAD - Cadet Hall</item>
+        <item>CEB - Computing and Engineering Building</item>
+        <item>CHN - Cheney Hall</item>
+        <item>CMC - Communications Building</item>
+        <item>HAR - Hargreaves Hall</item>
+        <item>HUS - Huston Hall</item>
+        <item>ISL - Isle Hall</item>
+        <item>JFK - JFK Library</item>
+        <item>KGS - Kingston Hall</item>
+        <item>MAL - Campus Mall</item>
+        <item>MAR - Martin Hall</item>
+        <item>MON - Monroe Hall</item>
+        <item>MUS - Music Building</item>
+        <item>PAT - Patterson Hall</item>
+        <item>PAV - Special Events Pavilion</item>
+        <item>PUB - Pence Union Building</item>
+        <item>RTV - Radio-TV Building</item>
+        <item>SCI - Science Building</item>
+        <item>SHW - Showalter Hall</item>
+        <item>SNR - Senior Hall</item>
+        <item>SUT - Sutton Hall</item>
+        <item>THE - University Theatre</item>
+        <item>URC - Recreation Center</item>
+        <item>WLM - Williamson Hall</item>
+    </string-array>
+    <string-array name="locationLats">
+        <item>47.491376</item><!--Other-->
+        <item>47.488225</item><!--ART - Art Building-->
+        <item>47.489261</item><!--CAD - Cadet Hall-->
+        <item>47.489685</item><!--CEB - Computing and Engineering Building-->
+        <item>47.490362</item><!--CHN - Cheney Hall-->
+        <item>47.488543</item><!--CMC - Communications Building-->
+        <item>47.491869</item><!--HAR - Hargreaves Hall-->
+        <item>47.490497</item><!--HUS - Huston Hall-->
+        <item>47.492403</item><!--ISL - Isle Hall-->
+        <item>47.490721</item><!--JFK - JFK Library-->
+        <item>47.490809</item><!--KGS - Kingston Hall-->
+        <item>47.491355</item><!--MAL - Campus Mall-->
+        <item>47.489787</item><!--MAR - Martin Hall-->
+        <item>47.491266</item><!--MON - Monroe Hall-->
+        <item>47.487811</item><!--MUS - Music Building-->
+        <item>47.491932</item><!--PAT - Patterson Hall-->
+        <item>47.491361</item><!--PAV - Special Events Pavilion-->
+        <item>47.492139</item><!--PUB - Pence Union Building-->
+        <item>47.488630</item><!--RTV - Radio-TV Building-->
+        <item>47.491307</item><!--SCI - Science Building-->
+        <item>47.490144</item><!--SHW - Showalter Hall-->
+        <item>47.491223</item><!--SNR - Senior Hall-->
+        <item>47.489501</item><!--SUT - Sutton Hall-->
+        <item>47.488010</item><!--THE - University Theatre-->
+        <item>47.493244</item><!--URC - Recreation Center-->
+        <item>47.490194</item><!--WLM - Williamson Hall-->
+    </string-array>
+    <string-array name="locationLngs">
+        <item>-117.582917</item><!--Other-->
+        <item>-117.585019</item><!--ART - Art Building-->
+        <item>-117.585347</item><!--CAD - Cadet Hall-->
+        <item>-117.585293</item><!--CEB - Computing and Engineering Building-->
+        <item>-117.585769</item><!--CHN - Cheney Hall-->
+        <item>-117.584591</item><!--CMC - Communications Building-->
+        <item>-117.579839</item><!--HAR - Hargreaves Hall-->
+        <item>-117.581567</item><!--HUS - Huston Hall-->
+        <item>-117.581227</item><!--ISL - Isle Hall-->
+        <item>-117.583628</item><!--JFK - JFK Library-->
+        <item>-117.577881</item><!--KGS - Kingston Hall-->
+        <item>-117.582798</item><!--MAL - Campus Mall-->
+        <item>-117.582121</item><!--MAR - Martin Hall-->
+        <item>-117.580402</item><!--MON - Monroe Hall-->
+        <item>-117.584494</item><!--MUS - Music Building-->
+        <item>-117.582048</item><!--PAT - Patterson Hall-->
+        <item>-117.589385</item><!--PAV - Special Events Pavilion-->
+        <item>-117.583612</item><!--PUB - Pence Union Building-->
+        <item>-117.585294</item><!--RTV - Radio-TV Building-->
+        <item>-117.585169</item><!--SCI - Science Building-->
+        <item>-117.579784</item><!--SHW - Showalter Hall-->
+        <item>-117.578429</item><!--SNR - Senior Hall-->
+        <item>-117.581269</item><!--SUT - Sutton Hall-->
+        <item>-117.585680</item><!--THE - University Theatre-->
+        <item>-117.584211</item><!--URC - Recreation Center-->
+        <item>-117.582904</item><!--WLM - Williamson Hall-->
+    </string-array>
+</resources>
