@@ -2,13 +2,10 @@ package edu.ewu.team1.foodrescue;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.Window;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -27,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements
             = item -> {
         switch (item.getItemId()) {
             //TODO: Only switch away from SSO Fragment if the user is signed in
+            //TODO: Only switch fragments if its not the currently active fragment
             case R.id.navigation_feeder:
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
@@ -55,11 +53,14 @@ public class MainActivity extends AppCompatActivity implements
         getWindow().requestFeature(Window.FEATURE_PROGRESS);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView navigation = findViewById(R.id.navigation);
+        BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        //TODO: Check if already logged in, load different fragment instead
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, new SSOFragment()).commit();
+        navigation.setSelectedItemId(R.id.navigation_sso);
+        navigation.getMenu().findItem(R.id.navigation_sso).setChecked(true);
         checkPlayServices();
     }
 

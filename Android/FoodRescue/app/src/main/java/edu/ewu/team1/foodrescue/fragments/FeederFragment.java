@@ -70,13 +70,6 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -105,7 +98,7 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
+        // : Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
@@ -212,7 +205,7 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
         return null;
     }
 
-    private void populateDropdownMenu(){
+    private void populateDropdownMenu() {
         if (ActivityCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(getActivity(),
@@ -245,7 +238,7 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
         int closest = 1;
         for (i = 2; i < names.length; i++) {
             double dist = Math.hypot(lats[i] - currLoc.latitude, lngs[i] - currLoc.longitude);
-            if (dist < smallest){
+            if (dist < smallest) {
                 closest = i;
                 smallest = dist;
             }
@@ -261,7 +254,7 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 // your code here
-                if(position != 1)//Position 1 is "Other"
+                if (position != 1)//Position 1 is "Other"
                     moveMapToLocation(new LatLng(lats[position], lngs[position]));
             }
 
