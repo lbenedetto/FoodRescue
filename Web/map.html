@@ -1,17 +1,22 @@
 <html>
     <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <style>
             #map 
             {
                 height: 400px;
-                width: 100%;
+                width: 50%;
             }
         </style>
     </head>
 
     <body>
         <h1>Testing the Google Maps API</h1>
+        <br>
+        <p>Left click to move the map, right click on the map to set a location</p>
         <div id="map"></div>
+
+        <label id="markerLocation">Location will show here</label>
         <script src = "mapFunctions.js"></script>
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXWwdA4ONNbGRTI3tnx40rFsOOO4va_JI&callback=initMap">
         </script>
