@@ -32,5 +32,5 @@ function placeMarker(latLng, map)
     var lng = latLng.lng();
     var str = "location is " + lat + " degrees latitude and " + lng + " degrees longitude.";
 
-    $("#makerLocation").val(str);
+       document.getElementById("markerLocation").innerHTML = str;
 };
