@@ -62,14 +62,14 @@ public class SSOFragment extends Fragment {
                 }
             });
             webView.loadUrl("https://login.ewu.edu");
-            //TODO: Get UUID. This code should be async.
+            //TODO: (Very Hard) Get UUID. This code should be async.
             // Also, might not even be supposed to load this in a web view.
             //I just really have no idea how SSO is supposed to work
             UUID = "NoUUID";
             SharedPreferences.Editor editor = sharedPref.edit();
             editor.putString("UUID", UUID);
             editor.apply();
-            //TODO: Remove Sign in option from bottom navigation view upon successful sign in
+            //TODO: (Easy, not yet possible) Remove Sign in option from bottom navigation view upon successful sign in
         }
         return view;
     }

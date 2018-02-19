@@ -12,24 +12,24 @@
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:text="@string/notification_settings"
-        app:layout_constraintBottom_toTopOf="@+id/switchNotificationForEventStart"
+        app:layout_constraintBottom_toTopOf="@+id/switchEventStart"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Switch
-        android:id="@+id/switchNotificationForEventStart"
+        android:id="@+id/switchEventStart"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:text="@string/notifications_when_food_is_available"
-        app:layout_constraintBottom_toTopOf="@+id/switch2"
+        app:layout_constraintBottom_toTopOf="@+id/switchEventEnd"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Switch
-        android:id="@+id/switch2"
+        android:id="@+id/switchEventEnd"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"

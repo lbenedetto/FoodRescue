@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity implements
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> {
         switch (item.getItemId()) {
-            //TODO: Only switch away from SSO Fragment if the user is signed in
-            //TODO: Only switch fragments if its not the currently active fragment
+            //TODO: (Easy, but not yet possible) Only switch away from SSO Fragment if the user is signed in
+            //TODO: (Easy) Only switch fragments if its not the currently active fragment
             case R.id.navigation_feeder:
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements
         BottomNavigationView navigation = findViewById(R.id.bottomNavigationView);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        //TODO: Check if already logged in, load different fragment instead
+        //TODO: (Easy, but not yet possible) Check if already logged in, load different fragment instead
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, new SSOFragment()).commit();
         navigation.setSelectedItemId(R.id.navigation_sso);

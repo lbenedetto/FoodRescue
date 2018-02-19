@@ -66,7 +66,7 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
         mapView = view.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
-        //TODO: Provide visual feedback to the user by displaying the lat/lng of the center of their crosshair
+        //TODO: (Medium) Provide visual feedback to the user by displaying the lat/lng of the center of their crosshair
         return view;
     }
 

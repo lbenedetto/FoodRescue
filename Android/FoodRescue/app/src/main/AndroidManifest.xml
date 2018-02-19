@@ -25,13 +25,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- TODO: Use the Google API Console to restrict this key to only be able to be used by our app -->
+        <!-- TODO: (Medium) Use the Google API Console to restrict this key to only be able to be used by our app -->
         <!-- You'll need our package name and SHA-1 signing-certificate fingerprint -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDXWwdA4ONNbGRTI3tnx40rFsOOO4va_JI" />
 
-        <!-- TODO: Customize the look of notifications -->
+        <!-- TODO: (Easy) Customize the look of notifications -->
         <!--
              Set custom default icon. This is used when no icon is set for incoming notification messages.
              See README(https://goo.gl/l4GJaQ) for more.
@@ -50,12 +50,6 @@
         <uses-library android:name="com.google.android.maps" />
 
         <activity
-            android:name=".eater.EaterActivity"
-            android:label="Active Food Events" />
-        <activity
-            android:name=".feeder.FeederActivity"
-            android:label="Create Food Announcement" />
-        <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main">
             <intent-filter>
@@ -64,6 +58,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name=".FoodNotificationService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
