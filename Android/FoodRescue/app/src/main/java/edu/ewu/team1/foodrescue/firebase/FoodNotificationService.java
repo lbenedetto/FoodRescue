@@ -1,6 +1,7 @@
-package edu.ewu.team1.foodrescue;
+package edu.ewu.team1.foodrescue.firebase;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -28,10 +29,14 @@ public class FoodNotificationService extends FirebaseMessagingService {
 
         // Check if message contains a notification payload.
         if (remoteMessage.getNotification() != null) {
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+            String message = remoteMessage.getNotification().getBody();
+            Log.d(TAG, "Message Notification Body: " + message);
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
         }
 
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
+
+        //TODO: Build our own notification
     }
 }

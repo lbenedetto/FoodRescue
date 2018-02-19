@@ -5,15 +5,19 @@ import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Window;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import edu.ewu.team1.foodrescue.fragments.EaterFragment;
 import edu.ewu.team1.foodrescue.fragments.FeederFragment;
 import edu.ewu.team1.foodrescue.fragments.SSOFragment;
+
+import static android.content.ContentValues.TAG;
 
 public class MainActivity extends AppCompatActivity implements
         SSOFragment.OnFragmentInteractionListener,
@@ -62,6 +66,9 @@ public class MainActivity extends AppCompatActivity implements
         navigation.setSelectedItemId(R.id.navigation_sso);
         navigation.getMenu().findItem(R.id.navigation_sso).setChecked(true);
         checkPlayServices();
+
+        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+        Log.d(TAG, "Token: " + refreshedToken);
     }
 
     @Override
