@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "446008286364",
+    "firebase_url": "https://foodrescue-c0fbf.firebaseio.com",
+    "project_id": "foodrescue-c0fbf",
+    "storage_bucket": "foodrescue-c0fbf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:446008286364:android:d95e3dd8c912b023",
+        "android_client_info": {
+          "package_name": "edu.ewu.team1.foodrescue"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "446008286364-kiqo85ae3kjr3mfpdv13s112rv3cclvr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.ewu.team1.foodrescue",
+            "certificate_hash": "f744699fad57b72803a10a12263d149922e7d249"
+          }
+        },
+        {
+          "client_id": "446008286364-bkoqa963ojq5230vhndog8if7290bfd4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIUv4ndLGXI5_3DHQIi5qohoDAI3tDBeI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "446008286364-bkoqa963ojq5230vhndog8if7290bfd4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
