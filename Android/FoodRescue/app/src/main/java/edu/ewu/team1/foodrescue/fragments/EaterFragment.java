@@ -40,7 +40,7 @@ public class EaterFragment extends Fragment {
 
         //Set the state of the switches to the last state of the switch. If first time, set to true
         //Also, register a click listener to save the new state of the switch
-        boolean state = sharedPref.getBoolean("receiveEventStartNotifications", true);
+        boolean state = sharedPref.getBoolean("receiveEventStartNotifications", false);
         Switch eStart = view.findViewById(R.id.switchEventStart);
         eStart.setChecked(state);
         eStart.setOnClickListener(v -> {
@@ -50,7 +50,7 @@ public class EaterFragment extends Fragment {
         });
 
 
-        state = sharedPref.getBoolean("receiveEventEndNotifications", true);
+        state = sharedPref.getBoolean("receiveEventEndNotifications", false);
         Switch eEnd = view.findViewById(R.id.switchEventEnd);
         eEnd.setChecked(state);
         eEnd.setOnClickListener(v -> {
