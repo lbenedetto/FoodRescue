@@ -32,28 +32,33 @@ public class MainActivity extends AppCompatActivity implements
         EaterFragment.OnFragmentInteractionListener {
     private Pattern pattern = Pattern.compile("<cas:user>(.*?)</cas:user>");
     private BottomNavigationView navigation;
-
+    private boolean feederIsActive = false;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = item -> {
         if (!getUsername().equals("NoUUID")) {
             switch (item.getItemId()) {
-                //TODO: (Easy) Only switch fragments if its not the currently active fragment
                 case R.id.navigation_feeder:
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                    if (!feederIsActive) {
+                        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-                    ft.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
-                    ft.replace(R.id.fragment_container, new FeederFragment(), "fragment");
-                    ft.addToBackStack(null);
-                    // Start the animated transition.
-                    ft.commit();
+                        ft.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
+                        ft.replace(R.id.fragment_container, new FeederFragment(), "fragment");
+                        ft.addToBackStack(null);
+                        // Start the animated transition.
+                        ft.commit();
+                        feederIsActive = true;
+                    }
                     return true;
                 case R.id.navigation_eater:
-                    FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
+                    if (feederIsActive) {
+                        FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
 
-                    ft2.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
-                    ft2.replace(R.id.fragment_container, new EaterFragment(), "fragment");
-                    ft2.addToBackStack(null);
-                    // Start the animated transition.
-                    ft2.commit();
+                        ft2.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
+                        ft2.replace(R.id.fragment_container, new EaterFragment(), "fragment");
+                        ft2.addToBackStack(null);
+                        // Start the animated transition.
+                        ft2.commit();
+                        feederIsActive = false;
+                    }
                     return true;
             }
         }
