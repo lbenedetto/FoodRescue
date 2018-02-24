@@ -13,7 +13,8 @@
         android:layout_marginStart="8dp"
         android:text="@string/notification_settings"
         app:layout_constraintBottom_toTopOf="@+id/switchEventStart"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="8dp" />
 
     <Switch
         android:id="@+id/switchEventStart"

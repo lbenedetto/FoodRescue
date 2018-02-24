@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="edu.ewu.team1.foodrescue.fragments.SSOFragment">
-
+<!--TODO: (Medium) Make this not look like shit-->
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Log In"
+            android:text="@string/log_in"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             android:layout_marginLeft="8dp" />
 

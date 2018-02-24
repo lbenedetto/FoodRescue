@@ -36,8 +36,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:11.8.0'
     implementation 'com.google.android.gms:play-services-maps:11.8.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-//    compile group: 'org.pac4j', name: 'pac4j-core', version: '2.1.0'
-//    compile group: 'org.pac4j', name: 'pac4j-cas', version: '2.1.0'
     compile 'com.android.volley:volley:1.1.0'
 }
 repositories {

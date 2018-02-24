@@ -37,11 +37,18 @@ public class FoodNotificationService extends FirebaseMessagingService {
         }
     }
 
+    /**
+     * Shows a notification with the specified message
+     * //TODO: Add support for data packages
+     *
+     * @param message message to be displayed
+     */
     private void showNotification(String message) {
         // TODO: (Hard) Get the GPS coordinates from the data payload and use it to open a map
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         String NOTIFICATION_CHANNEL_ID = "ewu.edu.team1.foodRescue.foodNotificationChannel";
 
+        //Android O specific settings
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "My Notifications", NotificationManager.IMPORTANCE_HIGH);
             assert notificationManager != null;

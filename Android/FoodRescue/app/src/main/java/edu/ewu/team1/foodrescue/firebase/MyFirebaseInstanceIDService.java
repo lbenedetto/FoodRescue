@@ -12,6 +12,9 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     public MyFirebaseInstanceIDService() {
     }
 
+    /**
+     * Refresh this devices firebase token and subscribe to the topic
+     */
     @Override
     public void onTokenRefresh() {
         // Get updated InstanceID token.

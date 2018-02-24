@@ -6,8 +6,8 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -23,8 +23,6 @@ import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -36,30 +34,22 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.net.ssl.HttpsURLConnection;
-
 import edu.ewu.team1.foodrescue.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FeederFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
  */
 public class FeederFragment extends Fragment implements OnMapReadyCallback {
     //https://developers.google.com/maps/documentation/android-api/groundoverlay
-    MapView mapView;
-    GoogleMap map;
-    String[] names;
-    Double[] lats;
-    Double[] lngs;
-    Spinner spinner;
-    boolean hasLocationAccess = false;
-    //Request codes
-    private int gpsPermissionsRequestCode = 456;
+    private MapView mapView;
+    private GoogleMap map;
+    private String[] names;
+    private Double[] lats;
+    private Double[] lngs;
+    private Spinner spinner;
+    private boolean hasLocationAccess = false;
+    private final int gpsPermissionsRequestCode = 456;
     private View view;
-    private OnFragmentInteractionListener mListener;
-    private Button buttonSubmit;
     private EditText editText;
     private TextView location;
 
@@ -68,14 +58,8 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_feeder, container, false);
 
         location = view.findViewById(R.id.textViewLatLng);
@@ -86,8 +70,9 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
+        //Define behavior of "Send Announcement" button
         editText = view.findViewById(R.id.editTextMessage);
-        buttonSubmit = view.findViewById(R.id.buttonSubmit);
+        Button buttonSubmit = view.findViewById(R.id.buttonSubmit);
         buttonSubmit.setOnClickListener(view -> {
             LatLng loc = getCrosshairLocation();
             assert loc != null;
@@ -95,7 +80,7 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
             String message = editText.getText().toString();
 
             RequestQueue queue = Volley.newRequestQueue(getContext());
-            //TODO: Change to actual URL
+            //TODO: (Easy, waiting on brad) Change to actual URL
             String url = "http://www.brad.com";
             StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                     response -> Log.d("Response", response),
@@ -104,6 +89,7 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<>();
+                    //TODO: Include hashed username here
                     params.put("lat", String.valueOf(loc.latitude));
                     params.put("lng", String.valueOf(loc.longitude));
                     params.put("locName", locName);
@@ -119,79 +105,32 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
         return view;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
     /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
+     * When the map is loaded we configure some settings for it
+     *
+     * @param googleMap the map which is now ready to be configured and used
      */
-    public interface OnFragmentInteractionListener {
-        // : Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
-    @Override
-    public void onResume() {
-        mapView.onResume();
-        super.onResume();
-    }
-
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mapView.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mapView.onDestroy();
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        mapView.onLowMemory();
-    }
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-        map.getUiSettings().setMyLocationButtonEnabled(false);
         moveMapToLocation(getCurrentLocation());
         displayCurrentLocation();
         map.setOnCameraMoveListener(this::displayCurrentLocation);
     }
 
-    private void displayCurrentLocation(){
+    /**
+     * Displays the LatLng of the center of the crosshairs in a text view
+     */
+    private void displayCurrentLocation() {
         LatLng loc = getCrosshairLocation();
         location.setText(loc.toString());
     }
 
+    /**
+     * Callback for requesting permissions
+     */
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == gpsPermissionsRequestCode) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 hasLocationAccess = true;
@@ -199,6 +138,11 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+    /**
+     * Gets the users current location as accurately as possible
+     *
+     * @return LatLng
+     */
     @SuppressLint("MissingPermission")
     private LatLng getCurrentLocation() {
         //https://stackoverflow.com/questions/20210565/android-location-manager-get-gps-location-if-no-gps-then-get-to-network-provid
@@ -209,6 +153,7 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
 
             LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
+            assert lm != null;
             gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
             network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
@@ -221,13 +166,11 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
 
             if (gps_loc != null && net_loc != null) {
 
-                //smaller the number more accurate result will
+                //smaller the number more accurate result will be
                 if (gps_loc.getAccuracy() > net_loc.getAccuracy())
                     finalLoc = net_loc;
                 else
                     finalLoc = gps_loc;
-
-                // I used this just to get an idea (if both avail, its upto you which you want to take as I've taken location with more accuracy)
 
             } else {
 
@@ -250,30 +193,42 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
         return latLng;
     }
 
+    /**
+     * Gets the LatLng of the center of the map
+     *
+     * @return LatLng
+     */
+    private LatLng getCrosshairLocation() {
+        return map.getCameraPosition().target;
+    }
+
+
+    /**
+     * Centers the map on the specified location and resets the zoom level
+     *
+     * @param latLng The location to center the map on
+     */
     @SuppressLint("MissingPermission")
     private void moveMapToLocation(LatLng latLng) {
         if (hasLocationAccess) map.setMyLocationEnabled(true);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17.0f));
     }
 
-    private LatLng getCrosshairLocation() {
-        return map.getCameraPosition().target;
-    }
-
+    /**
+     * Populates the dropdown menu with all the buildings and their locations
+     * Closest stored location to the user is duplicated and put at the top of the list
+     */
     private void populateDropdownMenu() {
+        //Make sure we have permission to get the users location
+        //The users location will be used to order the dropdown list
         if (ActivityCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // Call ActivityCompat#requestPermissions here to request the missing permissions,
-            // and then overriding
-            //     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
-            // to handle the case where the user grants the permission.
-            // See the documentation for ActivityCompat#requestPermissions for more details.
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, gpsPermissionsRequestCode);
         }
 
-        //Dropdown menu
+        //Populating the arrays we will use
         names = getResources().getStringArray(R.array.locationNames);
         lats = new Double[names.length + 1];
         lngs = new Double[names.length + 1];
@@ -287,7 +242,7 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
             lngs[i++] = Double.parseDouble(c);
         }
 
-        //copy nearest building to top of list
+        //Copy the nearest stored location to the user to the top of the list
         LatLng currLoc = getCurrentLocation();
         double smallest = Double.MAX_VALUE;
         int closest = 1;
@@ -321,4 +276,28 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 
+    @Override
+    public void onResume() {
+        mapView.onResume();
+        super.onResume();
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
 }

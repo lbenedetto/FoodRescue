@@ -1,16 +1,16 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="edu.ewu.team1.foodrescue.fragments.FeederFragment">
 
     <TextView
         android:id="@+id/textViewBuilding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
 
         android:layout_marginTop="8dp"
         android:text="@string/select_nearest_building"
@@ -64,9 +64,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/customize_exact_location" />
+
             <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent">
+
                 <com.google.android.gms.maps.MapView
                     android:id="@+id/mapView"
                     android:layout_width="match_parent"
@@ -78,15 +80,15 @@
                     android:layout_height="48dp"
                     android:layout_centerInParent="true"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/crosshair"
-                    android:contentDescription="@string/crosshair_location_selector" />
+                    android:contentDescription="@string/crosshair_location_selector"
+                    android:src="@drawable/crosshair" />
 
                 <TextView
                     android:id="@+id/textViewLatLng"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="lat/lng: (47.48,-117.58)"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -103,7 +105,7 @@
                 android:layout_marginTop="8dp"
                 android:focusableInTouchMode="true"
                 android:text="@string/custom_message" />
-
+            <!--TODO: Fix the behavior of this text box. It gets cut off by the keyboard and is hard to get out of-->
             <EditText
                 android:id="@+id/editTextMessage"
                 android:layout_width="match_parent"
