@@ -29,6 +29,7 @@ public class FoodNotificationService extends FirebaseMessagingService {
 //        }
 
         // TODO: (Easy) Only display messages if enabled in notification settings
+        //Read from shared preferences. See EaterFragment.java for keys to use
         // TODO: (Hard) Add notification info to list in EaterFragment
 
         if (remoteMessage.getNotification() != null) {

@@ -5,8 +5,6 @@
     android:layout_height="match_parent"
     tools:context="edu.ewu.team1.foodrescue.fragments.SSOFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -17,7 +15,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:text="Log In"
-            app:layout_constraintStart_toEndOf="@+id/imageView" />
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            android:layout_marginLeft="8dp" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -27,7 +26,8 @@
             android:layout_marginTop="8dp"
             android:src="@drawable/ic_lock_black_24dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="8dp" />
     </android.support.constraint.ConstraintLayout>
 
 </FrameLayout>

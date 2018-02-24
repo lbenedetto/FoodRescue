@@ -31,7 +31,6 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDXWwdA4ONNbGRTI3tnx40rFsOOO4va_JI" />
 
-        <!-- TODO: (Easy) Customize the look of notifications -->
         <!--
              Set custom default icon. This is used when no icon is set for incoming notification messages.
              See README(https://goo.gl/l4GJaQ) for more.
