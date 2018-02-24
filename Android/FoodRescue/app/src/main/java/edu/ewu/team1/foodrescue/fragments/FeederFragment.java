@@ -10,18 +10,33 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import edu.ewu.team1.foodrescue.R;
 
@@ -44,6 +59,9 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
     private int gpsPermissionsRequestCode = 456;
     private View view;
     private OnFragmentInteractionListener mListener;
+    private Button buttonSubmit;
+    private EditText editText;
+    private TextView location;
 
     public FeederFragment() {
         // Required empty public constructor
@@ -60,13 +78,44 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_feeder, container, false);
 
+        location = view.findViewById(R.id.textViewLatLng);
         populateDropdownMenu();
 
         //Map
         mapView = view.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
-        //TODO: (Medium) Provide visual feedback to the user by displaying the lat/lng of the center of their crosshair
+
+        editText = view.findViewById(R.id.editTextMessage);
+        buttonSubmit = view.findViewById(R.id.buttonSubmit);
+        buttonSubmit.setOnClickListener(view -> {
+            LatLng loc = getCrosshairLocation();
+            assert loc != null;
+            String locName = names[spinner.getSelectedItemPosition()];
+            String message = editText.getText().toString();
+
+            RequestQueue queue = Volley.newRequestQueue(getContext());
+            //TODO: Change to actual URL
+            String url = "http://www.brad.com";
+            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                    response -> Log.d("Response", response),
+                    error -> Log.d("Error.Response", error.getMessage())
+            ) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("lat", String.valueOf(loc.latitude));
+                    params.put("lng", String.valueOf(loc.longitude));
+                    params.put("locName", locName);
+                    params.put("message", message);
+
+                    return params;
+                }
+            };
+            queue.add(postRequest);
+
+        });
+
         return view;
     }
 
@@ -132,8 +181,14 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
         map = googleMap;
         map.getUiSettings().setMyLocationButtonEnabled(false);
         moveMapToLocation(getCurrentLocation());
+        displayCurrentLocation();
+        map.setOnCameraMoveListener(this::displayCurrentLocation);
     }
 
+    private void displayCurrentLocation(){
+        LatLng loc = getCrosshairLocation();
+        location.setText(loc.toString());
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -202,7 +257,7 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private LatLng getCrosshairLocation() {
-        return null;
+        return map.getCameraPosition().target;
     }
 
     private void populateDropdownMenu() {

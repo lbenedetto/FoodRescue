@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+
         android:layout_marginTop="8dp"
         android:text="@string/select_nearest_building"
         app:layout_constraintStart_toStartOf="parent"
@@ -79,6 +80,13 @@
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/crosshair"
                     android:contentDescription="@string/crosshair_location_selector" />
+
+                <TextView
+                    android:id="@+id/textViewLatLng"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="lat/lng: (47.48,-117.58)"
+                    android:textColor="@color/black"/>
             </RelativeLayout>
         </LinearLayout>
 

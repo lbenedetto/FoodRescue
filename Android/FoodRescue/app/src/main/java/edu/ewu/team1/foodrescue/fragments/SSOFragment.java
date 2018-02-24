@@ -2,6 +2,7 @@ package edu.ewu.team1.foodrescue.fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,11 +10,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.Toast;
+//import org.pac4j.cas.client.CasClient;
+//import org.pac4j.cas.config.CasConfiguration;
+//import org.pac4j.cas.config.CasProtocol;
 
 import edu.ewu.team1.foodrescue.R;
 
@@ -24,6 +28,7 @@ import edu.ewu.team1.foodrescue.R;
  * to handle interaction events.
  */
 public class SSOFragment extends Fragment {
+    private Button buttonSignIn;
 
     private OnFragmentInteractionListener mListener;
 
@@ -39,38 +44,18 @@ public class SSOFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        WebView webView;
         View view = inflater.inflate(R.layout.fragment_sso, container, false);
-        SharedPreferences sharedPref = getContext().getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        String defaultValue = "NoUUID";
-        String UUID = sharedPref.getString("UUID", defaultValue);
-        if (UUID.equals(defaultValue)) {
-            //User has never sucessfully signed into SSO before
-            final Activity activity = getActivity();
-            webView = view.findViewById(R.id.webView);
-            webView.getSettings().setJavaScriptEnabled(true);
-            webView.setWebChromeClient(new WebChromeClient() {
-                public void onProgressChanged(WebView view, int progress) {
-                    // Activities and WebViews measure progress with different scales.
-                    // The progress meter will automatically disappear when we reach 100%
-                    activity.setProgress(progress * 1000);
-                }
-            });
-            webView.setWebViewClient(new WebViewClient() {
-                public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                    Toast.makeText(activity, "Error: " + description, Toast.LENGTH_SHORT).show();
-                }
-            });
-            webView.loadUrl("https://login.ewu.edu");
-            //TODO: (Very Hard) Get UUID. This code should be async.
-            // Also, might not even be supposed to load this in a web view.
-            //I just really have no idea how SSO is supposed to work
-            UUID = "NoUUID";
+        buttonSignIn = view.findViewById(R.id.buttonSignIn);
+        buttonSignIn.setOnClickListener(v -> {
+            //Clear UUID
+            SharedPreferences sharedPref = getActivity().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString("UUID", UUID);
+            editor.putString("UUID", "NoUUID");
             editor.apply();
-            //TODO: (Easy, not yet possible) Remove Sign in option from bottom navigation view upon successful sign in
-        }
+
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://login.ewu.edu/cas/login?service=https://foodrescue.ewu.edu/login_redirect"));
+            startActivity(browserIntent);
+        });
         return view;
     }
 
