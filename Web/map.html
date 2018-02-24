@@ -8,15 +8,47 @@
                 width: 50%;
             }
         </style>
+        <title>Feeder map</title>
     </head>
 
     <body>
-        <h1>Testing the Google Maps API</h1>
-        <br>
         <p>Left click to move the map, right click on the map to set a location</p>
+        <p>Or you can select a location from the dropdown menu...</p>
+
+        <form>
+            <select id="Location" onchange="getLocation()">
+                <option value="0">ART - Art Building</option>
+                <option value="1">CAD - Cadet Hall</option>
+                <option value="2">CEB - Computing and Engineering Building</option>
+                <option value="3">CHN - Cheney Hall</option>
+                <option value="4">CMC - Communications Building</option>
+                <option value="5">HAR - Hargreaves Hall</option>
+                <option value="6">HUS - Huston Hall</option>
+                <option value="7">ISL - Isle Hall</option>
+                <option value="8">JFK - JFK Library</option>
+                <option value="9">KGS - Kingston Hall</option>
+                <option value="10">MAL - Campus Mall</option>
+                <option value="11">MAR - Martin Hall</option>
+                <option value="12">MON - Monroe Hall</option>
+                <option value="13">MUS - Music Building</option>
+                <option value="14">PAT - Patterson Hall</option>
+                <option value="15">PAV - Special Events Pavilion</option>
+                <option value="16">PUB - Pence Union Building</option>
+                <option value="17">RTV - Radio-TV Building</option>
+                <option value="18">SCI - Science Building</option>
+                <option value="19">SHW - Showalter Hall</option>
+                <option value="20">SNR - Senior Hall</option>
+                <option value="21">SUT - Sutton Hall</option>
+                <option value="22">THE - University Theatre</option>
+                <option value="23">URC - Recreation Center</option>
+                <option value="24">WLM - Williamson Hall</option>	
+            </select>
+        </form>
         <div id="map"></div>
 
         <label id="markerLocation">Location will show here</label>
+
+        <div style="position: absolute; bottom: 0; right: 0; text-align:right">Powered by Google Maps API</div>
         <script src = "mapFunctions.js"></script>
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXWwdA4ONNbGRTI3tnx40rFsOOO4va_JI&callback=initMap">
         </script>
