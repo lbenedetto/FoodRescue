@@ -14,4 +14,7 @@
     <string name="title_eater">Receive Food</string>
     <string name="title_sso">Sign In</string>
     <string name="log_in">Log In</string>
+    <string name="about">About</string>
+    <string name="logout">Logout</string>
+    <string name="explanation">This app requires that you sign in with your EWU NetID in order to send or receive notifications about free food</string>
 </resources>

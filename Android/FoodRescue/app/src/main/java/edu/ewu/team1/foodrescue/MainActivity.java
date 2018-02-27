@@ -6,9 +6,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 
@@ -28,7 +30,7 @@ import edu.ewu.team1.foodrescue.fragments.SSOFragment;
 
 public class MainActivity extends AppCompatActivity {
     private final Pattern pattern = Pattern.compile("<cas:user>(.*?)</cas:user>");
-    private BottomNavigationView navigation;
+    private BottomNavigationView bottomNavView;
     private boolean feederIsActive = false;
 
     /**
@@ -65,11 +67,11 @@ public class MainActivity extends AppCompatActivity {
      * @param exitAnimation     the exit animation to use
      */
     private void setFragment(Fragment target, int entranceAnimation, int exitAnimation) {
-        FragmentTransaction ft2 = getSupportFragmentManager().beginTransaction();
-        ft2.setCustomAnimations(entranceAnimation, exitAnimation);
-        ft2.replace(R.id.fragment_container, target, "fragment");
-        ft2.addToBackStack(null);
-        ft2.commit();
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(entranceAnimation, exitAnimation)
+                .replace(R.id.fragment_container, target, "fragment")
+                //.addToBackStack(null)
+                .commit();
     }
 
     /**
@@ -78,7 +80,10 @@ public class MainActivity extends AppCompatActivity {
      * @param target the fragment to switch to
      */
     private void setFragment(Fragment target) {
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, target).commit();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, target, "fragment")
+                //.addToBackStack(null)
+                .commit();
     }
 
     @Override
@@ -88,15 +93,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Populating the bottom navigation bar
-        navigation = findViewById(R.id.bottomNavigationView);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        bottomNavView = findViewById(R.id.bottomNavigationView);
+        bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         //Authentication process
 
         String UUID = getUsername();
         if (UUID.equals("NoUUID")) {//If the user has not signed in before
             setFragment(new SSOFragment());
-            selectMenuItem(R.id.navigation_sso);
+            bottomNavView.setVisibility(View.GONE);
             authenticateTicket();
         } else {
             Toast.makeText(this, "logged in as " + UUID, Toast.LENGTH_LONG).show();
@@ -130,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         if (url != null) {
             //Extract ticket
             String ticket = url.substring(url.indexOf("ticket="), url.length());
-            String validateURL = "https://authenticateTicket.ewu.edu/cas/serviceValidate?" + ticket + "&service=https://foodrescue.ewu.edu/login_redirect";
+            String validateURL = "https://login.ewu.edu/cas/serviceValidate?" + ticket + "&service=https://foodrescue.ewu.edu/login_redirect";
 
             RequestQueue queue = Volley.newRequestQueue(this);
             StringRequest getRequest = new StringRequest(Request.Method.GET, validateURL,
@@ -139,22 +144,22 @@ public class MainActivity extends AppCompatActivity {
                         Matcher m = pattern.matcher(response);
                         if (m.find()) {
                             //TODO: (Easy) Use a custom hashing algorithm to hash the username
-                            //The hashed username will be send along with requests to our server for validation
+                            //The hashed username will be sent along with requests to our server for validation
                             String username = m.group(1);
                             SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPref.edit();
                             editor.putString("UUID", username);
                             editor.apply();
                             Toast.makeText(this, "logged in as " + username, Toast.LENGTH_LONG).show();
+                            finalizeSignIn();
                         } else {
                             Log.d("CAS Auth Failure", "Response did not contain error code");
                         }
                     },
                     error -> Log.d("Error.Response", error.toString())
             );
+            Log.d("Step 1", "Send request");
             queue.add(getRequest);
-
-            finalizeSignIn();
         }
     }
 
@@ -166,8 +171,6 @@ public class MainActivity extends AppCompatActivity {
     private void finalizeSignIn() {
         setFragment(new EaterFragment());
         selectMenuItem(R.id.navigation_eater);
-
-        navigation.getMenu().removeItem(R.id.navigation_sso);
 
         //TODO: request user type from Brad's backend (using Volley HTTP GET request)
         //Store the user type in shared preferences
@@ -181,8 +184,9 @@ public class MainActivity extends AppCompatActivity {
      * @param itemID the ID to select
      */
     private void selectMenuItem(int itemID) {
-        navigation.setSelectedItemId(itemID);
-        navigation.getMenu().findItem(itemID).setChecked(true);
+        bottomNavView.setVisibility(View.VISIBLE);
+        bottomNavView.setSelectedItemId(itemID);
+        bottomNavView.getMenu().findItem(itemID).setChecked(true);
     }
 
     @Override
@@ -206,5 +210,36 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_about:
+                //TODO: Put something here, maybe
+                return true;
+            case R.id.action_logout:
+                logout();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+        //TODO: Use something more secure than shared preferences
+        SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("UUID", "NoUUID");
+        editor.apply();
+
+        setFragment(new SSOFragment());
+        bottomNavView.setVisibility(View.GONE);
     }
 }
