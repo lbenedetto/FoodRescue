@@ -6,12 +6,28 @@
             {
                 height: 400px;
                 width: 50%;
+                position: absolute;
+                right:20px;
+                top:50px;
+                
             }
+            
         </style>
         <title>Feeder map</title>
     </head>
 
     <body>
+            <br>
+            <form method ="POST" action="sendrest.php">
+                <b>Enter info for the new food event:</b><br><br>
+                Notification title:<br>
+                <input type="text" name="title"><br><br>
+                Notification body:<br>
+                <input type="text" name="body"><br><br>
+                Additional data:<br>
+                <input type="text" name="data"><br><br>
+                <input type="submit" name="subnotification" value="Post Notification">
+            </form>
         <p>Left click to move the map, right click on the map to set a location</p>
         <p>Or you can select a location from the dropdown menu...</p>
 
@@ -53,5 +69,3 @@
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXWwdA4ONNbGRTI3tnx40rFsOOO4va_JI&callback=initMap">
         </script>
     </body>
-
-</html>
