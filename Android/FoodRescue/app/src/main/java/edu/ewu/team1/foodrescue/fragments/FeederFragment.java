@@ -31,10 +31,13 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import edu.ewu.team1.foodrescue.R;
+import edu.ewu.team1.foodrescue.cryptography.DiffieHelmanEncryptedMessage;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -80,8 +83,7 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
             String message = editText.getText().toString();
 
             RequestQueue queue = Volley.newRequestQueue(getContext());
-            //TODO: (Easy, waiting on brad) Change to actual URL
-            String url = "http://www.brad.com";
+            String url = "bradstephensoncode.org/FoodRescue/sendrest.php";
             StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                     response -> Log.d("Response", response),
                     error -> Log.d("Error.Response", error.getMessage())
