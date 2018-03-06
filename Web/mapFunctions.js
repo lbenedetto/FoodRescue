@@ -25,7 +25,8 @@ function getLocation()
     var value = document.getElementById("Location").value;
     var latt = locations[value][0];
     var long = locations[value][1];
-    var latlng = {lat: latt, lng: long};
+
+    var latlng = new google.maps.LatLng(latt, long);
    // var uluru = {lat: 47.491602, lng: -117.584417};
     map = new google.maps.Map(document.getElementById('map'),{
         zoom: 16,
@@ -50,9 +51,11 @@ function placeMarker(latLng) //map)
         map: map
     })
     prevMarker = curMarker;
+    var lat = latLng.lat();
+    var lng = latLng.lng();
+    document.getElementById("Lat").value = lat;
+    document.getElementById("Long").value = lng;
 
-//    var lat = latLng.lat();
-//    var lng = latLng.lng();
 //    var str = "location is " + lat + " degrees latitude and " + lng + " degrees longitude.";
 
     //$("#markerLocation").val(str);
@@ -72,10 +75,11 @@ function placeMarkerMan(lat, long)
 
     var lat = latLng.lat();
     var lng = latLng.lng();
-    var str = "location is " + lat + " degrees latitude and " + lng + " degrees longitude.";
+    //var str = "location is " + lat + " degrees latitude and " + lng + " degrees longitude.";
 
     //$("#markerLocation").val(str);
-    document.getElementById("markerLocation").innerHTML = str;
+    document.getElementById("Lat").value = lat;
+    document.getElementById("Long").value = lng;
 };
 
 //first is latitude, second is longitude
