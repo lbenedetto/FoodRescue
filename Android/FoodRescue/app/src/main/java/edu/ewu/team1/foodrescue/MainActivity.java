@@ -27,7 +27,7 @@ import edu.ewu.team1.foodrescue.fragments.SSOFragment;
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavView;
     private boolean feederIsActive = false;
-    private SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+    private SharedPreferences sharedPref;
     public static final String USERNAME_KEY = "username";
     public static final String NO_USERNAME = "NoUsername";
     public static final String TOKEN_KEY = "token";
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_PROGRESS);
         setContentView(R.layout.activity_main);
-
+        sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         //Populating the bottom navigation bar
         bottomNavView = findViewById(R.id.bottomNavigationView);
         bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
