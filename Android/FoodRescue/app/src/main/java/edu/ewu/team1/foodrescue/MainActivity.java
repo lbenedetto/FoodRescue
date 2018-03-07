@@ -3,43 +3,43 @@ package edu.ewu.team1.foodrescue;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.HashMap;
+import java.util.Map;
 
 import edu.ewu.team1.foodrescue.fragments.EaterFragment;
 import edu.ewu.team1.foodrescue.fragments.FeederFragment;
 import edu.ewu.team1.foodrescue.fragments.SSOFragment;
 
 public class MainActivity extends AppCompatActivity {
-    private final Pattern pattern = Pattern.compile("<cas:user>(.*?)</cas:user>");
     private BottomNavigationView bottomNavView;
     private boolean feederIsActive = false;
-
+    private SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+    public static final String USERNAME_KEY = "username";
+    public static final String NO_USERNAME = "NoUsername";
+    public static final String TOKEN_KEY = "token";
+    public static final String NO_TOKEN = "NoToken";
+    public static final String SERVER_IP = "146.187.135.29";
     /**
      * This is called when the user uses one of the two buttons on the bottom nav bar to switch to
      * a different view. It checks to make sure the user isn't trying to switch to the currently
      * active fragment, which would look really silly
      */
     private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = item -> {
-        if (!getUsername().equals("NoUUID")) {
+        if (!getUsername().equals(NO_USERNAME)) {
             switch (item.getItemId()) {
                 case R.id.navigation_feeder:
                     if (!feederIsActive) {
@@ -97,14 +97,27 @@ public class MainActivity extends AppCompatActivity {
         bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         //Authentication process
+        String username = getUsername();
+        if (username.equals(NO_USERNAME)) {//If the user has not signed in before
+            Intent intent = getIntent();
+            String url = intent.getDataString();
+            if (url != null) {//If this app was opened from the callback url, grab the relevant data
+                Uri uri = Uri.parse(url);
+                String token = uri.getQueryParameter("token");
+                username = uri.getQueryParameter("username");
 
-        String UUID = getUsername();
-        if (UUID.equals("NoUUID")) {//If the user has not signed in before
-            setFragment(new SSOFragment());
-            bottomNavView.setVisibility(View.GONE);
-            authenticateTicket();
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString(USERNAME_KEY, username);
+                editor.putString(TOKEN_KEY, token);
+                editor.apply();
+                Toast.makeText(this, "logged in as " + username, Toast.LENGTH_LONG).show();
+                finalizeSignIn();
+            }else {
+                setFragment(new SSOFragment());
+                bottomNavView.setVisibility(View.GONE);
+            }
         } else {
-            Toast.makeText(this, "logged in as " + UUID, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "logged in as " + username, Toast.LENGTH_LONG).show();
             finalizeSignIn();
         }
 
@@ -113,69 +126,31 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Gets the users current logged users username from Shared Preferences
-     * If they have not yet logged in, return "NoUUID"
+     * If they have not yet logged in, return "NoUsername"
      *
      * @return String
      */
     private String getUsername() {
-        SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        String defaultValue = "NoUUID";
-        return sharedPref.getString("UUID", defaultValue);
+        return sharedPref.getString(USERNAME_KEY, NO_USERNAME);
     }
 
     /**
-     * If this app was started from the launcher icon, this method will do nothing
-     * If this app was started from the callback URL, then it will extract the ticket from the URL
-     * and contact the CAS server to get the username. The username is stored in shared preferences
+     * Gets the users current logged users username from Shared Preferences
+     * If they have not yet logged in, return "NoToken"
+     *
+     * @return String
      */
-    private void authenticateTicket() {
-        //Authentication code
-        Intent intent = getIntent();
-        String url = intent.getDataString();
-        if (url != null) {
-            //Extract ticket
-            String ticket = url.substring(url.indexOf("ticket="), url.length());
-            String validateURL = "https://login.ewu.edu/cas/serviceValidate?" + ticket + "&service=https://foodrescue.ewu.edu/login_redirect";
-
-            RequestQueue queue = Volley.newRequestQueue(this);
-            StringRequest getRequest = new StringRequest(Request.Method.GET, validateURL,
-                    response -> {
-                        Log.d("Response", response);
-                        Matcher m = pattern.matcher(response);
-                        if (m.find()) {
-                            //TODO: (Easy) Use a custom hashing algorithm to hash the username
-                            //The hashed username will be sent along with requests to our server for validation
-                            String username = m.group(1);
-                            SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPref.edit();
-                            editor.putString("UUID", username);
-                            editor.apply();
-                            Toast.makeText(this, "logged in as " + username, Toast.LENGTH_LONG).show();
-                            finalizeSignIn();
-                        } else {
-                            Log.d("CAS Auth Failure", "Response did not contain error code");
-                        }
-                    },
-                    error -> Log.d("Error.Response", error.toString())
-            );
-            Log.d("Step 1", "Send request");
-            queue.add(getRequest);
-        }
+    private String getAuthToken() {
+        return sharedPref.getString(TOKEN_KEY, NO_TOKEN);
     }
 
     /**
      * Sets the fragment to the Eater Fragment, removes the sign in option from the bottom nav menu
-     * and asks our backend for the usertype (feeder or eater)
-     * Called whether or not CAS was actually contacted to sign in
+     * Called whether or not CAS was actually contacted to sign in (ie, if user was already signed in)
      */
     private void finalizeSignIn() {
         setFragment(new EaterFragment());
         selectMenuItem(R.id.navigation_eater);
-
-        //TODO: request user type from Brad's backend (using Volley HTTP GET request)
-        //Store the user type in shared preferences
-        //When attempting to send a notification, check the stored user type.
-        //If they are not a feeder, prompt them to send an email to the relevant authority to become an approved feeder
     }
 
     /**
@@ -233,11 +208,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void logout() {
-        //TODO: Use something more secure than shared preferences
-        SharedPreferences sharedPref = this.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("UUID", "NoUUID");
-        editor.apply();
+        String token = getAuthToken();
+        if (!token.equals(NO_TOKEN)) {
+            //Invalidate the exist auth token
+            String url = MainActivity.SERVER_IP + "/FoodRescue/invalidateToken.php";
+            Map<String, String> params = new HashMap<>();
+            params.put("token", token);
+            VolleyWrapper.POST(this, url, params);
+
+            //clear the username and auth token from local storage
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString(USERNAME_KEY, NO_USERNAME);
+            editor.putString(TOKEN_KEY, NO_TOKEN);
+            editor.apply();
+        }
 
         setFragment(new SSOFragment());
         bottomNavView.setVisibility(View.GONE);

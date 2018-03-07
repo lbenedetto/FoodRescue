@@ -55,7 +55,16 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
+            <intent-filter android:label="@string/filter_title_view_app_from_web">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "http://foodrescue.ewu.edu" -->
+                <!--intent://foodrescue.ewu.edu#Intent;scheme=http;package=edu.ewu.team1.foodrescue;end-->
+                <data
+                    android:host="foodrescue.ewu.edu"
+                    android:scheme="http" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />

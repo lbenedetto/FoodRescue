@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,23 +20,18 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
+import edu.ewu.team1.foodrescue.MainActivity;
 import edu.ewu.team1.foodrescue.R;
-import edu.ewu.team1.foodrescue.cryptography.DiffieHelmanEncryptedMessage;
+import edu.ewu.team1.foodrescue.VolleyWrapper;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -82,26 +76,22 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
             String locName = names[spinner.getSelectedItemPosition()];
             String message = editText.getText().toString();
 
-            RequestQueue queue = Volley.newRequestQueue(getContext());
-            String url = "bradstephensoncode.org/FoodRescue/sendrest.php";
-            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                    response -> Log.d("Response", response),
-                    error -> Log.d("Error.Response", error.getMessage())
-            ) {
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<>();
-                    //TODO: Include hashed username here
-                    params.put("lat", String.valueOf(loc.latitude));
-                    params.put("lng", String.valueOf(loc.longitude));
-                    params.put("locName", locName);
-                    params.put("message", message);
+            String url = MainActivity.SERVER_IP + "/FoodRescue/sendNotification.php";
 
-                    return params;
-                }
-            };
-            queue.add(postRequest);
+            Map<String, String> params = new HashMap<>();
+            String token = view.getContext()
+                    .getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+                    .getString(MainActivity.TOKEN_KEY, MainActivity.NO_TOKEN);
+            params.put("token", token);
+            params.put("lat", String.valueOf(loc.latitude));
+            params.put("lng", String.valueOf(loc.longitude));
+            params.put("locName", locName);
+            params.put("message", message);
 
+            VolleyWrapper.POST(view.getContext(), url, params, response -> {
+                //TODO: Check if the server allowed the notification to be sent
+                //If it didn't, the user should be notified of how to become an authorized feeder
+            });
         });
 
         return view;
