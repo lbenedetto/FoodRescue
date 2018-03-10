@@ -1,74 +1,156 @@
 <html>
     <head>
+        <!--NOTE: bootstrap template Simple Sidebar was used -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+          <!-- Bootstrap core CSS -->
+        <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+        <link href="css/simple-sidebar.css" rel="stylesheet">
+
         <style>
             #map 
             {
-                height: 400px;
+                height: 500px;
                 width: 50%;
                 position: absolute;
                 right:20px;
                 top:50px;
+                border:10px;
+                border-style:solid;
                 
             }
             
+            body
+            {
+                background-color:antiquewhite;
+            }
+
+            p{
+                color:black;
+                border-style: double;
+                font-weight: bold;
+                background-color:antiquewhite;
+            }
+        #boxLine
+        {
+            border-style: double;
+            color:black;
+        }
+         #mainDiv
+            {
+                width: 200px;
+            }
+
+        #header
+        {
+            color:white;
+        }
+
+        #nav
+        {
+            color:red;
+            border-color:black;
+            border:10px;
+        }
         </style>
         <title>Feeder map</title>
     </head>
 
     <body>
-            <br>
-            <form method ="POST" action="sendrest.php">
-                <b>Enter info for the new food event:</b><br><br>
-                Notification title:<br>
-                <input type="text" name="title"><br><br>
-                Notification body:<br>
-                <input type="text" name="body"><br><br>
-                Additional data:<br>
-                <input type="text" name="data"><br><br>
-                Exact Location (right click on the map):<br>
-                <input type="text" name="Lat" id="Lat"><br><br>
-                <input type="text" name="Long" id="Long"><br><br>
+        <div id="wrapper">
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <form method = "POST" action="sendrest.php">
+                    <li class="sidebar-brand">
+                        <h1 id="header">Enter info for the new food event:</h1>
+                    </li>
+                    <li>
+                        <div id="mainDiv">
+                            <p>Notification title:</p>
+                            <input type="text" id="boxLine" name="title">
+                            <br>
+                        </div>
+                    </li>
+                    <li>
+                        <br>
+                        <div id="mainDiv">
+                            <p>Notification body:</p>
+                            <input type="text" id="boxLine" name="body">
+                            <br>
+                        </div>
+                    </li>
+                    <li>
+                        <br>
+                        <div id="mainDiv">
+                            <p>Additional data:</p>
+                            <input type="text" id="boxLine" name="data"><br><br>
+                            </div>
+                            <br>
+                    </li>
+                    <li>
+                        <div id="mainDiv"></div>
+                            <p>Exact Location (right click on the map):</p>
+                            <input type="text" id="boxLine" name="Lat" id="Lat"><br><br>
+                            <input type="text" id="boxLine" name="Long" id="Long"><br><br>
+                        </div>
+                    </li>
+                    <li>
+                        <div id="mainDiv">
+                            <p>Specfic location (optional):</p>
+                            </div>
+                            <select id="Location" onchange="getLocation()">
+                                    <option value="0">ART - Art Building</option>
+                                    <option value="1">CAD - Cadet Hall</option>
+                                    <option value="2">CEB - Computing and Engineering Building</option>
+                                    <option value="3">CHN - Cheney Hall</option>
+                                    <option value="4">CMC - Communications Building</option>
+                                    <option value="5">HAR - Hargreaves Hall</option>
+                                    <option value="6">HUS - Huston Hall</option>
+                                    <option value="7">ISL - Isle Hall</option>
+                                    <option value="8">JFK - JFK Library</option>
+                                    <option value="9">KGS - Kingston Hall</option>
+                                    <option value="10">MAL - Campus Mall</option>
+                                    <option value="11">MAR - Martin Hall</option>
+                                    <option value="12">MON - Monroe Hall</option>
+                                    <option value="13">MUS - Music Building</option>
+                                    <option value="14">PAT - Patterson Hall</option>
+                                    <option value="15">PAV - Special Events Pavilion</option>
+                                    <option value="16">PUB - Pence Union Building</option>
+                                    <option value="17">RTV - Radio-TV Building</option>
+                                    <option value="18">SCI - Science Building</option>
+                                    <option value="19">SHW - Showalter Hall</option>
+                                    <option value="20">SNR - Senior Hall</option>
+                                    <option value="21">SUT - Sutton Hall</option>
+                                    <option value="22">THE - University Theatre</option>
+                                    <option value="23">URC - Recreation Center</option>
+                                    <option value="24">WLM - Williamson Hall</option>	
+                                </select>
+                    </li>
+                    <li>
+                            <input type="submit" name="subnotification" value="Post Notification">
+                    </li>
+                 </form>
+                </ul>
+            </div>
+        </div>
+        <script>
+                $("#wrapper").toggleClass("toggled");
+        </script>
 
-                Specfic location (optional):<br>
-                <select id="Location" onchange="getLocation()">
-                    <option value="0">ART - Art Building</option>
-                    <option value="1">CAD - Cadet Hall</option>
-                    <option value="2">CEB - Computing and Engineering Building</option>
-                    <option value="3">CHN - Cheney Hall</option>
-                    <option value="4">CMC - Communications Building</option>
-                    <option value="5">HAR - Hargreaves Hall</option>
-                    <option value="6">HUS - Huston Hall</option>
-                    <option value="7">ISL - Isle Hall</option>
-                    <option value="8">JFK - JFK Library</option>
-                    <option value="9">KGS - Kingston Hall</option>
-                    <option value="10">MAL - Campus Mall</option>
-                    <option value="11">MAR - Martin Hall</option>
-                    <option value="12">MON - Monroe Hall</option>
-                    <option value="13">MUS - Music Building</option>
-                    <option value="14">PAT - Patterson Hall</option>
-                    <option value="15">PAV - Special Events Pavilion</option>
-                    <option value="16">PUB - Pence Union Building</option>
-                    <option value="17">RTV - Radio-TV Building</option>
-                    <option value="18">SCI - Science Building</option>
-                    <option value="19">SHW - Showalter Hall</option>
-                    <option value="20">SNR - Senior Hall</option>
-                    <option value="21">SUT - Sutton Hall</option>
-                    <option value="22">THE - University Theatre</option>
-                    <option value="23">URC - Recreation Center</option>
-                    <option value="24">WLM - Williamson Hall</option>	
-                </select>
-                <br><br>
-                <input type="submit" name="subnotification" value="Post Notification">
-
-            </form>
-        <p>Left click to move the map, right click on the map to set a location</p>
-        <p>Or you can select a location from the dropdown menu...</p>
+            <div style="position: absolute; right: 800; top: 200; width: 200px">
+        Left click to move the map, right click on the map to set a location<br>
+        Or you can select a location from the dropdown menu...
+    </div>
         <div id="map"></div>
 
-        <div style="position: absolute; bottom: 0; right: 0; text-align:right">Powered by Google Maps API</div>
+        <div style="position: absolute; bottom: 15; right: 0; text-align:right">Powered by Google Maps API</div>
+        <div style="position: absolute; bottom: 0; right: 0; text-align:right">Base template Simple Sidebar by Bootstrap</div>
         <script src = "mapFunctions.js"></script>
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXWwdA4ONNbGRTI3tnx40rFsOOO4va_JI&callback=initMap">
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXWwdA4ONNbGRTI3tnx40rFsOOO4va_JI&callback=initMap"></script>
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
         </script>
     </body>
 
