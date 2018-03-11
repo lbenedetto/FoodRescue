@@ -1,7 +1,6 @@
 <?php
 // <!-- Some of this code comes from Berkely-->
 //<!--https://calnetweb.berkeley.edu/calnet-technologists/cas/casifying-your-web-application-or-web-server/cas-code-samples/cas-->
-
 $casService = 'https://login.ewu.edu/cas';
 $thisService = 'http://foodrescue.ewu.edu' . $_SERVER['PHP_SELF'];
  
@@ -10,9 +9,6 @@ $servername = $p_ini['Database']['servername'];
 $username = $p_ini['Database']['username'];
 $password = $p_ini['Database']['password'];
 $database = "databasetest";
-
-
-//TODO make the token generation use 'e' and 'f' to designate feeder and eaters.
 
 switch($_SERVER['REQUEST_METHOD'])
 {
@@ -30,7 +26,7 @@ switch($_SERVER['REQUEST_METHOD'])
 					$_request = sendRequest($_POST['title'], $_POST['body'], $_POST['data']);
 					echo $request;
 				}
-				else echo "Not allowed!";
+				else echo json_encode("Not allowed!");
 			}
 			//sendRequest($_POST['title'], $_POST['body'], $_POST['data']);
 		}
@@ -68,7 +64,7 @@ switch($_SERVER['REQUEST_METHOD'])
 							}
 							else // no auth token found, generate one and send it as JSON
 							{
-								$token = bin2hex(openssl_random_pseudo_bytes(64));
+								$token = getToken($row['feeder_perm']);
 								$stmt = $conn->prepare("UPDATE users SET auth_token=?, WHERE uname = ?;");
 								$stmt->bindValue(1, $token, PDO::PARAM_STR);
 								$stmt->bindValue(2, $uid, PDO::PARAM_STR);
@@ -79,7 +75,7 @@ switch($_SERVER['REQUEST_METHOD'])
 						}
 						if ($stmt->rowCount() == 0) // if you don't find it, make a new entry
 						{
-							$token = bin2hex(openssl_random_pseudo_bytes(64));
+							$token = getToken(FALSE);
 							$stmt = $conn->prepare("INSERT INTO users (auth_token, uname, feeder_perm) VALUES (?, ?, 0);");
 							$stmt->bindValue(1, $uid, PDO::PARAM_STR);
 							$stmt->bindValue(2, $token, PDO::PARAM_STR);
@@ -98,9 +94,6 @@ switch($_SERVER['REQUEST_METHOD'])
 		header("HTTP/1.0 405 MethodNotAllowed");
 		break;
 }
-
-
-
 function responseForTicket($ticket) {
    global $casService, $thisService;
  
@@ -135,7 +128,6 @@ function extractUid($response) {
    }
    return false;
 }
-
 function getConn()
 {
 	try 
@@ -149,6 +141,16 @@ function getConn()
 		echo "Connection failed: " . $e->getMessage();
 		return false;
 	}
+}
+
+function getToken($feeder)
+{
+	$token = bin2hex(openssl_random_pseudo_bytes(64));
+	if ($feeder)
+		$token = "f" . $token;
+	else
+		$token = "e" . $token;
+	return $token;
 }
  
 ?>
