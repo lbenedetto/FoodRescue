@@ -12,7 +12,7 @@ $password = $p_ini['Database']['password'];
 $database = "databasetest";
 
 
-
+//TODO make the token generation use 'e' and 'f' to designate feeder and eaters.
 
 switch($_SERVER['REQUEST_METHOD'])
 {
