@@ -45,6 +45,10 @@
         #header
         {
             color:white;
+            background-color: red;
+            outline-color: black;
+            border-style: double;
+            border-color:black;
         }
 
         #nav
@@ -91,14 +95,13 @@
                     <li>
                         <div id="mainDiv"></div>
                             <p>Exact Location (right click on the map):</p>
-                            <input type="text" id="boxLine" name="Lat" id="Lat"><br><br>
-                            <input type="text" id="boxLine" name="Long" id="Long"><br><br>
+                            <input type="text" name="Lat" id="Lat" style="border-style: double;color:black;"><br><br>
+                            <input type="text" name="Long" id="Long" style="border-style: double;color:black;"><br><br>
                         </div>
                     </li>
                     <li>
                         <div id="mainDiv">
                             <p>Specfic location (optional):</p>
-                            </div>
                             <select id="Location" onchange="getLocation()">
                                     <option value="0">ART - Art Building</option>
                                     <option value="1">CAD - Cadet Hall</option>
@@ -126,9 +129,20 @@
                                     <option value="23">URC - Recreation Center</option>
                                     <option value="24">WLM - Williamson Hall</option>	
                                 </select>
+                            </div>
+
                     </li>
+                   <!-- <li>
+                        <div id="mainDiv">
+                            <p>Authentication token:</p>
+                            <input type="text" name="auth">
+                        </div>
+                     
+                    </li> -->
                     <li>
+                        <div id="mainDiv">
                             <input type="submit" name="subnotification" value="Post Notification">
+                            </div>
                     </li>
                  </form>
                 </ul>
@@ -138,7 +152,7 @@
                 $("#wrapper").toggleClass("toggled");
         </script>
 
-            <div style="position: absolute; right: 800; top: 200; width: 200px">
+            <div style="position: absolute; right: 800; top: 300; width: 200px">
         Left click to move the map, right click on the map to set a location<br>
         Or you can select a location from the dropdown menu...
     </div>
