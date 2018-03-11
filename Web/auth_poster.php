@@ -27,8 +27,8 @@ switch($_SERVER['REQUEST_METHOD'])
 				$row = $stmt->fetch(PDO::FETCH_ASSOC);
 				if ($row['feeder_perm'] == 1)
 				{
-					sendRequest($_POST['title'], $_POST['body'], $_POST['data']);
-					
+					$_request = sendRequest($_POST['title'], $_POST['body'], $_POST['data']);
+					echo $request;
 				}
 				else echo "Not allowed!";
 			}
