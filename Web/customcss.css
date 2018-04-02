@@ -1,0 +1,64 @@
+#map 
+{
+    height: 300px;
+    width: 100%;
+    position: absolute;
+    right: 0%;
+    top:28%;
+    border:10px;
+    border-style:solid;
+    background-color:antiquewhite;
+    
+}
+
+text
+{
+    position: absolute;
+    top: 50%;
+}
+
+body
+{
+    background-color:black;
+    overflow-y:hidden;
+}
+
+img
+{
+    border-radius: 8px;
+    width:20%;
+    right:5%;
+}
+.bg-red
+{
+    background-color: red;
+    border-color:white;
+    border-style:solid;
+}
+
+.title
+{
+    text-align:center;
+    font-weight: bold;
+    font-size: 150%;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+#logo
+{
+    width:50%;
+}
+
+.box
+{
+    background-color:antiquewhite;
+    position: relative;
+    height:1000px;
+}
+
+.sub
+{
+    position: absolute;
+    top:60%;
+    right:45%;
+}
