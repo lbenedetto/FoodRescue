@@ -4,7 +4,7 @@
     width: 100%;
     position: absolute;
     right: 0%;
-    top:28%;
+    top:10%;
     border:10px;
     border-style:solid;
     background-color:antiquewhite;
@@ -59,6 +59,6 @@ img
 .sub
 {
     position: absolute;
-    top:60%;
+    top:45%;
     right:45%;
 }
