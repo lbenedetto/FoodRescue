@@ -56,9 +56,17 @@ img
     height:1000px;
 }
 
+.comment
+{
+    position: absolute;
+    top:40%;
+    right:25%;
+    width:50%;
+    height:15%;
+}
 .sub
 {
     position: absolute;
-    top:45%;
+    top:55%;
     right:45%;
 }

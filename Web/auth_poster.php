@@ -9,7 +9,6 @@ $servername = $p_ini['Database']['servername'];
 $username = $p_ini['Database']['username'];
 $password = $p_ini['Database']['password'];
 $database = "databasetest";
-
 switch($_SERVER['REQUEST_METHOD'])
 {
 	case 'POST':
@@ -23,10 +22,10 @@ switch($_SERVER['REQUEST_METHOD'])
 				$row = $stmt->fetch(PDO::FETCH_ASSOC);
 				if ($row['feeder_perm'] == 1)
 				{
-					$_request = sendRequest($_POST['title'], $_POST['body'], $_POST['data']);
-					echo $request;
+					sendRequest($_POST['title'], $_POST['body'], $_POST['data']);
+					
 				}
-				else echo json_encode("Not allowed!");
+				else echo "Not allowed!";
 			}
 			//sendRequest($_POST['title'], $_POST['body'], $_POST['data']);
 		}
@@ -36,14 +35,14 @@ switch($_SERVER['REQUEST_METHOD'])
 		}
 		break;
 	case 'GET':
-		if (isset($_GET['ticket'])
+		if (isset($_GET['ticket']))
 		{
 			$response = responseForTicket($_GET["ticket"]);
 			if (!$response)
 				echo "no response for ticket<br>";
 			else
 			{
-				$uid = extractUid($response)
+				$uid = extractUid($response);
 				if (!$uid)
 					echo "couldn't resolve UID<br>";
 				else
@@ -57,14 +56,14 @@ switch($_SERVER['REQUEST_METHOD'])
 						if ($stmt->rowCount() == 1) // Found the id
 						{
 							$row = $stmt->fetch(PDO::FETCH_ASSOC);
-							if(isset($row['auth_token']) // already have an auth token on file for this uid
+							if(isset($row['auth_token'])) // already have an auth token on file for this uid
 							{
 								echo json_encode($row['auth_token']);
 								
 							}
 							else // no auth token found, generate one and send it as JSON
 							{
-								$token = getToken($row['feeder_perm']);
+								$token = bin2hex(openssl_random_pseudo_bytes(64));
 								$stmt = $conn->prepare("UPDATE users SET auth_token=?, WHERE uname = ?;");
 								$stmt->bindValue(1, $token, PDO::PARAM_STR);
 								$stmt->bindValue(2, $uid, PDO::PARAM_STR);
@@ -75,7 +74,7 @@ switch($_SERVER['REQUEST_METHOD'])
 						}
 						if ($stmt->rowCount() == 0) // if you don't find it, make a new entry
 						{
-							$token = getToken(FALSE);
+							$token = bin2hex(openssl_random_pseudo_bytes(64));
 							$stmt = $conn->prepare("INSERT INTO users (auth_token, uname, feeder_perm) VALUES (?, ?, 0);");
 							$stmt->bindValue(1, $uid, PDO::PARAM_STR);
 							$stmt->bindValue(2, $token, PDO::PARAM_STR);
@@ -141,16 +140,6 @@ function getConn()
 		echo "Connection failed: " . $e->getMessage();
 		return false;
 	}
-}
-
-function getToken($feeder)
-{
-	$token = bin2hex(openssl_random_pseudo_bytes(64));
-	if ($feeder)
-		$token = "f" . $token;
-	else
-		$token = "e" . $token;
-	return $token;
 }
  
 ?>
