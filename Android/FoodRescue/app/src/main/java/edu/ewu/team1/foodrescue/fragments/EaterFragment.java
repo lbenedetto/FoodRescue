@@ -3,12 +3,19 @@ package edu.ewu.team1.foodrescue.fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.Switch;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
+import edu.ewu.team1.foodrescue.FoodEvent;
+import edu.ewu.team1.foodrescue.FoodEventAdapter;
 import edu.ewu.team1.foodrescue.R;
 
 /**
@@ -21,11 +28,11 @@ public class EaterFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_eater, container, false);
-        SharedPreferences sharedPref = getContext().getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = view.getContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
 
         //Set the state of the switches to the last state of the switch. If first time, set to true
         //Also, register a click listener to save the new state of the switch
@@ -47,6 +54,15 @@ public class EaterFragment extends Fragment {
             editor.putBoolean("receiveEventEndNotifications", eEnd.isChecked());
             editor.apply();
         });
+
+        String[] data = sharedPref.getString("foodEvents", "").split("\n");
+        ArrayList<FoodEvent> events = new ArrayList<>();
+        for (String d : data) {
+            events.add(new FoodEvent(d));
+        }
+        Collections.sort(events);
+        ListView list = view.findViewById(R.id.listViewFoodEvents);
+        list.setAdapter(new FoodEventAdapter(events, view.getContext()));
 
         return view;
     }

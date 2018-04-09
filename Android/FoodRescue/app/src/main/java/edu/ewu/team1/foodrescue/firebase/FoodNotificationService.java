@@ -4,47 +4,68 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import edu.ewu.team1.foodrescue.FoodEvent;
 import edu.ewu.team1.foodrescue.R;
 
 public class FoodNotificationService extends FirebaseMessagingService {
+    SharedPreferences sharedPref;
+
     public FoodNotificationService() {
     }
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-//        Log.d(TAG, "From: " + remoteMessage.getFrom());
-//        if (remoteMessage.getData().size() > 0) {
-//            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-//        }
-//        if (remoteMessage.getNotification() != null) {
-//            String message = remoteMessage.getNotification().getBody();
-//            Log.d(TAG, "Message Notification Body: " + message);
-//        }
+        sharedPref = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        boolean showNotification = sharedPref.getBoolean("receiveEventStartNotifications", false);
 
-        // TODO: (Easy) Only display messages if enabled in notification settings
-        //Read from shared preferences. See EaterFragment.java for keys to use
-        // TODO: (Hard) Add notification info to list in EaterFragment
+        if (showNotification) {
+            if (remoteMessage.getNotification() != null) {
+                RemoteMessage.Notification n = remoteMessage.getNotification();
+                String title = n.getTitle();
+                String body = n.getBody();
+                showNotification(title, body);
 
-        if (remoteMessage.getNotification() != null) {
-            showNotification(remoteMessage.getNotification().getBody());
+                String[] data = remoteMessage.getData().get("data").split(",");
+                saveEvent(title, body, data);
+            }
         }
+    }
+
+
+    /**
+     * Saves the food event to be displayed later in EaterFragment
+     *
+     * @param title title of event
+     * @param body  body of event
+     * @param data  gps loc of event
+     */
+    private void saveEvent(String title, String body, String[] data) {
+
+        String events = sharedPref.getString("foodEvents", "");
+
+        events += new FoodEvent(title, body, data[0], data[1], System.currentTimeMillis()).toString();
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("foodEvents", events);
+        editor.apply();
     }
 
     /**
      * Shows a notification with the specified message
-     * //TODO: Add support for data packages
      *
-     * @param message message to be displayed
+     * @param title The location that has free food
+     * @param body  An optional description from the feeder
      */
-    private void showNotification(String message) {
-        // TODO: (Hard) Get the GPS coordinates from the data payload and use it to open a map
+    private void showNotification(String title, String body) {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         String NOTIFICATION_CHANNEL_ID = "ewu.edu.team1.foodRescue.foodNotificationChannel";
 
@@ -67,13 +88,12 @@ public class FoodNotificationService extends FirebaseMessagingService {
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
-                .setTicker("Hearty365")
                 .setPriority(Notification.PRIORITY_MAX)
-                .setContentTitle("Free Food Available")
-                .setContentText(message);
+                .setContentTitle("Free food at " + title)
+                .setContentText(body);
 
         assert notificationManager != null;
-        //TODO: If each food event has a unique ID, notifications could be automatically cleared when the event is over
+        //TODO: If each food event has a unique ID, notifications could be automatically cleared when the event is over. Ask Brad to add this feature
         notificationManager.notify(/*notification id*/1, notificationBuilder.build());
     }
 }

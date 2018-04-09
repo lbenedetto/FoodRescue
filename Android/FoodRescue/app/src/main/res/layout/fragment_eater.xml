@@ -42,8 +42,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <ExpandableListView
-        android:id="@+id/expandableListView"
+    <ListView
+        android:id="@+id/listViewFoodEvents"
         android:layout_width="368dp"
         android:layout_height="400dp"
         android:layout_marginBottom="8dp"

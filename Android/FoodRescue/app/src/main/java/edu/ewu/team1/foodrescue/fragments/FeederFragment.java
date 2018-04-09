@@ -28,6 +28,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import edu.ewu.team1.foodrescue.MainActivity;
 import edu.ewu.team1.foodrescue.R;
@@ -142,7 +143,7 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
             boolean gps_enabled;
             boolean network_enabled;
 
-            LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+            LocationManager lm = (LocationManager) Objects.requireNonNull(getActivity()).getSystemService(Context.LOCATION_SERVICE);
 
             assert lm != null;
             gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -212,7 +213,7 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
     private void populateDropdownMenu() {
         //Make sure we have permission to get the users location
         //The users location will be used to order the dropdown list
-        if (ActivityCompat.checkSelfPermission(getActivity(),
+        if (ActivityCompat.checkSelfPermission(Objects.requireNonNull(getActivity()),
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
