@@ -76,17 +76,16 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
             String locName = names[spinner.getSelectedItemPosition()];
             String message = editText.getText().toString();
 
-            String url = MainActivity.SERVER_IP + "/FoodRescue/sendNotification.php";
+            String url = MainActivity.SERVER_IP + MainActivity.SEND_NOTIFICATION;
 
             Map<String, String> params = new HashMap<>();
             String token = view.getContext()
                     .getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
                     .getString(MainActivity.TOKEN_KEY, MainActivity.NO_TOKEN);
-            params.put("token", token);
-            params.put("lat", String.valueOf(loc.latitude));
-            params.put("lng", String.valueOf(loc.longitude));
-            params.put("locName", locName);
-            params.put("message", message);
+            params.put("title", locName);
+            params.put("body", message);
+            params.put("data", String.valueOf(loc.latitude) + "," + String.valueOf(loc.longitude));
+            params.put("auth", token);
 
             VolleyWrapper.POST(view.getContext(), url, params, response -> {
                 //TODO: Check if the server allowed the notification to be sent

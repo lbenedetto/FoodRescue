@@ -32,7 +32,12 @@ public class MainActivity extends AppCompatActivity {
     public static final String NO_USERNAME = "NoUsername";
     public static final String TOKEN_KEY = "token";
     public static final String NO_TOKEN = "NoToken";
+
     public static final String SERVER_IP = "146.187.135.29";
+    public static final String CAS = "https://login.ewu.edu/cas/login?service=";
+    public static final String AUTH_PAGE = "https://" + SERVER_IP + "/android/login";
+//    public static final String TOKEN_INVALIDATE = "/FoodRescue/invalidateToken.php";
+    public static final String SEND_NOTIFICATION = "/FoodRescue/auth_poster_and.php";
     /**
      * This is called when the user uses one of the two buttons on the bottom nav bar to switch to
      * a different view. It checks to make sure the user isn't trying to switch to the currently
@@ -60,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Switches the fragment in the fragment_container to the specified target by playing the
-     * exit animation for the current fragment, and the entrace animation for the new fragment
+     * exit animation for the current fragment, and the entrance animation for the new fragment
      *
      * @param target            the fragment to switch to
      * @param entranceAnimation the entrance animation to use
@@ -112,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 editor.apply();
                 Toast.makeText(this, "logged in as " + username, Toast.LENGTH_LONG).show();
                 finalizeSignIn();
-            }else {
+            } else {
                 setFragment(new SSOFragment());
                 bottomNavView.setVisibility(View.GONE);
             }
@@ -211,10 +216,10 @@ public class MainActivity extends AppCompatActivity {
         String token = getAuthToken();
         if (!token.equals(NO_TOKEN)) {
             //Invalidate the exist auth token
-            String url = MainActivity.SERVER_IP + "/FoodRescue/invalidateToken.php";
-            Map<String, String> params = new HashMap<>();
-            params.put("token", token);
-            VolleyWrapper.POST(this, url, params);
+//            String url = MainActivity.SERVER_IP + MainActivity.TOKEN_INVALIDATE;
+//            Map<String, String> params = new HashMap<>();
+//            params.put("token", token);
+//            VolleyWrapper.POST(this, url, params);
 
             //clear the username and auth token from local storage
             SharedPreferences.Editor editor = sharedPref.edit();

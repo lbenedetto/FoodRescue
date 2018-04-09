@@ -28,7 +28,7 @@ public class SSOFragment extends Fragment {
 
         Button buttonSignIn = view.findViewById(R.id.buttonSignIn);
         buttonSignIn.setOnClickListener(v -> {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://login.ewu.edu/cas/login?service=https://" + MainActivity.SERVER_IP + "/login_redirect"));
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(MainActivity.CAS + MainActivity.AUTH_PAGE));
             startActivity(browserIntent);
         });
         return view;
