@@ -138,7 +138,7 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
     @SuppressLint("MissingPermission")
     private LatLng getCurrentLocation() {
         //https://stackoverflow.com/questions/20210565/android-location-manager-get-gps-location-if-no-gps-then-get-to-network-provid
-        LatLng latLng;
+        LatLng latLng = new LatLng(47.491376, -117.582917);
         if (hasLocationAccess) {
             boolean gps_enabled;
             boolean network_enabled;
@@ -178,9 +178,6 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
                 latLng = new LatLng(finalLoc.getLatitude(), finalLoc.getLongitude());
             }
         }
-        //TODO: Comment this out. It is for testing purposes
-        //This way, the location will be centered on campus instead of your house
-        latLng = new LatLng(47.491376, -117.582917);
 
         return latLng;
     }
