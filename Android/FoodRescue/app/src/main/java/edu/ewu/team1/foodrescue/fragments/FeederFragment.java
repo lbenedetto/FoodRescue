@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,6 +90,7 @@ public class FeederFragment extends Fragment implements OnMapReadyCallback {
             params.put("auth", token);
 
             VolleyWrapper.POST(view.getContext(), url, params, response -> {
+                if (response.isEmpty()) Log.e("POST Response:", "No response");
                 //TODO: Check if the server allowed the notification to be sent
                 //If it didn't, the user should be notified of how to become an authorized feeder
             });

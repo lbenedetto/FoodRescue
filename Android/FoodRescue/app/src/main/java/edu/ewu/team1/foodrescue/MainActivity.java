@@ -8,10 +8,14 @@ import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -37,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String CAS = "https://login.ewu.edu/cas/login?service=";
     public static final String AUTH_PAGE = "https://" + SERVER_IP + "/android/login";
     //    public static final String TOKEN_INVALIDATE = "/FoodRescue/invalidateToken.php";
-    public static final String SEND_NOTIFICATION = "/FoodRescue/auth_poster_and.php";
+    public static final String SEND_NOTIFICATION = "/sender.php";//TODO: Ask brad where this is
     /**
      * This is called when the user uses one of the two buttons on the bottom nav bar to switch to
      * a different view. It checks to make sure the user isn't trying to switch to the currently
@@ -89,6 +93,20 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.fragment_container, target, "fragment")
                 //.addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Log.d("focus", "touchevent");
+                v.clearFocus();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+            }
+        }
+        return super.dispatchTouchEvent(event);
     }
 
     @Override

@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode ="true"
     tools:context="edu.ewu.team1.foodrescue.fragments.FeederFragment">
 
     <TextView
@@ -49,11 +51,42 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:focusable="true"
+        android:focusableInTouchMode ="true"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/buttonSubmit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinner">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewCustomizeMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:focusableInTouchMode="true"
+                android:text="@string/custom_message" />
+            <!--TODO: Fix the behavior of this text box. It gets cut off by the keyboard and is hard to get out of-->
+            <EditText
+                android:id="@+id/editTextMessage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:gravity="top"
+                android:inputType="textCapSentences|textMultiLine"
+                android:maxLength="1000"
+                android:maxLines="4"
+                app:layout_constraintBottom_toTopOf="@+id/buttonSubmit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -92,35 +125,6 @@
                     android:text="lat/lng: (47.48,-117.58)"
                     android:textColor="@color/black" />
             </RelativeLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textViewCustomizeMessage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:focusableInTouchMode="true"
-                android:text="@string/custom_message" />
-            <!--TODO: Fix the behavior of this text box. It gets cut off by the keyboard and is hard to get out of-->
-            <EditText
-                android:id="@+id/editTextMessage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:ems="10"
-                android:gravity="top"
-                android:inputType="textCapSentences|textMultiLine"
-                android:maxLength="1000"
-                android:maxLines="4"
-                app:layout_constraintBottom_toTopOf="@+id/buttonSubmit"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
         </LinearLayout>
 
     </LinearLayout>
