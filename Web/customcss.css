@@ -1,26 +1,38 @@
 #map 
 {
-    height: 300px;
-    width: 100%;
+    height: 450px;
+    width: 450px;
     position: absolute;
-    right: 0%;
-    top:10%;
+    right: 30%;
+    top:15%;
     border:10px;
     border-style:solid;
-    background-color:antiquewhite;
+    background-color:#303030;
     
 }
 
-text
+.select
 {
-    position: absolute;
-    top: 50%;
+    top: 3%;
+    left: 0%;    
+    background-color: #303030;
+    border:0px;
+    outline:0px;
+
 }
+
+.options
+{
+    color: white;
+    font-weight: bold;
+}
+
+
 
 body
 {
-    background-color:black;
-    overflow-y:hidden;
+    background-color: #303030;
+
 }
 
 img
@@ -31,7 +43,7 @@ img
 }
 .bg-red
 {
-    background-color: red;
+    background-color: #b41f35;
     border-color:white;
     border-style:solid;
 }
@@ -51,22 +63,49 @@ img
 
 .box
 {
-    background-color:antiquewhite;
+    background-color: #303030;
     position: relative;
     height:1000px;
 }
 
+h2
+{
+    color: white;
+    margin: auto;
+}
+
+p
+{
+    top:6%;
+    left:0%;
+    color: white;
+}
+
+.p2
+{
+    top:0%;
+    left:0%;
+    color: white;
+}
 .comment
 {
     position: absolute;
-    top:40%;
+    top:65%;
     right:25%;
     width:50%;
     height:15%;
+    background-color: #303030;
+    color: white;
+    border-bottom-style: solid;
+    border-color: white;
+    border-right-style: none;
+    border-left-style: none;
+    border-top-style: none;
 }
+
 .sub
 {
     position: absolute;
-    top:55%;
+    top:90%;
     right:45%;
 }

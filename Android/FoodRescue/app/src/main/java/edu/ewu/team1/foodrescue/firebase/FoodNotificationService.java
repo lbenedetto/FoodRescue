@@ -87,7 +87,7 @@ public class FoodNotificationService extends FirebaseMessagingService {
         notificationBuilder.setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setWhen(System.currentTimeMillis())
-                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setSmallIcon(R.drawable.burger_bell)
                 .setPriority(Notification.PRIORITY_MAX)
                 .setContentTitle("Free food at " + title)
                 .setContentText(body);
