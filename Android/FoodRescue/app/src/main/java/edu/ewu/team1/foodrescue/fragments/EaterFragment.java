@@ -58,7 +58,8 @@ public class EaterFragment extends Fragment {
         String[] data = sharedPref.getString("foodEvents", "").split("\n");
         ArrayList<FoodEvent> events = new ArrayList<>();
         for (String d : data) {
-            events.add(new FoodEvent(d));
+            if (!d.isEmpty())
+                events.add(new FoodEvent(d));
         }
         Collections.sort(events);
         ListView list = view.findViewById(R.id.listViewFoodEvents);

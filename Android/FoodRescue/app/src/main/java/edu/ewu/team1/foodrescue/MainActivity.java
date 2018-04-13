@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String SERVER_IP = "146.187.135.29";
     public static final String CAS = "https://login.ewu.edu/cas/login?service=";
     public static final String AUTH_PAGE = "https://" + SERVER_IP + "/android/login";
-//    public static final String TOKEN_INVALIDATE = "/FoodRescue/invalidateToken.php";
+    //    public static final String TOKEN_INVALIDATE = "/FoodRescue/invalidateToken.php";
     public static final String SEND_NOTIFICATION = "/FoodRescue/auth_poster_and.php";
     /**
      * This is called when the user uses one of the two buttons on the bottom nav bar to switch to
@@ -105,11 +105,10 @@ public class MainActivity extends AppCompatActivity {
         String username = getUsername();
         if (username.equals(NO_USERNAME)) {//If the user has not signed in before
             Intent intent = getIntent();
-            String url = intent.getDataString();
-            if (url != null) {//If this app was opened from the callback url, grab the relevant data
-                Uri uri = Uri.parse(url);
-                String token = uri.getQueryParameter("token");
-                username = uri.getQueryParameter("username");
+            Bundle extras = intent.getExtras();
+            if (extras != null) {
+                String token = extras.getString("token");
+                username = extras.getString("uid");
 
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString(USERNAME_KEY, username);
