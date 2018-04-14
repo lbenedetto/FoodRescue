@@ -2,7 +2,6 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -32,8 +31,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout"
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapViewEater"
         android:layout_width="0dp"
         android:layout_height="200dp"
         android:layout_marginEnd="8dp"
@@ -42,26 +41,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewBody">
-
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-
-            <com.google.android.gms.maps.MapView
-                android:id="@+id/mapViewEater"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-            <TextView
-                android:id="@+id/textViewLatLngEater"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="lat/lng: (47.48,-117.58)"
-                android:textColor="@color/black" />
-        </RelativeLayout>
-    </android.support.constraint.ConstraintLayout>
+        app:layout_constraintTop_toBottomOf="@+id/textViewBody" />
 
     <Button
         android:id="@+id/buttonDirections"
@@ -74,7 +56,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/buttonClear"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/mapViewEater" />
 
     <Button
         android:id="@+id/buttonClear"
@@ -87,6 +69,6 @@
         app:layout_constraintEnd_toStartOf="@+id/buttonDirections"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/mapViewEater" />
 
 </android.support.constraint.ConstraintLayout>

@@ -1,132 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:focusable="true"
-    android:focusableInTouchMode ="true"
-    tools:context="edu.ewu.team1.foodrescue.fragments.FeederFragment">
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textViewBuilding"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
+	<TextView
+		android:id="@+id/textViewCustomizeMessage"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:layout_marginStart="16dp"
+		android:layout_marginTop="8dp"
+		android:text="@string/custom_message"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
 
-        android:layout_marginTop="8dp"
-        android:text="@string/select_nearest_building"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+	<Spinner
+		android:id="@+id/spinner"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginEnd="16dp"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+		android:layout_marginStart="16dp"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewBuilding" />
 
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginStart="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewBuilding" />
+	<EditText
+		android:id="@+id/editTextMessage"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:layout_marginBottom="8dp"
+		android:layout_marginEnd="16dp"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+		android:layout_marginStart="16dp"
+		android:ems="10"
+		android:gravity="top"
+		android:inputType="textCapSentences|textMultiLine"
+		android:maxLength="1000"
+		android:maxLines="4"
+		app:layout_constraintBottom_toTopOf="@+id/guideline"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewCustomizeMessage" />
 
-    <Button
-        android:id="@+id/buttonSubmit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:text="@string/announce"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+	<TextView
+		android:id="@+id/textViewBuilding"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:layout_marginStart="16dp"
+		android:text="@string/select_nearest_building"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="@+id/guideline" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:focusable="true"
-        android:focusableInTouchMode ="true"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/buttonSubmit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner">
+	<android.support.constraint.Guideline
+		android:id="@+id/guideline"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		app:layout_constraintGuide_percent=".3" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
+	<TextView
+		android:id="@+id/textViewCustomizeLocation"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:layout_marginStart="16dp"
+		android:layout_marginTop="8dp"
+		android:text="@string/customize_exact_location"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
-            <TextView
-                android:id="@+id/textViewCustomizeMessage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:focusableInTouchMode="true"
-                android:text="@string/custom_message" />
-            <!--TODO: Fix the behavior of this text box. It gets cut off by the keyboard and is hard to get out of-->
-            <EditText
-                android:id="@+id/editTextMessage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:ems="10"
-                android:gravity="top"
-                android:inputType="textCapSentences|textMultiLine"
-                android:maxLength="1000"
-                android:maxLines="4"
-                app:layout_constraintBottom_toTopOf="@+id/buttonSubmit"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+	<RelativeLayout
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:layout_marginEnd="16dp"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+		android:layout_marginStart="16dp"
+		app:layout_constraintBottom_toTopOf="@+id/buttonSubmit"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewCustomizeLocation">
 
-        </LinearLayout>
+		<com.google.android.gms.maps.MapView
+			android:id="@+id/mapView"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
+		<ImageView
+			android:id="@+id/imageViewCrosshair"
+			android:layout_width="48dp"
+			android:layout_height="48dp"
+			android:layout_centerInParent="true"
+			android:layout_gravity="center_vertical"
+			android:contentDescription="@string/crosshair_location_selector"
+			android:src="@drawable/crosshair" />
 
-            <TextView
-                android:id="@+id/textViewCustomizeLocation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/customize_exact_location" />
+		<TextView
+			android:id="@+id/textViewLatLng"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="lat/lng: (47.48,-117.58)"
+			android:textColor="@color/black" />
 
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+	</RelativeLayout>
 
-                <com.google.android.gms.maps.MapView
-                    android:id="@+id/mapView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <ImageView
-                    android:id="@+id/imageViewCrosshair"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_centerInParent="true"
-                    android:layout_gravity="center_vertical"
-                    android:contentDescription="@string/crosshair_location_selector"
-                    android:src="@drawable/crosshair" />
-
-                <TextView
-                    android:id="@+id/textViewLatLng"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="lat/lng: (47.48,-117.58)"
-                    android:textColor="@color/black" />
-            </RelativeLayout>
-        </LinearLayout>
-
-    </LinearLayout>
-
+	<Button
+		android:id="@+id/buttonSubmit"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="8dp"
+		android:layout_marginEnd="8dp"
+		android:layout_marginStart="8dp"
+		android:text="@string/announce"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>
