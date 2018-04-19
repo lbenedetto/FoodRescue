@@ -45,16 +45,6 @@ public class EaterFragment extends Fragment {
             editor.apply();
         });
 
-
-        state = sharedPref.getBoolean("receiveEventEndNotifications", false);
-        Switch eEnd = view.findViewById(R.id.switchEventEnd);
-        eEnd.setChecked(state);
-        eEnd.setOnClickListener(v -> {
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putBoolean("receiveEventEndNotifications", eEnd.isChecked());
-            editor.apply();
-        });
-
         String[] data = sharedPref.getString("foodEvents", "").split("\n");
         ArrayList<FoodEvent> events = new ArrayList<>();
         for (String d : data) {
