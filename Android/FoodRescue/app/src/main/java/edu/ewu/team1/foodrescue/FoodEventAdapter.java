@@ -39,7 +39,6 @@ public class FoodEventAdapter implements ListAdapter {
         ((TextView) convertView.findViewById(R.id.textViewTitle)).setText(event.title);
         ((TextView) convertView.findViewById(R.id.textViewBody)).setText(event.body);
         LatLng loc = new LatLng(event.getLat(), event.getLng());
-        ((TextView) convertView.findViewById(R.id.textViewLatLngEater)).setText(loc.toString());
         //Map
         MapView mapView = convertView.findViewById(R.id.mapViewEater);
         mapView.getMapAsync(googleMap -> {

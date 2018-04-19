@@ -230,20 +230,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void logout() {
-        String token = getAuthToken();
-        if (!token.equals(NO_TOKEN)) {
-            //Invalidate the exist auth token
-//            String url = MainActivity.SERVER_IP + MainActivity.TOKEN_INVALIDATE;
-//            Map<String, String> params = new HashMap<>();
-//            params.put("token", token);
-//            VolleyWrapper.POST(this, url, params);
-
-            //clear the username and auth token from local storage
-            SharedPreferences.Editor editor = sharedPref.edit();
-            editor.putString(USERNAME_KEY, NO_USERNAME);
-            editor.putString(TOKEN_KEY, NO_TOKEN);
-            editor.apply();
-        }
+        //clear the username and auth token from local storage
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(USERNAME_KEY, NO_USERNAME);
+        editor.putString(TOKEN_KEY, NO_TOKEN);
+        editor.apply();
 
         setFragment(new SSOFragment());
         bottomNavView.setVisibility(View.GONE);
