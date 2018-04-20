@@ -13,10 +13,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 import com.android.volley.Response
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -144,6 +141,7 @@ class FeederFragment : Fragment(), OnMapReadyCallback {
 				Log.e("post Response:", response)
 				//TODO: Check if the server allowed the notification to be sent
 				//If it didn't, the user should be notified of how to become an authorized feeder
+				Toast.makeText(view.context, "Notification sent!", Toast.LENGTH_LONG).show()
 			})
 		}
 	}

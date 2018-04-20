@@ -1,5 +1,6 @@
 package edu.ewu.team1.foodrescue
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 	private lateinit var bottomNavView: BottomNavigationView
 	private var feederIsActive = false
 	private lateinit var sharedPref: SharedPreferences
-
+	var username: String = NO_USERNAME
 	companion object {
 		const val USERNAME_KEY = "username"
 		const val NO_USERNAME = "NoUsername"
@@ -39,7 +40,6 @@ class MainActivity : AppCompatActivity() {
 		const val AUTH_PAGE = "https://$SERVER_IP/android/login"
 		//    public static final String TOKEN_INVALIDATE = "/FoodRescue/invalidateToken.php";
 		const val SEND_NOTIFICATION = "/sender.php"//TODO: Ask brad where this is
-		const val DEBUG = true
 	}
 
 	/**
@@ -48,13 +48,9 @@ class MainActivity : AppCompatActivity() {
 	 *
 	 * @return String
 	 */
-	private var username: String = NO_USERNAME
-		get() {
-			return if (DEBUG)
-				"developer"
-			else
-				sharedPref.getString(USERNAME_KEY, NO_USERNAME)
-		}
+	private fun getUsernameFromPreferences() : String {
+		return sharedPref.getString(USERNAME_KEY, NO_USERNAME)
+	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -63,7 +59,7 @@ class MainActivity : AppCompatActivity() {
 		//Populating the bottom navigation bar
 		bottomNavView = bottomNavigationView
 		bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-
+		username = getUsernameFromPreferences()
 		//Authentication process
 		if (username == NO_USERNAME) {//If the user has not signed in before
 			val intent = intent
@@ -76,14 +72,13 @@ class MainActivity : AppCompatActivity() {
 				editor.putString(USERNAME_KEY, username)
 				editor.putString(TOKEN_KEY, token)
 				editor.apply()
-				Toast.makeText(this, "logged in as $username", Toast.LENGTH_LONG).show()
 				finalizeSignIn()
 			} else {
 				setFragment(SSOFragment())
 				bottomNavView.visibility = View.GONE
 			}
 		} else {
-			Toast.makeText(this, "logged in as $username", Toast.LENGTH_LONG).show()
+
 			finalizeSignIn()
 		}
 
@@ -165,7 +160,8 @@ class MainActivity : AppCompatActivity() {
 	 * Sets the fragment to the Eater Fragment, removes the sign in option from the bottom nav menu
 	 * Called whether or not CAS was actually contacted to sign in (ie, if user was already signed in)
 	 */
-	private fun finalizeSignIn() {
+	fun finalizeSignIn() {setFragment(EaterFragment(), R.anim.slide_in_right, R.anim.slide_out_left)
+		Toast.makeText(this, "logged in as $username", Toast.LENGTH_LONG).show()
 		setFragment(EaterFragment())
 		selectMenuItem(R.id.navigation_eater)
 	}
@@ -203,6 +199,7 @@ class MainActivity : AppCompatActivity() {
 		}
 	}
 
+	@SuppressLint("RestrictedApi")
 	override fun onCreateOptionsMenu(menu: Menu): Boolean {
 		menuInflater.inflate(R.menu.main, menu)
 		return true
@@ -211,9 +208,6 @@ class MainActivity : AppCompatActivity() {
 	override fun onOptionsItemSelected(item: MenuItem): Boolean {
 		val id = item.itemId
 		when (id) {
-			R.id.action_about ->
-				//TODO: Put something here, maybe
-				return true
 			R.id.action_logout -> {
 				logout()
 				return true
