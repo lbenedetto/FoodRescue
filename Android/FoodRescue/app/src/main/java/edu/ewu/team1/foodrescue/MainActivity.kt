@@ -24,207 +24,207 @@ import edu.ewu.team1.foodrescue.fragments.SSOFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var bottomNavView: BottomNavigationView
-    private var feederIsActive = false
-    private lateinit var sharedPref: SharedPreferences
+	private lateinit var bottomNavView: BottomNavigationView
+	private var feederIsActive = false
+	private lateinit var sharedPref: SharedPreferences
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
-        //Populating the bottom navigation bar
-        bottomNavView = bottomNavigationView
-        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		setContentView(R.layout.activity_main)
+		sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+		//Populating the bottom navigation bar
+		bottomNavView = bottomNavigationView
+		bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
-        //Authentication process
-        var username: String? = username
-        if (username == NO_USERNAME) {//If the user has not signed in before
-            val intent = intent
-            val extras = intent.extras
-            if (extras != null) {
-                val token = extras.getString("token")
-                username = extras.getString("uid")
+		//Authentication process
+		var username: String? = username
+		if (username == NO_USERNAME) {//If the user has not signed in before
+			val intent = intent
+			val extras = intent.extras
+			if (extras != null) {
+				val token = extras.getString("token")
+				username = extras.getString("uid")
 
-                val editor = sharedPref.edit()
-                editor.putString(USERNAME_KEY, username)
-                editor.putString(TOKEN_KEY, token)
-                editor.apply()
-                Toast.makeText(this, "logged in as " + username!!, Toast.LENGTH_LONG).show()
-                finalizeSignIn()
-            } else {
-                setFragment(SSOFragment())
-                bottomNavView.visibility = View.GONE
-            }
-        } else {
-            Toast.makeText(this, "logged in as " + username!!, Toast.LENGTH_LONG).show()
-            finalizeSignIn()
-        }
+				val editor = sharedPref.edit()
+				editor.putString(USERNAME_KEY, username)
+				editor.putString(TOKEN_KEY, token)
+				editor.apply()
+				Toast.makeText(this, "logged in as " + username!!, Toast.LENGTH_LONG).show()
+				finalizeSignIn()
+			} else {
+				setFragment(SSOFragment())
+				bottomNavView.visibility = View.GONE
+			}
+		} else {
+			Toast.makeText(this, "logged in as " + username!!, Toast.LENGTH_LONG).show()
+			finalizeSignIn()
+		}
 
-        checkPlayServices()
-    }
+		checkPlayServices()
+	}
 
 
-    /**
-     * This is called when the user uses one of the two buttons on the bottom nav bar to switch to
-     * a different view. It checks to make sure the user isn't trying to switch to the currently
-     * active fragment, which would look really silly
-     */
-    private val mOnNavigationItemSelectedListener = { item: MenuItem ->
-        if (username != NO_USERNAME) {
-            when (item.itemId) {
-                R.id.navigation_feeder -> {
-                    if (!feederIsActive) {
-                        setFragment(FeederFragment(), R.anim.slide_in_left, R.anim.slide_out_right)
-                        feederIsActive = true
-                    }
-                    true
-                }
-                R.id.navigation_eater -> {
-                    if (feederIsActive) {
-                        setFragment(EaterFragment(), R.anim.slide_in_right, R.anim.slide_out_left)
-                        feederIsActive = false
-                    }
-                    true
-                }
-                else -> false
-            }
-        } else {
-            false
-        }
-    }
+	/**
+	 * This is called when the user uses one of the two buttons on the bottom nav bar to switch to
+	 * a different view. It checks to make sure the user isn't trying to switch to the currently
+	 * active fragment, which would look really silly
+	 */
+	private val mOnNavigationItemSelectedListener = { item: MenuItem ->
+		if (username != NO_USERNAME) {
+			when (item.itemId) {
+				R.id.navigation_feeder -> {
+					if (!feederIsActive) {
+						setFragment(FeederFragment(), R.anim.slide_in_left, R.anim.slide_out_right)
+						feederIsActive = true
+					}
+					true
+				}
+				R.id.navigation_eater -> {
+					if (feederIsActive) {
+						setFragment(EaterFragment(), R.anim.slide_in_right, R.anim.slide_out_left)
+						feederIsActive = false
+					}
+					true
+				}
+				else -> false
+			}
+		} else {
+			false
+		}
+	}
 
-    /**
-     * Gets the users current logged users username from Shared Preferences
-     * If they have not yet logged in, return "NoUsername"
-     *
-     * @return String
-     */
-    private val username: String
-        get() = sharedPref.getString(USERNAME_KEY, NO_USERNAME)
+	/**
+	 * Gets the users current logged users username from Shared Preferences
+	 * If they have not yet logged in, return "NoUsername"
+	 *
+	 * @return String
+	 */
+	private val username: String
+		get() = sharedPref.getString(USERNAME_KEY, NO_USERNAME)
 
-    /**
-     * Switches the fragment in the fragment_container to the specified target by playing the
-     * exit animation for the current fragment, and the entrance animation for the new fragment
-     *
-     * @param target            the fragment to switch to
-     * @param entranceAnimation the entrance animation to use
-     * @param exitAnimation     the exit animation to use
-     */
-    private fun setFragment(target: Fragment, entranceAnimation: Int, exitAnimation: Int) {
-        supportFragmentManager.beginTransaction()
-                .setCustomAnimations(entranceAnimation, exitAnimation)
-                .replace(R.id.fragment_container, target, "fragment")
-                //.addToBackStack(null)
-                .commit()
-    }
+	/**
+	 * Switches the fragment in the fragment_container to the specified target by playing the
+	 * exit animation for the current fragment, and the entrance animation for the new fragment
+	 *
+	 * @param target            the fragment to switch to
+	 * @param entranceAnimation the entrance animation to use
+	 * @param exitAnimation     the exit animation to use
+	 */
+	private fun setFragment(target: Fragment, entranceAnimation: Int, exitAnimation: Int) {
+		supportFragmentManager.beginTransaction()
+				.setCustomAnimations(entranceAnimation, exitAnimation)
+				.replace(R.id.fragment_container, target, "fragment")
+				//.addToBackStack(null)
+				.commit()
+	}
 
-    /**
-     * Switch the fragment in the fragment_container to the specified target with no animation
-     *
-     * @param target the fragment to switch to
-     */
-    private fun setFragment(target: Fragment) {
-        supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, target, "fragment")
-                //.addToBackStack(null)
-                .commit()
-    }
+	/**
+	 * Switch the fragment in the fragment_container to the specified target with no animation
+	 *
+	 * @param target the fragment to switch to
+	 */
+	private fun setFragment(target: Fragment) {
+		supportFragmentManager.beginTransaction()
+				.replace(R.id.fragment_container, target, "fragment")
+				//.addToBackStack(null)
+				.commit()
+	}
 
-    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_DOWN) {
-            val v = currentFocus
-            if (v is EditText) {
-                Log.d("focus", "touchevent")
-                v.clearFocus()
-                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(v.windowToken, 0)
-            }
-        }
-        return super.dispatchTouchEvent(event)
-    }
+	override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+		if (event.action == MotionEvent.ACTION_DOWN) {
+			val v = currentFocus
+			if (v is EditText) {
+				Log.d("focus", "touchevent")
+				v.clearFocus()
+				val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+				imm.hideSoftInputFromWindow(v.windowToken, 0)
+			}
+		}
+		return super.dispatchTouchEvent(event)
+	}
 
-    /**
-     * Sets the fragment to the Eater Fragment, removes the sign in option from the bottom nav menu
-     * Called whether or not CAS was actually contacted to sign in (ie, if user was already signed in)
-     */
-    private fun finalizeSignIn() {
-        setFragment(EaterFragment())
-        selectMenuItem(R.id.navigation_eater)
-    }
+	/**
+	 * Sets the fragment to the Eater Fragment, removes the sign in option from the bottom nav menu
+	 * Called whether or not CAS was actually contacted to sign in (ie, if user was already signed in)
+	 */
+	private fun finalizeSignIn() {
+		setFragment(EaterFragment())
+		selectMenuItem(R.id.navigation_eater)
+	}
 
-    /**
-     * Sets the specified item to be visually selected in the bottom nav bar
-     *
-     * @param itemID the ID to select
-     */
-    private fun selectMenuItem(itemID: Int) {
-        bottomNavView.visibility = View.VISIBLE
-        bottomNavView.selectedItemId = itemID
-        bottomNavView.menu.findItem(itemID).isChecked = true
-    }
+	/**
+	 * Sets the specified item to be visually selected in the bottom nav bar
+	 *
+	 * @param itemID the ID to select
+	 */
+	private fun selectMenuItem(itemID: Int) {
+		bottomNavView.visibility = View.VISIBLE
+		bottomNavView.selectedItemId = itemID
+		bottomNavView.menu.findItem(itemID).isChecked = true
+	}
 
-    override fun onResume() {
-        super.onResume()
-        checkPlayServices()
-    }
+	override fun onResume() {
+		super.onResume()
+		checkPlayServices()
+	}
 
-    /**
-     * Makes sure google player services is available, as our app will not work without it
-     */
-    private fun checkPlayServices() {
-        val apiAvailability = GoogleApiAvailability.getInstance()
-        val resultCode = apiAvailability.isGooglePlayServicesAvailable(this)
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (apiAvailability.isUserResolvableError(resultCode)) {
-                apiAvailability.getErrorDialog(this, resultCode, 2404).show()
-                apiAvailability.makeGooglePlayServicesAvailable(this)
-            } else {
-                Toast.makeText(this, "This device is not supported.", Toast.LENGTH_LONG).show()
-                finish()
-            }
-        }
-    }
+	/**
+	 * Makes sure google player services is available, as our app will not work without it
+	 */
+	private fun checkPlayServices() {
+		val apiAvailability = GoogleApiAvailability.getInstance()
+		val resultCode = apiAvailability.isGooglePlayServicesAvailable(this)
+		if (resultCode != ConnectionResult.SUCCESS) {
+			if (apiAvailability.isUserResolvableError(resultCode)) {
+				apiAvailability.getErrorDialog(this, resultCode, 2404).show()
+				apiAvailability.makeGooglePlayServicesAvailable(this)
+			} else {
+				Toast.makeText(this, "This device is not supported.", Toast.LENGTH_LONG).show()
+				finish()
+			}
+		}
+	}
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
-        return true
-    }
+	override fun onCreateOptionsMenu(menu: Menu): Boolean {
+		menuInflater.inflate(R.menu.main, menu)
+		return true
+	}
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-        when (id) {
-            R.id.action_about ->
-                //TODO: Put something here, maybe
-                return true
-            R.id.action_logout -> {
-                logout()
-                return true
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
+	override fun onOptionsItemSelected(item: MenuItem): Boolean {
+		val id = item.itemId
+		when (id) {
+			R.id.action_about ->
+				//TODO: Put something here, maybe
+				return true
+			R.id.action_logout -> {
+				logout()
+				return true
+			}
+		}
+		return super.onOptionsItemSelected(item)
+	}
 
-    private fun logout() {
-        //clear the username and auth token from local storage
-        val editor = sharedPref.edit()
-        editor.putString(USERNAME_KEY, NO_USERNAME)
-        editor.putString(TOKEN_KEY, NO_TOKEN)
-        editor.apply()
+	private fun logout() {
+		//clear the username and auth token from local storage
+		val editor = sharedPref.edit()
+		editor.putString(USERNAME_KEY, NO_USERNAME)
+		editor.putString(TOKEN_KEY, NO_TOKEN)
+		editor.apply()
 
-        setFragment(SSOFragment())
-        bottomNavView.visibility = View.GONE
-    }
+		setFragment(SSOFragment())
+		bottomNavView.visibility = View.GONE
+	}
 
-    companion object {
-        const val USERNAME_KEY = "username"
-        const val NO_USERNAME = "NoUsername"
-        const val TOKEN_KEY = "token"
-        const val NO_TOKEN = "NoToken"
+	companion object {
+		const val USERNAME_KEY = "username"
+		const val NO_USERNAME = "NoUsername"
+		const val TOKEN_KEY = "token"
+		const val NO_TOKEN = "NoToken"
 
-        const val SERVER_IP = "146.187.135.29"
-        const val CAS = "https://login.ewu.edu/cas/login?service="
-        const val AUTH_PAGE = "https://$SERVER_IP/android/login"
-        //    public static final String TOKEN_INVALIDATE = "/FoodRescue/invalidateToken.php";
-        const val SEND_NOTIFICATION = "/sender.php"//TODO: Ask brad where this is
-    }
+		const val SERVER_IP = "146.187.135.29"
+		const val CAS = "https://login.ewu.edu/cas/login?service="
+		const val AUTH_PAGE = "https://$SERVER_IP/android/login"
+		//    public static final String TOKEN_INVALIDATE = "/FoodRescue/invalidateToken.php";
+		const val SEND_NOTIFICATION = "/sender.php"//TODO: Ask brad where this is
+	}
 }

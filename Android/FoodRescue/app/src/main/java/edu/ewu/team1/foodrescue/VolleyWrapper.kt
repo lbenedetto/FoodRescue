@@ -10,16 +10,16 @@ import com.android.volley.toolbox.Volley
 
 object VolleyWrapper {
 
-    fun post(context: Context, url: String, params: Map<String, String>, response: Response.Listener<String>) {
-        val queue = Volley.newRequestQueue(context)
-        val postRequest = object : StringRequest(Request.Method.POST, url,
-                response,
-                Response.ErrorListener { error -> Log.d("Error.Response", error.message) }
-        ) {
-            override fun getParams(): Map<String, String> {
-                return params
-            }
-        }
-        queue.add(postRequest)
-    }
+	fun post(context: Context, url: String, params: Map<String, String>, response: Response.Listener<String>) {
+		val queue = Volley.newRequestQueue(context)
+		val postRequest = object : StringRequest(Request.Method.POST, url,
+				response,
+				Response.ErrorListener { error -> Log.d("Error.Response", error.message) }
+		) {
+			override fun getParams(): Map<String, String> {
+				return params
+			}
+		}
+		queue.add(postRequest)
+	}
 }
