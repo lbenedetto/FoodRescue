@@ -20,11 +20,15 @@ class FoodEventAdapter(private val events: ArrayList<FoodEvent>, private val con
 	private val observers: ArrayList<DataSetObserver> = ArrayList()
 
 	override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-		var view = convertView
-		if (view == null) {
-			val inflater = this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-			view = inflater.inflate(R.layout.notification_item, parent)
-		}
+		//Inflate the view if it isn't already
+		val view =
+				if (convertView == null) {
+					val inflater = this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+					inflater.inflate(R.layout.notification_item, parent)
+				} else {
+					convertView
+				}
+
 		val event = events[position]
 		(view!!.findViewById<View>(R.id.textViewTitle) as TextView).text = event.title
 		(view.findViewById<View>(R.id.textViewBody) as TextView).text = event.body
@@ -51,6 +55,7 @@ class FoodEventAdapter(private val events: ArrayList<FoodEvent>, private val con
 		return view
 	}
 
+	//region Useless garbage
 	override fun areAllItemsEnabled(): Boolean {
 		return true
 	}
@@ -94,4 +99,5 @@ class FoodEventAdapter(private val events: ArrayList<FoodEvent>, private val con
 	override fun isEmpty(): Boolean {
 		return false
 	}
+	//endregion
 }

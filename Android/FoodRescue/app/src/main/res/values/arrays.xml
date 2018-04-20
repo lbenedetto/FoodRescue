@@ -30,6 +30,7 @@
         <item>WLM - Williamson Hall</item>
     </string-array>
     <string-array name="locationLats">
+        <item>0</item><!--Closest Building-->
         <item>47.491376</item><!--Other-->
         <item>47.488225</item><!--ART - Art Building-->
         <item>47.489261</item><!--CAD - Cadet Hall-->
@@ -58,6 +59,7 @@
         <item>47.490194</item><!--WLM - Williamson Hall-->
     </string-array>
     <string-array name="locationLngs">
+        <item>0</item><!--Closest Building-->
         <item>-117.582917</item><!--Other-->
         <item>-117.585019</item><!--ART - Art Building-->
         <item>-117.585347</item><!--CAD - Cadet Hall-->

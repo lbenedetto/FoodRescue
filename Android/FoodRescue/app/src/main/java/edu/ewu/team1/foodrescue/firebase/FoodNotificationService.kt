@@ -1,25 +1,25 @@
 package edu.ewu.team1.foodrescue.firebase
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
+import android.app.*
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Build
+import android.os.SystemClock
 import android.support.v4.app.NotificationCompat
-
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-
 import edu.ewu.team1.foodrescue.FoodEvent
 import edu.ewu.team1.foodrescue.R
 
 class FoodNotificationService : FirebaseMessagingService() {
+
 	private lateinit var sharedPref: SharedPreferences
 
 	companion object {
 		const val NOTIFICATION_CHANNEL_ID = "ewu.edu.team1.foodRescue.foodNotificationChannel"
+		const val NOTIFICATION_ID = "notification_id"
 	}
 
 	override fun onMessageReceived(remoteMessage: RemoteMessage?) {
@@ -31,10 +31,10 @@ class FoodNotificationService : FirebaseMessagingService() {
 				val n = remoteMessage.notification
 				val title = n!!.title
 				val body = n.body
-				showNotification(title, body)
-
 				val data = remoteMessage.data["data"]
-				saveEvent(title, body, data)
+				val foodEvent = FoodEvent(title, body, data, System.currentTimeMillis())
+				showNotification(foodEvent)
+				saveEvent(foodEvent)
 			}
 		}
 	}
@@ -43,27 +43,23 @@ class FoodNotificationService : FirebaseMessagingService() {
 	/**
 	 * Saves the food event to be displayed later in EaterFragment
 	 *
-	 * @param title title of event
-	 * @param body  body of event
-	 * @param data  gps loc of event
+	 * @param foodEvent the event
 	 */
-	private fun saveEvent(title: String?, body: String?, data: String?) {
-		var events = sharedPref.getString("foodEvents", "")
-
-		events += FoodEvent(title, body, data, System.currentTimeMillis()).toString()
-
+	private fun saveEvent(foodEvent: FoodEvent) {
 		val editor = sharedPref.edit()
-		editor.putString("foodEvents", events)
+		editor.putString(
+				"foodEvents",
+				"${sharedPref.getString("foodEvents", "")}\n$foodEvent"
+		)
 		editor.apply()
 	}
 
 	/**
 	 * Shows a notification with the specified message
 	 *
-	 * @param title The location that has free food
-	 * @param body  An optional description from the feeder
+	 * @param foodEvent the event
 	 */
-	private fun showNotification(title: String?, body: String?) {
+	private fun showNotification(foodEvent: FoodEvent) {
 		val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
 		//Android O specific settings
@@ -85,10 +81,23 @@ class FoodNotificationService : FirebaseMessagingService() {
 				.setWhen(System.currentTimeMillis())
 				.setSmallIcon(R.drawable.burger_bell)
 				.setPriority(Notification.PRIORITY_MAX)
-				.setContentTitle("Free food at " + title!!)
-				.setContentText(body)
+				.setContentTitle("Free food at ${foodEvent.title}")
+				.setContentText(foodEvent.body)
 
-		//TODO: If each food event has a unique ID, notifications could be automatically cleared when the event is over. Ask Brad to add this feature
-		notificationManager.notify(/*notification id*/1, notificationBuilder.build())
+		val id = sharedPref.getInt(NOTIFICATION_ID, Math.random().toInt())
+		notificationManager.notify(id, notificationBuilder.build())
+
+		//https://stackoverflow.com/questions/23874203/create-an-android-notification-with-expiration-date
+		val alarmManager = applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+		val intent = Intent(applicationContext, NotificationClearer::class.java)
+		intent.action = NotificationClearer.packageName
+		intent.putExtra(NOTIFICATION_ID, id)
+		val pendingIntent = PendingIntent.getBroadcast(applicationContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+		alarmManager.set(
+				AlarmManager.ELAPSED_REALTIME_WAKEUP,
+				SystemClock.elapsedRealtime() + foodEvent.duration * 60000,
+				pendingIntent)
+
+		sharedPref.edit().putInt(NOTIFICATION_ID, id + 1).apply()
 	}
 }

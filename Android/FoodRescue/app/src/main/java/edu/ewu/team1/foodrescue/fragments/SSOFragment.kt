@@ -12,9 +12,6 @@ import android.widget.Button
 import edu.ewu.team1.foodrescue.MainActivity
 import edu.ewu.team1.foodrescue.R
 
-/**
- * A simple [Fragment] subclass.
- */
 class SSOFragment : Fragment() {
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -29,4 +26,4 @@ class SSOFragment : Fragment() {
 		return view
 	}
 
-}// Required empty public constructor
+}

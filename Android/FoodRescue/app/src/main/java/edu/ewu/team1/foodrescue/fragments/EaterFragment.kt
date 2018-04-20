@@ -6,15 +6,13 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ListView
+import android.widget.Switch
 import edu.ewu.team1.foodrescue.FoodEvent
 import edu.ewu.team1.foodrescue.FoodEventAdapter
 import edu.ewu.team1.foodrescue.R
-import kotlinx.android.synthetic.main.fragment_eater.*
 import java.util.*
 
-/**
- * A simple [Fragment] subclass.
- */
 class EaterFragment : Fragment() {
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -26,11 +24,11 @@ class EaterFragment : Fragment() {
 		//Set the state of the switches to the last state of the switch. If first time, set to true
 		//Also, register a click listener to save the new state of the switch
 		val state = sharedPref.getBoolean("receiveEventStartNotifications", false)
-
-		switchEventStart.isChecked = state
-		switchEventStart.setOnClickListener {
+		val switch = view.findViewById<Switch>(R.id.switchEventStart)
+		switch.isChecked = state
+		switch.setOnClickListener {
 			val editor = sharedPref.edit()
-			editor.putBoolean("receiveEventStartNotifications", switchEventStart.isChecked)
+			editor.putBoolean("receiveEventStartNotifications", switch.isChecked)
 			editor.apply()
 		}
 
@@ -41,9 +39,9 @@ class EaterFragment : Fragment() {
 				events.add(FoodEvent(d))
 		}
 		events.sort()
-		listViewFoodEvents.adapter = FoodEventAdapter(events, view.context)
+		view.findViewById<ListView>(R.id.listViewFoodEvents).adapter = FoodEventAdapter(events, view.context)
 
 		return view
 	}
 
-}// Required empty public constructor
+}

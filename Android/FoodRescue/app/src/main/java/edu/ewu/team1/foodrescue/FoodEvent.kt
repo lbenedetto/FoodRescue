@@ -5,14 +5,16 @@ class FoodEvent : Comparable<FoodEvent> {
 	internal var body: String
 	var lat: Double
 	var lng: Double
+	var duration: Int
 	internal var timestamp: Long = 0
 
 	constructor(title: String?, body: String?, data: String?, timestamp: Long) {
 		this.title = title ?: ""
 		this.body = body ?: ""
-		val d = data?.split(",")?.toTypedArray() ?: arrayOf("47f", "-117f")
+		val d = data?.split(",")?.toTypedArray() ?: arrayOf("47.491355", "-117.582798", "15")
 		this.lat = d[0].toDouble()
 		this.lng = d[1].toDouble()
+		this.duration = d[2].toInt()
 		this.timestamp = timestamp
 	}
 
@@ -22,11 +24,12 @@ class FoodEvent : Comparable<FoodEvent> {
 		body = data[1]
 		lat = data[2].toDouble()
 		lng = data[3].toDouble()
-		timestamp = java.lang.Long.parseLong(data[4])
+		duration = data[4].toInt()
+		timestamp = java.lang.Long.parseLong(data[5])
 	}
 
 	override fun toString(): String {
-		return "$title,$body,$lat,$lng,$timestamp\n"
+		return "$title,$body,$lat,$lng,$duration,$timestamp\n"
 	}
 
 	override fun compareTo(other: FoodEvent): Int {

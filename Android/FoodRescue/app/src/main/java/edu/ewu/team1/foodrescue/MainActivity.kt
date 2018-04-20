@@ -28,6 +28,34 @@ class MainActivity : AppCompatActivity() {
 	private var feederIsActive = false
 	private lateinit var sharedPref: SharedPreferences
 
+	companion object {
+		const val USERNAME_KEY = "username"
+		const val NO_USERNAME = "NoUsername"
+		const val TOKEN_KEY = "token"
+		const val NO_TOKEN = "NoToken"
+
+		const val SERVER_IP = "146.187.135.29"
+		const val CAS = "https://login.ewu.edu/cas/login?service="
+		const val AUTH_PAGE = "https://$SERVER_IP/android/login"
+		//    public static final String TOKEN_INVALIDATE = "/FoodRescue/invalidateToken.php";
+		const val SEND_NOTIFICATION = "/sender.php"//TODO: Ask brad where this is
+		const val DEBUG = true
+	}
+
+	/**
+	 * Gets the users current logged users username from Shared Preferences
+	 * If they have not yet logged in, return "NoUsername"
+	 *
+	 * @return String
+	 */
+	private var username: String = NO_USERNAME
+		get() {
+			return if (DEBUG)
+				"developer"
+			else
+				sharedPref.getString(USERNAME_KEY, NO_USERNAME)
+		}
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_main)
@@ -37,7 +65,6 @@ class MainActivity : AppCompatActivity() {
 		bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
 		//Authentication process
-		var username: String? = username
 		if (username == NO_USERNAME) {//If the user has not signed in before
 			val intent = intent
 			val extras = intent.extras
@@ -49,14 +76,14 @@ class MainActivity : AppCompatActivity() {
 				editor.putString(USERNAME_KEY, username)
 				editor.putString(TOKEN_KEY, token)
 				editor.apply()
-				Toast.makeText(this, "logged in as " + username!!, Toast.LENGTH_LONG).show()
+				Toast.makeText(this, "logged in as $username", Toast.LENGTH_LONG).show()
 				finalizeSignIn()
 			} else {
 				setFragment(SSOFragment())
 				bottomNavView.visibility = View.GONE
 			}
 		} else {
-			Toast.makeText(this, "logged in as " + username!!, Toast.LENGTH_LONG).show()
+			Toast.makeText(this, "logged in as $username", Toast.LENGTH_LONG).show()
 			finalizeSignIn()
 		}
 
@@ -92,15 +119,6 @@ class MainActivity : AppCompatActivity() {
 			false
 		}
 	}
-
-	/**
-	 * Gets the users current logged users username from Shared Preferences
-	 * If they have not yet logged in, return "NoUsername"
-	 *
-	 * @return String
-	 */
-	private val username: String
-		get() = sharedPref.getString(USERNAME_KEY, NO_USERNAME)
 
 	/**
 	 * Switches the fragment in the fragment_container to the specified target by playing the
@@ -213,18 +231,5 @@ class MainActivity : AppCompatActivity() {
 
 		setFragment(SSOFragment())
 		bottomNavView.visibility = View.GONE
-	}
-
-	companion object {
-		const val USERNAME_KEY = "username"
-		const val NO_USERNAME = "NoUsername"
-		const val TOKEN_KEY = "token"
-		const val NO_TOKEN = "NoToken"
-
-		const val SERVER_IP = "146.187.135.29"
-		const val CAS = "https://login.ewu.edu/cas/login?service="
-		const val AUTH_PAGE = "https://$SERVER_IP/android/login"
-		//    public static final String TOKEN_INVALIDATE = "/FoodRescue/invalidateToken.php";
-		const val SEND_NOTIFICATION = "/sender.php"//TODO: Ask brad where this is
 	}
 }
