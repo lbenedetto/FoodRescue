@@ -65,8 +65,8 @@ class MainActivity : AppCompatActivity() {
 			val intent = intent
 			val extras = intent.extras
 			if (extras != null) {
-				val token = extras.getString("token")
-				username = extras.getString("uid")
+				val token = extras.getString("token") ?: NO_TOKEN
+				username = extras.getString("uid") ?: NO_USERNAME
 
 				val editor = sharedPref.edit()
 				editor.putString(USERNAME_KEY, username)
@@ -78,7 +78,6 @@ class MainActivity : AppCompatActivity() {
 				bottomNavView.visibility = View.GONE
 			}
 		} else {
-
 			finalizeSignIn()
 		}
 

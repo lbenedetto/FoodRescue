@@ -21,7 +21,8 @@ class FoodNotificationService : FirebaseMessagingService() {
 		const val NOTIFICATION_CHANNEL_ID = "ewu.edu.team1.foodRescue.foodNotificationChannel"
 		const val NOTIFICATION_ID = "notification_id"
 	}
-
+	//TODO: Improve notifications and users settings
+	//https://material.io/guidelines/patterns/notifications.html
 	override fun onMessageReceived(remoteMessage: RemoteMessage?) {
 		sharedPref = applicationContext.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
 		val showNotification = sharedPref.getBoolean("receiveEventStartNotifications", false)

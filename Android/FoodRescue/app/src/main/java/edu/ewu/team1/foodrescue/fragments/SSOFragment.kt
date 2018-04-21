@@ -31,7 +31,9 @@ class SSOFragment : Fragment() {
 							.putString(MainActivity.USERNAME_KEY, "Developer")
 							.putString(MainActivity.TOKEN_KEY, "DeveloperKey")
 							.apply()
-					(activity as MainActivity).finalizeSignIn()
+					val ma = activity as MainActivity
+					ma.username = "Developer"
+					ma.finalizeSignIn()
 				}
 		return view
 	}
