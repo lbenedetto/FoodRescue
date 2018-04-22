@@ -20,7 +20,8 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
-import edu.ewu.team1.foodrescue.*
+import edu.ewu.team1.foodrescue.MainActivity
+import edu.ewu.team1.foodrescue.R
 import edu.ewu.team1.foodrescue.notifications.NotificationShower
 import edu.ewu.team1.foodrescue.utilities.ConfirmDialog
 import edu.ewu.team1.foodrescue.utilities.DataManager
@@ -28,8 +29,7 @@ import edu.ewu.team1.foodrescue.utilities.FoodEvent
 import edu.ewu.team1.foodrescue.utilities.VolleyWrapper
 import java.util.*
 
-@SuppressLint("ValidFragment")
-class FeederFragment(private val dataManager: DataManager) : Fragment(), OnMapReadyCallback {
+class FeederFragment : Fragment(), OnMapReadyCallback {
 	//https://developers.google.com/maps/documentation/android-api/groundoverlay
 	private lateinit var mapView: MapView
 	private lateinit var map: GoogleMap
@@ -37,6 +37,8 @@ class FeederFragment(private val dataManager: DataManager) : Fragment(), OnMapRe
 	private lateinit var spinner: Spinner
 	private var hasLocationAccess = false
 	private lateinit var location: TextView
+	private lateinit var dataManager: DataManager
+
 	private val crosshairLocation: LatLng
 		get() = map.cameraPosition.target
 
@@ -44,11 +46,13 @@ class FeederFragment(private val dataManager: DataManager) : Fragment(), OnMapRe
 		const val gpsPermissionsRequestCode = 456
 	}
 
+
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		return inflater.inflate(R.layout.fragment_feeder, container, false)
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		dataManager = (activity as MainActivity).dataManager
 		location = view.findViewById(R.id.textViewLatLng)
 		populateLocationMenu(view)
 		populateExpiryMenu(view)

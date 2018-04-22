@@ -25,7 +25,7 @@ import edu.ewu.team1.foodrescue.utilities.DataManager
 class MainActivity : AppCompatActivity() {
 	private lateinit var bottomNavView: BottomNavigationView
 	private var feederIsActive = false
-	private lateinit var dataManager: DataManager
+	lateinit var dataManager: DataManager
 	var username: String = DataManager.NO_USERNAME
 
 	companion object {
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 					return
 				}
 			}
-			setFragment(SSOFragment(dataManager))
+			setFragment(SSOFragment())
 			bottomNavView.visibility = View.GONE
 		} else {
 			finalizeSignIn()
@@ -77,14 +77,14 @@ class MainActivity : AppCompatActivity() {
 			when (item.itemId) {
 				R.id.navigation_feeder -> {
 					if (!feederIsActive) {
-						setFragment(FeederFragment(dataManager), R.anim.slide_in_left, R.anim.slide_out_right)
+						setFragment(FeederFragment(), R.anim.slide_in_left, R.anim.slide_out_right)
 						feederIsActive = true
 					}
 					true
 				}
 				R.id.navigation_eater -> {
 					if (feederIsActive) {
-						setFragment(EaterFragment(dataManager), R.anim.slide_in_right, R.anim.slide_out_left)
+						setFragment(EaterFragment(), R.anim.slide_in_right, R.anim.slide_out_left)
 						feederIsActive = false
 					}
 					true
@@ -142,9 +142,9 @@ class MainActivity : AppCompatActivity() {
 	 * Called whether or not CAS was actually contacted to sign in (ie, if user was already signed in)
 	 */
 	fun finalizeSignIn() {
-		setFragment(EaterFragment(dataManager), R.anim.slide_in_right, R.anim.slide_out_left)
+		setFragment(EaterFragment(), R.anim.slide_in_right, R.anim.slide_out_left)
 		Toast.makeText(this, "logged in as $username", Toast.LENGTH_LONG).show()
-		setFragment(EaterFragment(dataManager))
+		setFragment(EaterFragment())
 		selectMenuItem(R.id.navigation_eater)
 	}
 
@@ -204,7 +204,7 @@ class MainActivity : AppCompatActivity() {
 		//clear the username and auth token from local storage
 		dataManager.clearAll()
 
-		setFragment(SSOFragment(dataManager))
+		setFragment(SSOFragment())
 		bottomNavView.visibility = View.GONE
 	}
 }

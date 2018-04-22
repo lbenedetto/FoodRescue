@@ -1,6 +1,5 @@
 package edu.ewu.team1.foodrescue.fragments
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -8,19 +7,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.Switch
+import edu.ewu.team1.foodrescue.MainActivity
+import edu.ewu.team1.foodrescue.R
 import edu.ewu.team1.foodrescue.utilities.DataManager
 import edu.ewu.team1.foodrescue.utilities.FoodEvent
 import edu.ewu.team1.foodrescue.utilities.FoodEventAdapter
-import edu.ewu.team1.foodrescue.R
 import java.util.*
 
-@SuppressLint("ValidFragment")
-class EaterFragment(private val dataManager: DataManager) : Fragment() {
+class EaterFragment : Fragment() {
+	private lateinit var dataManager: DataManager
+
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
 	                          savedInstanceState: Bundle?): View? {
 		// Inflate the layout for this fragment
 		val view = inflater.inflate(R.layout.fragment_eater, container, false)
-
+		dataManager = (activity as MainActivity).dataManager
 		//Set the state of the switches to the last state of the switch. If first time, set to true
 		//Also, register a click listener to save the new state of the switch
 		val state = dataManager.areNotificationsEnabled()
