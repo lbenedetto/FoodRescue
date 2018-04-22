@@ -2,6 +2,7 @@ package edu.ewu.team1.foodrescue.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
@@ -119,44 +120,63 @@ class FeederFragment(private val dataManager: DataManager) : Fragment(), OnMapRe
 	private fun defineSubmitButtonBehavior(view: View) {
 		//Define behavior of "Send Announcement" button
 		buttonSubmit.setOnClickListener {
-			val loc = crosshairLocation
-			val locName = names[spinner.selectedItemPosition]
-			val message = editTextMessage.text.toString()
-			val duration = when (spinnerExpiry.selectedItemPosition) {
-				0 -> 15
-				1 -> 30
-				else -> 60
-			}
-			val url = MainActivity.SERVER_IP + MainActivity.SEND_NOTIFICATION
+			doActionWithConfirmDialog(Runnable {
+				val loc = crosshairLocation
+				val locName = names[spinner.selectedItemPosition]
+				val message = editTextMessage.text.toString()
+				val duration = when (spinnerExpiry.selectedItemPosition) {
+					0 -> 15
+					1 -> 30
+					else -> 60
+				}
+				val url = MainActivity.SERVER_IP + MainActivity.SEND_NOTIFICATION
 
-			val params = HashMap<String, String>()
-			val token = dataManager.getToken()
-			params["title"] = locName
-			params["body"] = message
-			params["data"] = "${loc.latitude},${loc.longitude},$duration"
-			params["auth"] = token
+				val params = HashMap<String, String>()
+				val token = dataManager.getToken()
+				params["title"] = locName
+				params["body"] = message
+				params["data"] = "${loc.latitude},${loc.longitude},$duration"
+				params["auth"] = token
 
-			VolleyWrapper.post(view.context, url, params, Response.Listener { response ->
-				Log.e("post Response:", response)
-				//TODO: Check if the server allowed the notification to be sent
-				//If it didn't, the user should be notified of how to become an authorized feeder
-				Toast.makeText(view.context, "Notification sent!", Toast.LENGTH_LONG).show()
+				VolleyWrapper.post(view.context, url, params, Response.Listener { response ->
+					Log.e("post Response:", response)
+					//TODO: Check if the server allowed the notification to be sent
+					//If it didn't, the user should be notified of how to become an authorized feeder
+					Toast.makeText(view.context, "Notification sent!", Toast.LENGTH_LONG).show()
+				})
+				editTextMessage.text.clear()
 			})
+
 		}
 	}
 
 	private fun defineShowButtonBehavior(view: View) {
 		buttonShowLocal.setOnClickListener {
-			val loc = crosshairLocation
-			val locName = names[spinner.selectedItemPosition]
-			val message = editTextMessage.text.toString()
-			val duration = when (spinnerExpiry.selectedItemPosition) {
-				0 -> 15
-				1 -> 30
-				else -> 60
-			}
-			NotificationShower.show(FoodEvent(locName, message, "${loc.latitude}:::::${loc.longitude}:::::$duration", System.currentTimeMillis()), dataManager, view.context)
+			doActionWithConfirmDialog(Runnable {
+				val loc = crosshairLocation
+				val locName = names[spinner.selectedItemPosition]
+				val message = editTextMessage.text.toString()
+				val duration = when (spinnerExpiry.selectedItemPosition) {
+					0 -> 15
+					1 -> 30
+					else -> 60
+				}
+				NotificationShower.show(FoodEvent(locName, message, "${loc.latitude}:::::${loc.longitude}:::::$duration", System.currentTimeMillis()), dataManager, view.context)
+			})
 		}
+	}
+
+	private fun doActionWithConfirmDialog(r: Runnable) {
+		AlertDialog.Builder(activity)
+				.setMessage(R.string.confirm)
+				.setPositiveButton("Yes", { _, _ ->
+					r.run()
+				})
+				.setNegativeButton("No", { _, _ ->
+
+				})
+				.create()
+				.show()
 	}
 
 	private fun loadMap(view: View, savedInstanceState: Bundle?) {
