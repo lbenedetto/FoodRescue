@@ -21,24 +21,14 @@ class DataManager(private val sharedPrefs: SharedPreferences) {
 	}
 
 	fun removeFoodEvent(foodEvent: FoodEvent) {
-		val events = getAllFoodEvents()
+		val events = HashSet<String>(getAllFoodEvents())
 		events.remove(foodEvent.toString())
 		saveAllFoodEvents(events)
 	}
 
-	//Fixed this bug with a cumbersome workaround
-	//https://stackoverflow.com/questions/49964074/removing-items-from-string-set-in-shared-preferences-not-persisting-across-app-r
-	@SuppressLint("ApplySharedPref")
-	fun saveAllFoodEvents(events: Set<String>) {
-		val username = getUsername()
-		val token = getToken()
-		val settings = areNotificationsEnabled()
+	private fun saveAllFoodEvents(events: Set<String>){
 		val editor = sharedPrefs.edit()
-		editor.clear()
-		editor.putString(USERNAME_KEY, username)
-		editor.putString(TOKEN_KEY, token)
-		editor.putBoolean(NOTIFICATIONS_ENABLED_KEY, settings)
-		editor.putStringSet(FOOD_EVENTS_KEY, HashSet<String>(events))
+		editor.putStringSet(FOOD_EVENTS_KEY, events)
 		editor.apply()
 	}
 
