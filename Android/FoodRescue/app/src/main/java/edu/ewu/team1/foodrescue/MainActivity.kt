@@ -2,7 +2,6 @@ package edu.ewu.team1.foodrescue
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
@@ -27,14 +26,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 	private lateinit var bottomNavView: BottomNavigationView
 	private var feederIsActive = false
-	private lateinit var sharedPref: SharedPreferences
-	var username: String = NO_USERNAME
-	companion object {
-		const val USERNAME_KEY = "username"
-		const val NO_USERNAME = "NoUsername"
-		const val TOKEN_KEY = "token"
-		const val NO_TOKEN = "NoToken"
+	private lateinit var dataManager: DataManager
+	var username: String = DataManager.NO_USERNAME
 
+	companion object {
 		const val SERVER_IP = "146.187.135.29"
 		const val CAS = "https://login.ewu.edu/cas/login?service="
 		const val AUTH_PAGE = "https://$SERVER_IP/android/login"
@@ -42,39 +37,25 @@ class MainActivity : AppCompatActivity() {
 		const val SEND_NOTIFICATION = "/sender.php"//TODO: Ask brad where this is
 	}
 
-	/**
-	 * Gets the users current logged users username from Shared Preferences
-	 * If they have not yet logged in, return "NoUsername"
-	 *
-	 * @return String
-	 */
-	private fun getUsernameFromPreferences() : String {
-		return sharedPref.getString(USERNAME_KEY, NO_USERNAME)
-	}
-
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_main)
-		sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
+		dataManager = DataManager(getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE))
 		//Populating the bottom navigation bar
 		bottomNavView = bottomNavigationView
 		bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-		username = getUsernameFromPreferences()
+		username = dataManager.getUsername()
 		//Authentication process
-		if (username == NO_USERNAME) {//If the user has not signed in before
+		if (username == DataManager.NO_USERNAME) {//If the user has not signed in before
 			val intent = intent
 			val extras = intent.extras
 			if (extras != null) {
-				val token = extras.getString("token") ?: NO_TOKEN
-				username = extras.getString("uid") ?: NO_USERNAME
-
-				val editor = sharedPref.edit()
-				editor.putString(USERNAME_KEY, username)
-				editor.putString(TOKEN_KEY, token)
-				editor.apply()
+				val token = extras.getString("token") ?: DataManager.NO_TOKEN
+				username = extras.getString("uid") ?: DataManager.NO_USERNAME
+				dataManager.saveUsernameAndToken(username, token)
 				finalizeSignIn()
 			} else {
-				setFragment(SSOFragment())
+				setFragment(SSOFragment(dataManager))
 				bottomNavView.visibility = View.GONE
 			}
 		} else {
@@ -91,18 +72,18 @@ class MainActivity : AppCompatActivity() {
 	 * active fragment, which would look really silly
 	 */
 	private val mOnNavigationItemSelectedListener = { item: MenuItem ->
-		if (username != NO_USERNAME) {
+		if (username != DataManager.NO_USERNAME) {
 			when (item.itemId) {
 				R.id.navigation_feeder -> {
 					if (!feederIsActive) {
-						setFragment(FeederFragment(), R.anim.slide_in_left, R.anim.slide_out_right)
+						setFragment(FeederFragment(dataManager), R.anim.slide_in_left, R.anim.slide_out_right)
 						feederIsActive = true
 					}
 					true
 				}
 				R.id.navigation_eater -> {
 					if (feederIsActive) {
-						setFragment(EaterFragment(), R.anim.slide_in_right, R.anim.slide_out_left)
+						setFragment(EaterFragment(dataManager), R.anim.slide_in_right, R.anim.slide_out_left)
 						feederIsActive = false
 					}
 					true
@@ -159,9 +140,10 @@ class MainActivity : AppCompatActivity() {
 	 * Sets the fragment to the Eater Fragment, removes the sign in option from the bottom nav menu
 	 * Called whether or not CAS was actually contacted to sign in (ie, if user was already signed in)
 	 */
-	fun finalizeSignIn() {setFragment(EaterFragment(), R.anim.slide_in_right, R.anim.slide_out_left)
+	fun finalizeSignIn() {
+		setFragment(EaterFragment(dataManager), R.anim.slide_in_right, R.anim.slide_out_left)
 		Toast.makeText(this, "logged in as $username", Toast.LENGTH_LONG).show()
-		setFragment(EaterFragment())
+		setFragment(EaterFragment(dataManager))
 		selectMenuItem(R.id.navigation_eater)
 	}
 
@@ -217,12 +199,9 @@ class MainActivity : AppCompatActivity() {
 
 	private fun logout() {
 		//clear the username and auth token from local storage
-		val editor = sharedPref.edit()
-		editor.putString(USERNAME_KEY, NO_USERNAME)
-		editor.putString(TOKEN_KEY, NO_TOKEN)
-		editor.apply()
+		dataManager.clearAll()
 
-		setFragment(SSOFragment())
+		setFragment(SSOFragment(dataManager))
 		bottomNavView.visibility = View.GONE
 	}
 }

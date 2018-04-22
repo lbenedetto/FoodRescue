@@ -1,9 +1,11 @@
 package edu.ewu.team1.foodrescue
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.database.DataSetObserver
 import android.net.Uri
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,34 +16,50 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import java.text.SimpleDateFormat
 import java.util.*
 
-class FoodEventAdapter(private val events: ArrayList<FoodEvent>, private val context: Context) : ListAdapter {
-	private val observers: ArrayList<DataSetObserver> = ArrayList()
+class FoodEventAdapter(
+		private val events: ArrayList<FoodEvent>,
+		private val context: Context,
+		private val mInflater: LayoutInflater,
+		private val dataManager: DataManager) : ListAdapter {
 
+	private val observers: ArrayList<DataSetObserver> = ArrayList()
+	companion object {
+		@SuppressLint("SimpleDateFormat")
+		val sdf  = SimpleDateFormat("hh:mm a")
+	}
 	override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 		//Inflate the view if it isn't already
-		val view =
-				if (convertView == null) {
-					val inflater = this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-					inflater.inflate(R.layout.notification_item, parent)
-				} else {
-					convertView
-				}
+
+		val view = convertView ?: mInflater.inflate(R.layout.notification_item, parent, false)
 
 		val event = events[position]
 		(view!!.findViewById<View>(R.id.textViewTitle) as TextView).text = event.title
 		(view.findViewById<View>(R.id.textViewBody) as TextView).text = event.body
+		(view.findViewById<View>(R.id.textViewTime) as TextView).text = sdf.format(Date(event.timestamp))
+		(view.findViewById<View>(R.id.textViewAvailability) as TextView).text = String.format(
+				view.resources.getString(R.string.availability),
+				event.duration,
+				if(event.duration == 1) "hours" else "minutes"
+		)
+
+
 		val loc = LatLng(event.lat, event.lng)
 		//Map
 		val mapView = view.findViewById<MapView>(R.id.mapViewEater)
+		mapView.onCreate(Bundle())
 		mapView.getMapAsync { googleMap ->
 			googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, 17.0f))
-			googleMap.addMarker(MarkerOptions().position(loc).title(event.title))
+			val marker = googleMap.addMarker(MarkerOptions().position(loc).title(event.title))
+			marker.showInfoWindow()
+			mapView.onResume()
 		}
 
 		view.findViewById<View>(R.id.buttonClear).setOnClickListener {
-			events.removeAt(position)
+			val toRemove = events.removeAt(position)
+			dataManager.removeFoodEvent(toRemove)
 			for (o in observers) {
 				o.onChanged()
 			}

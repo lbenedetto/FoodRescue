@@ -20,13 +20,13 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
-import edu.ewu.team1.foodrescue.MainActivity
-import edu.ewu.team1.foodrescue.R
-import edu.ewu.team1.foodrescue.VolleyWrapper
+import edu.ewu.team1.foodrescue.*
+import edu.ewu.team1.foodrescue.firebase.NotificationShower
 import kotlinx.android.synthetic.main.fragment_feeder.*
 import java.util.*
 
-class FeederFragment : Fragment(), OnMapReadyCallback {
+@SuppressLint("ValidFragment")
+class FeederFragment(private val dataManager: DataManager) : Fragment(), OnMapReadyCallback {
 	//https://developers.google.com/maps/documentation/android-api/groundoverlay
 	private lateinit var mapView: MapView
 	private lateinit var map: GoogleMap
@@ -51,6 +51,7 @@ class FeederFragment : Fragment(), OnMapReadyCallback {
 		populateExpiryMenu(view)
 		loadMap(view, savedInstanceState)
 		defineSubmitButtonBehavior(view)
+		defineShowButtonBehavior(view)
 	}
 
 	//<editor-fold desc="onCreate() Helper Methods Section">
@@ -129,9 +130,7 @@ class FeederFragment : Fragment(), OnMapReadyCallback {
 			val url = MainActivity.SERVER_IP + MainActivity.SEND_NOTIFICATION
 
 			val params = HashMap<String, String>()
-			val token = view.context
-					.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
-					.getString(MainActivity.TOKEN_KEY, MainActivity.NO_TOKEN)
+			val token = dataManager.getToken()
 			params["title"] = locName
 			params["body"] = message
 			params["data"] = "${loc.latitude},${loc.longitude},$duration"
@@ -143,6 +142,20 @@ class FeederFragment : Fragment(), OnMapReadyCallback {
 				//If it didn't, the user should be notified of how to become an authorized feeder
 				Toast.makeText(view.context, "Notification sent!", Toast.LENGTH_LONG).show()
 			})
+		}
+	}
+
+	private fun defineShowButtonBehavior(view: View) {
+		buttonShowLocal.setOnClickListener {
+			val loc = crosshairLocation
+			val locName = names[spinner.selectedItemPosition]
+			val message = editTextMessage.text.toString()
+			val duration = when (spinnerExpiry.selectedItemPosition) {
+				0 -> 15
+				1 -> 30
+				else -> 60
+			}
+			NotificationShower.show(FoodEvent(locName, message, "${loc.latitude}:::::${loc.longitude}:::::$duration", System.currentTimeMillis()), dataManager, view.context)
 		}
 	}
 

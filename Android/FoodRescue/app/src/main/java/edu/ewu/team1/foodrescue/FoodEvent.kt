@@ -11,7 +11,7 @@ class FoodEvent : Comparable<FoodEvent> {
 	constructor(title: String?, body: String?, data: String?, timestamp: Long) {
 		this.title = title ?: ""
 		this.body = body ?: ""
-		val d = data?.split(",")?.toTypedArray() ?: arrayOf("47.491355", "-117.582798", "15")
+		val d = data?.split(":::::")?.toTypedArray() ?: arrayOf("47.491355", "-117.582798", "15")
 		this.lat = d[0].toDouble()
 		this.lng = d[1].toDouble()
 		this.duration = d[2].toInt()
@@ -19,7 +19,7 @@ class FoodEvent : Comparable<FoodEvent> {
 	}
 
 	constructor(parseMe: String) {
-		val data = parseMe.split(",").toTypedArray()
+		val data = parseMe.split(":::::").toTypedArray()
 		title = data[0]
 		body = data[1]
 		lat = data[2].toDouble()
@@ -29,7 +29,7 @@ class FoodEvent : Comparable<FoodEvent> {
 	}
 
 	override fun toString(): String {
-		return "$title,$body,$lat,$lng,$duration,$timestamp\n"
+		return "$title:::::$body:::::$lat:::::$lng:::::$duration:::::$timestamp"
 	}
 
 	override fun compareTo(other: FoodEvent): Int {
