@@ -1,5 +1,6 @@
 package edu.ewu.team1.foodrescue.utilities
 
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 
 class DataManager(private val sharedPrefs: SharedPreferences) {
@@ -25,9 +26,18 @@ class DataManager(private val sharedPrefs: SharedPreferences) {
 		saveAllFoodEvents(events)
 	}
 
+	//Fixed this bug with a cumbersome workaround
+	//https://stackoverflow.com/questions/49964074/removing-items-from-string-set-in-shared-preferences-not-persisting-across-app-r
+	@SuppressLint("ApplySharedPref")
 	fun saveAllFoodEvents(events: Set<String>) {
+		val username = getUsername()
+		val token = getToken()
+		val settings = areNotificationsEnabled()
 		val editor = sharedPrefs.edit()
-		editor.remove(FOOD_EVENTS_KEY)
+		editor.clear()
+		editor.putString(USERNAME_KEY, username)
+		editor.putString(TOKEN_KEY, token)
+		editor.putBoolean(NOTIFICATIONS_ENABLED_KEY, settings)
 		editor.putStringSet(FOOD_EVENTS_KEY, HashSet<String>(events))
 		editor.apply()
 	}
