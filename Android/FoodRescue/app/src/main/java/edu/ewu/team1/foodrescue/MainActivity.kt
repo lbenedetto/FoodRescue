@@ -51,12 +51,14 @@ class MainActivity : AppCompatActivity() {
 			if (extras != null) {
 				val token = extras.getString("token") ?: DataManager.NO_TOKEN
 				username = extras.getString("uid") ?: DataManager.NO_USERNAME
-				dataManager.saveUsernameAndToken(username, token)
-				finalizeSignIn()
-			} else {
-				setFragment(SSOFragment(dataManager))
-				bottomNavView.visibility = View.GONE
+				if (username != DataManager.NO_USERNAME) {
+					dataManager.saveUsernameAndToken(username, token)
+					finalizeSignIn()
+					return
+				}
 			}
+			setFragment(SSOFragment(dataManager))
+			bottomNavView.visibility = View.GONE
 		} else {
 			finalizeSignIn()
 		}
