@@ -1,4 +1,4 @@
-package edu.ewu.team1.foodrescue
+package edu.ewu.team1.foodrescue.utilities
 
 import android.content.Context
 import android.util.Log

@@ -79,7 +79,7 @@
         </activity>
 
         <service
-            android:name=".firebase.FoodNotificationService"
+            android:name=".notifications.FoodNotificationService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -87,7 +87,7 @@
             </intent-filter>
         </service>
         <service
-            android:name=".firebase.MyFirebaseInstanceIDService"
+            android:name=".notifications.MyFirebaseInstanceIDService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

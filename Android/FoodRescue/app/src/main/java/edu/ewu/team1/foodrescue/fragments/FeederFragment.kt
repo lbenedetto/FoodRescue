@@ -2,7 +2,6 @@ package edu.ewu.team1.foodrescue.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
@@ -22,8 +21,11 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import edu.ewu.team1.foodrescue.*
-import edu.ewu.team1.foodrescue.firebase.NotificationShower
-import kotlinx.android.synthetic.main.fragment_feeder.*
+import edu.ewu.team1.foodrescue.notifications.NotificationShower
+import edu.ewu.team1.foodrescue.utilities.ConfirmDialog
+import edu.ewu.team1.foodrescue.utilities.DataManager
+import edu.ewu.team1.foodrescue.utilities.FoodEvent
+import edu.ewu.team1.foodrescue.utilities.VolleyWrapper
 import java.util.*
 
 @SuppressLint("ValidFragment")
@@ -119,12 +121,13 @@ class FeederFragment(private val dataManager: DataManager) : Fragment(), OnMapRe
 
 	private fun defineSubmitButtonBehavior(view: View) {
 		//Define behavior of "Send Announcement" button
-		buttonSubmit.setOnClickListener {
-			doActionWithConfirmDialog(Runnable {
+		view.findViewById<Button>(R.id.buttonSubmit).setOnClickListener {
+			ConfirmDialog.confirmAction(Runnable {
+				val editTextMessage = view.findViewById<EditText>(R.id.editTextMessage)
 				val loc = crosshairLocation
 				val locName = names[spinner.selectedItemPosition]
 				val message = editTextMessage.text.toString()
-				val duration = when (spinnerExpiry.selectedItemPosition) {
+				val duration = when (view.findViewById<Spinner>(R.id.spinnerExpiry).selectedItemPosition) {
 					0 -> 15
 					1 -> 30
 					else -> 60
@@ -145,38 +148,25 @@ class FeederFragment(private val dataManager: DataManager) : Fragment(), OnMapRe
 					Toast.makeText(view.context, "Notification sent!", Toast.LENGTH_LONG).show()
 				})
 				editTextMessage.text.clear()
-			})
+			}, R.string.confirm_send, context!!)
 
 		}
 	}
 
 	private fun defineShowButtonBehavior(view: View) {
-		buttonShowLocal.setOnClickListener {
-			doActionWithConfirmDialog(Runnable {
+		view.findViewById<Button>(R.id.buttonShowLocal).setOnClickListener {
+			ConfirmDialog.confirmAction(Runnable {
 				val loc = crosshairLocation
 				val locName = names[spinner.selectedItemPosition]
-				val message = editTextMessage.text.toString()
-				val duration = when (spinnerExpiry.selectedItemPosition) {
+				val message = view.findViewById<EditText>(R.id.editTextMessage).text.toString()
+				val duration = when (view.findViewById<Spinner>(R.id.spinnerExpiry).selectedItemPosition) {
 					0 -> 15
 					1 -> 30
 					else -> 60
 				}
 				NotificationShower.show(FoodEvent(locName, message, "${loc.latitude}:::::${loc.longitude}:::::$duration", System.currentTimeMillis()), dataManager, view.context)
-			})
+			}, R.string.confirm_send, context!!)
 		}
-	}
-
-	private fun doActionWithConfirmDialog(r: Runnable) {
-		AlertDialog.Builder(activity)
-				.setMessage(R.string.confirm)
-				.setPositiveButton("Yes", { _, _ ->
-					r.run()
-				})
-				.setNegativeButton("No", { _, _ ->
-
-				})
-				.create()
-				.show()
 	}
 
 	private fun loadMap(view: View, savedInstanceState: Bundle?) {

@@ -8,9 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.Switch
-import edu.ewu.team1.foodrescue.DataManager
-import edu.ewu.team1.foodrescue.FoodEvent
-import edu.ewu.team1.foodrescue.FoodEventAdapter
+import edu.ewu.team1.foodrescue.utilities.DataManager
+import edu.ewu.team1.foodrescue.utilities.FoodEvent
+import edu.ewu.team1.foodrescue.utilities.FoodEventAdapter
 import edu.ewu.team1.foodrescue.R
 import java.util.*
 

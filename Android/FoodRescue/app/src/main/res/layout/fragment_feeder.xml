@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
 
@@ -24,6 +23,7 @@
 		android:layout_marginLeft="16dp"
 		android:layout_marginRight="16dp"
 		android:layout_marginStart="16dp"
+		android:background="@drawable/edittext_bg"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/textViewBuilding" />
@@ -37,11 +37,13 @@
 		android:layout_marginLeft="16dp"
 		android:layout_marginRight="16dp"
 		android:layout_marginStart="16dp"
+		android:background="@drawable/edittext_bg"
 		android:ems="10"
 		android:gravity="top"
 		android:inputType="textCapSentences|textMultiLine"
 		android:maxLength="1000"
 		android:maxLines="4"
+		android:padding="10dp"
 		app:layout_constraintBottom_toTopOf="@+id/guideline"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
@@ -66,7 +68,7 @@
 
 	<TextView
 		android:id="@+id/textViewCustomizeLocation"
-		android:layout_width="wrap_content"
+		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginLeft="16dp"
 		android:layout_marginStart="16dp"
@@ -113,27 +115,28 @@
 
 	<Button
 		android:id="@+id/buttonSubmit"
+		style="@style/Widget.AppCompat.Button.Colored"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
 		android:layout_marginBottom="8dp"
 		android:layout_marginEnd="8dp"
+		android:layout_marginRight="8dp"
+		android:drawableEnd="@drawable/ic_send_white_24dp"
+		android:drawableRight="@drawable/ic_send_white_24dp"
+		android:textColor="#ffffff"
 		android:text="@string/announce"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintHorizontal_bias="0.5"
-		app:layout_constraintStart_toEndOf="@+id/buttonShowLocal" />
+		app:layout_constraintStart_toStartOf="@+id/guideline2" />
 
 	<TextView
 		android:id="@+id/textViewCustomizeExpiry"
-		android:layout_width="0dp"
+		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:layout_marginEnd="16dp"
 		android:layout_marginLeft="16dp"
-		android:layout_marginRight="16dp"
 		android:layout_marginStart="16dp"
 		android:layout_marginTop="8dp"
-		android:text="Select estimated time of availability"
-		app:layout_constraintEnd_toEndOf="parent"
+		android:text="@string/select_estimated_time_of_availability"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/spinnerLocation" />
 
@@ -145,6 +148,7 @@
 		android:layout_marginLeft="16dp"
 		android:layout_marginRight="16dp"
 		android:layout_marginStart="16dp"
+		android:background="@drawable/edittext_bg"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/textViewCustomizeExpiry" />
@@ -156,10 +160,18 @@
 		android:layout_marginBottom="8dp"
 		android:layout_marginLeft="8dp"
 		android:layout_marginStart="8dp"
+		android:drawableEnd="@drawable/ic_bug_report_white_24dp"
+		android:drawableRight="@drawable/ic_bug_report_white_24dp"
 		android:text="Show Locally"
 		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toStartOf="@+id/buttonSubmit"
-		app:layout_constraintHorizontal_bias="0.5"
+		app:layout_constraintEnd_toStartOf="@+id/guideline2"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+
+	<android.support.constraint.Guideline
+		android:id="@+id/guideline2"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		app:layout_constraintGuide_percent=".5" />
 </android.support.constraint.ConstraintLayout>

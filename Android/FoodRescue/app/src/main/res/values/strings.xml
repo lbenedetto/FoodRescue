@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Food Rescue</string>
-    <string name="announce">Send Announcement</string>
+    <string name="announce">Announce</string>
     <string name="custom_message">Customize Message:</string>
     <string name="customize_exact_location">Customize Exact Location:</string>
     <string name="select_nearest_building">Select Nearest Building:</string>
@@ -16,7 +16,10 @@
     <string name="log_in">Log In</string>
     <string name="about">About</string>
     <string name="logout">Logout</string>
-    <string name="confirm">Are you sure you want to send this notification to many students phones?</string>
+    <string name="confirm_send">Are you sure you want to send this notification to many students phones?</string>
+    <string name="confirm_logout">"Are you sure you want to log out?\nYou will only be able to sign in again on campus"</string>
     <string name="availability">Available For: &lt;%1$d %2$s</string>
     <string name="explanation">This app requires that you sign in with your EWU NetID in order to send or receive notifications about free food</string>
+	<string name="get_directions">Get Directions</string>
+    <string name="select_estimated_time_of_availability">Select estimated time of availability:</string>
 </resources>

@@ -14,14 +14,13 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
-
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
-
 import edu.ewu.team1.foodrescue.fragments.EaterFragment
 import edu.ewu.team1.foodrescue.fragments.FeederFragment
 import edu.ewu.team1.foodrescue.fragments.SSOFragment
-import kotlinx.android.synthetic.main.activity_main.*
+import edu.ewu.team1.foodrescue.utilities.ConfirmDialog
+import edu.ewu.team1.foodrescue.utilities.DataManager
 
 class MainActivity : AppCompatActivity() {
 	private lateinit var bottomNavView: BottomNavigationView
@@ -42,8 +41,8 @@ class MainActivity : AppCompatActivity() {
 		setContentView(R.layout.activity_main)
 		dataManager = DataManager(getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE))
 		//Populating the bottom navigation bar
-		bottomNavView = bottomNavigationView
-		bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+		bottomNavView = findViewById(R.id.bottomNavigationView)
+		bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 		username = dataManager.getUsername()
 		//Authentication process
 		if (username == DataManager.NO_USERNAME) {//If the user has not signed in before
@@ -190,7 +189,9 @@ class MainActivity : AppCompatActivity() {
 		val id = item.itemId
 		when (id) {
 			R.id.action_logout -> {
-				logout()
+				ConfirmDialog.confirmAction(Runnable {
+					logout()
+				}, R.string.confirm_logout, this)
 				return true
 			}
 		}

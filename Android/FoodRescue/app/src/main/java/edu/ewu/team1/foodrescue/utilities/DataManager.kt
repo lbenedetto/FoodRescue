@@ -1,4 +1,4 @@
-package edu.ewu.team1.foodrescue
+package edu.ewu.team1.foodrescue.utilities
 
 import android.content.SharedPreferences
 
@@ -25,10 +25,10 @@ class DataManager(private val sharedPrefs: SharedPreferences) {
 		saveAllFoodEvents(events)
 	}
 
-	fun saveAllFoodEvents(events: MutableSet<String>) {
+	fun saveAllFoodEvents(events: Set<String>) {
 		val editor = sharedPrefs.edit()
 		editor.remove(FOOD_EVENTS_KEY)
-		editor.putStringSet(FOOD_EVENTS_KEY, events)
+		editor.putStringSet(FOOD_EVENTS_KEY, HashSet<String>(events))
 		editor.apply()
 	}
 
@@ -73,7 +73,7 @@ class DataManager(private val sharedPrefs: SharedPreferences) {
 		editor.apply()
 	}
 
-	fun clearAll(){
+	fun clearAll() {
 		val editor = sharedPrefs.edit()
 		editor.remove(USERNAME_KEY)
 		editor.remove(TOKEN_KEY)

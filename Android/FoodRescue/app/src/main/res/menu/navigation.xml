@@ -3,14 +3,8 @@
 
     <item
         android:id="@+id/navigation_feeder"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:icon="@drawable/ic_share_black_24dp"
         android:title="@string/title_feeder" />
-
-
-    <!--<item-->
-        <!--android:id="@+id/navigation_sso"-->
-        <!--android:icon="@drawable/ic_lock_black_24dp"-->
-        <!--android:title="@string/title_sso" />-->
 
     <item
         android:id="@+id/navigation_eater"

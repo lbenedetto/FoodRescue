@@ -1,4 +1,4 @@
-package edu.ewu.team1.foodrescue.firebase
+package edu.ewu.team1.foodrescue.notifications
 
 import android.content.ContentValues.TAG
 import android.util.Log

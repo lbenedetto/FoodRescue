@@ -1,4 +1,4 @@
-package edu.ewu.team1.foodrescue
+package edu.ewu.team1.foodrescue.utilities
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -16,6 +16,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import edu.ewu.team1.foodrescue.R
 import java.text.SimpleDateFormat
 import java.util.*
 

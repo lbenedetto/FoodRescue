@@ -1,4 +1,4 @@
-package edu.ewu.team1.foodrescue
+package edu.ewu.team1.foodrescue.utilities
 
 class FoodEvent : Comparable<FoodEvent> {
 	internal var title: String
