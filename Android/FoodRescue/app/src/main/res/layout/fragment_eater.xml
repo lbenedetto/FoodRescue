@@ -43,4 +43,26 @@
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toTopOf="parent" />
 
+	<TextView
+		android:id="@+id/empty"
+		style="@android:style/TextAppearance.Large"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="8dp"
+		android:layout_marginEnd="16dp"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+		android:layout_marginStart="16dp"
+		android:padding="16dp"
+		android:visibility="gone"
+		android:layout_marginTop="8dp"
+		android:background="@drawable/rounded_bg"
+		android:gravity="center"
+		android:text="@string/empty_list"
+		app:layout_constraintBottom_toBottomOf="@+id/listViewFoodEvents"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintHorizontal_bias="0.0"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="@+id/listViewFoodEvents" />
+
 </android.support.constraint.ConstraintLayout>

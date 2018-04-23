@@ -116,7 +116,7 @@ class FoodEventAdapter(
 	}
 
 	override fun isEmpty(): Boolean {
-		return false
+		return events.isEmpty()
 	}
 	//endregion
 }

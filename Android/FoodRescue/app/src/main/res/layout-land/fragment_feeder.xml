@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
 
@@ -19,23 +20,24 @@
 		android:id="@+id/spinnerLocation"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_marginEnd="16dp"
+		android:layout_marginBottom="8dp"
+		android:layout_marginEnd="8dp"
 		android:layout_marginLeft="16dp"
-		android:layout_marginRight="16dp"
+		android:layout_marginRight="8dp"
 		android:layout_marginStart="16dp"
 		android:background="@drawable/rounded_bg"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewBuilding" />
+		app:layout_constraintBottom_toTopOf="@+id/textViewCustomizeExpiry"
+		app:layout_constraintEnd_toStartOf="@+id/guideline2"
+		app:layout_constraintStart_toStartOf="parent" />
 
 	<EditText
 		android:id="@+id/editTextMessage"
 		android:layout_width="0dp"
 		android:layout_height="0dp"
 		android:layout_marginBottom="8dp"
-		android:layout_marginEnd="16dp"
+		android:layout_marginEnd="8dp"
 		android:layout_marginLeft="16dp"
-		android:layout_marginRight="16dp"
+		android:layout_marginRight="8dp"
 		android:layout_marginStart="16dp"
 		android:background="@drawable/rounded_bg"
 		android:ems="10"
@@ -44,8 +46,8 @@
 		android:maxLength="1000"
 		android:maxLines="4"
 		android:padding="10dp"
-		app:layout_constraintBottom_toTopOf="@+id/guideline"
-		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintBottom_toTopOf="@+id/textViewBuilding"
+		app:layout_constraintEnd_toStartOf="@+id/guideline2"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/textViewCustomizeMessage" />
 
@@ -53,11 +55,12 @@
 		android:id="@+id/textViewBuilding"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
+		android:layout_marginBottom="8dp"
 		android:layout_marginLeft="16dp"
 		android:layout_marginStart="16dp"
 		android:text="@string/select_nearest_building"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="@+id/guideline" />
+		app:layout_constraintBottom_toTopOf="@+id/spinnerLocation"
+		app:layout_constraintStart_toStartOf="parent" />
 
 	<android.support.constraint.Guideline
 		android:id="@+id/guideline"
@@ -70,24 +73,24 @@
 		android:id="@+id/textViewCustomizeLocation"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_marginLeft="16dp"
-		android:layout_marginStart="16dp"
+		android:layout_marginLeft="8dp"
+		android:layout_marginStart="8dp"
 		android:layout_marginTop="8dp"
 		android:text="@string/customize_exact_location"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/spinnerExpiry" />
+		app:layout_constraintStart_toStartOf="@+id/guideline2"
+		app:layout_constraintTop_toTopOf="parent" />
 
 	<RelativeLayout
 		android:id="@+id/relativeLayout"
 		android:layout_width="0dp"
 		android:layout_height="0dp"
 		android:layout_marginEnd="16dp"
-		android:layout_marginLeft="16dp"
+		android:layout_marginLeft="8dp"
 		android:layout_marginRight="16dp"
-		android:layout_marginStart="16dp"
+		android:layout_marginStart="8dp"
 		app:layout_constraintBottom_toTopOf="@+id/buttonSubmit"
 		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintStart_toStartOf="@+id/guideline2"
 		app:layout_constraintTop_toBottomOf="@+id/textViewCustomizeLocation">
 
 		<com.google.android.gms.maps.MapView
@@ -123,35 +126,35 @@
 		android:layout_marginRight="8dp"
 		android:drawableEnd="@drawable/ic_send_white_24dp"
 		android:drawableRight="@drawable/ic_send_white_24dp"
-		android:textColor="#ffffff"
 		android:text="@string/announce"
+		android:textColor="#ffffff"
 		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="@+id/guideline2" />
+		app:layout_constraintEnd_toEndOf="parent" />
 
 	<TextView
 		android:id="@+id/textViewCustomizeExpiry"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
+		android:layout_marginBottom="8dp"
 		android:layout_marginLeft="16dp"
 		android:layout_marginStart="16dp"
-		android:layout_marginTop="8dp"
 		android:text="@string/select_estimated_time_of_availability"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/spinnerLocation" />
+		app:layout_constraintBottom_toTopOf="@+id/spinnerExpiry"
+		app:layout_constraintStart_toStartOf="parent" />
 
 	<Spinner
 		android:id="@+id/spinnerExpiry"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
-		android:layout_marginEnd="16dp"
+		android:layout_marginBottom="8dp"
+		android:layout_marginEnd="8dp"
 		android:layout_marginLeft="16dp"
-		android:layout_marginRight="16dp"
+		android:layout_marginRight="8dp"
 		android:layout_marginStart="16dp"
 		android:background="@drawable/rounded_bg"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewCustomizeExpiry" />
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toStartOf="@+id/guideline2"
+		app:layout_constraintStart_toStartOf="parent" />
 
 	<Button
 		android:id="@+id/buttonShowLocal"
@@ -164,8 +167,8 @@
 		android:drawableRight="@drawable/ic_bug_report_white_24dp"
 		android:text="Show Locally"
 		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toStartOf="@+id/guideline2"
-		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintEnd_toStartOf="@+id/buttonSubmit"
+		app:layout_constraintStart_toStartOf="@+id/guideline2"
 		app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
 
 	<android.support.constraint.Guideline

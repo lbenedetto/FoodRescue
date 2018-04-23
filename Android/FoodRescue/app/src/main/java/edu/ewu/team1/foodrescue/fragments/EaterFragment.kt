@@ -19,6 +19,7 @@ class EaterFragment : Fragment() {
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
 	                          savedInstanceState: Bundle?): View? {
+		super.onCreateView(inflater, container, savedInstanceState)
 		// Inflate the layout for this fragment
 		val view = inflater.inflate(R.layout.fragment_eater, container, false)
 		dataManager = (activity as MainActivity).dataManager
@@ -48,7 +49,9 @@ class EaterFragment : Fragment() {
 		}
 		//TODO: Refresh button? Or detect changes to shared preferences?
 		events.sort()
-		view.findViewById<ListView>(R.id.listViewFoodEvents).adapter = FoodEventAdapter(events, view.context, inflater, dataManager)
+		val list = view.findViewById<ListView>(R.id.listViewFoodEvents)
+		list.emptyView = view.findViewById(R.id.empty)
+		list.adapter = FoodEventAdapter(events, view.context, inflater, dataManager)
 
 		return view
 	}

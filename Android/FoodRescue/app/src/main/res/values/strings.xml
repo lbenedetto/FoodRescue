@@ -22,4 +22,5 @@
     <string name="explanation">This app requires that you sign in with your EWU NetID in order to send or receive notifications about free food</string>
 	<string name="get_directions">Get Directions</string>
     <string name="select_estimated_time_of_availability">Select estimated time of availability:</string>
+	<string name="empty_list">Currently no food events</string>
 </resources>

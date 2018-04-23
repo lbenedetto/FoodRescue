@@ -18,7 +18,6 @@ import com.android.volley.Response
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
-import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import edu.ewu.team1.foodrescue.MainActivity
 import edu.ewu.team1.foodrescue.R
@@ -29,36 +28,64 @@ import edu.ewu.team1.foodrescue.utilities.FoodEvent
 import edu.ewu.team1.foodrescue.utilities.VolleyWrapper
 import java.util.*
 
-class FeederFragment : Fragment(), OnMapReadyCallback {
+class FeederFragment : Fragment() {
 	//https://developers.google.com/maps/documentation/android-api/groundoverlay
 	private lateinit var mapView: MapView
-	private lateinit var map: GoogleMap
+	private var map: GoogleMap? = null
 	private lateinit var names: Array<String>
-	private lateinit var spinner: Spinner
+	private lateinit var spinnerLocation: Spinner
+	private lateinit var spinnerExpiry: Spinner
 	private var hasLocationAccess = false
 	private lateinit var location: TextView
 	private lateinit var dataManager: DataManager
+	private lateinit var editText: EditText
 
-	private val crosshairLocation: LatLng
-		get() = map.cameraPosition.target
+	private val crosshairLocation: LatLng?
+		get() = map?.cameraPosition?.target
 
 	companion object {
 		const val gpsPermissionsRequestCode = 456
+		const val CUSTOM_MESSAGE = "MESSAGE"
+		const val SELECTED_LOCATION = "LOCATION"
+		const val SELECTED_EXPIRY = "EXPIRY"
+		const val LAT = "LAT"
+		const val LNG = "LNG"
 	}
 
-
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+		super.onCreateView(inflater, container, savedInstanceState)
+		Log.e("onCreateView()", "called")
+		retainInstance
 		return inflater.inflate(R.layout.fragment_feeder, container, false)
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		Log.e("onViewCreated()", "called")
 		dataManager = (activity as MainActivity).dataManager
 		location = view.findViewById(R.id.textViewLatLng)
+		editText = view.findViewById(R.id.editTextMessage)
+		loadMap(view, savedInstanceState)
 		populateLocationMenu(view)
 		populateExpiryMenu(view)
-		loadMap(view, savedInstanceState)
 		defineSubmitButtonBehavior(view)
 		defineShowButtonBehavior(view)
+		//Restore instance state
+		if (savedInstanceState != null) {
+			val msg = savedInstanceState.getString(CUSTOM_MESSAGE)
+			editText.setText(msg.toCharArray(), 0, msg.length)
+			spinnerLocation.setSelection(savedInstanceState.getInt(SELECTED_LOCATION))
+			spinnerExpiry.setSelection(savedInstanceState.getInt(SELECTED_EXPIRY))
+		}
+	}
+
+	override fun onSaveInstanceState(outState: Bundle) {
+		Log.e("onSaveInstanceState()", "called")
+		super.onSaveInstanceState(outState)
+		outState.putString(CUSTOM_MESSAGE, editText.text.toString())
+		outState.putInt(SELECTED_LOCATION, spinnerLocation.selectedItemPosition)
+		outState.putInt(SELECTED_EXPIRY, spinnerExpiry.selectedItemPosition)
+		outState.putDouble(LAT, crosshairLocation?.latitude ?: 47.491355)
+		outState.putDouble(LNG, crosshairLocation?.longitude?: -117.582798)
 	}
 
 	//<editor-fold desc="onCreate() Helper Methods Section">
@@ -104,10 +131,11 @@ class FeederFragment : Fragment(), OnMapReadyCallback {
 		longitudes[0] = longitudes[closest]
 
 		//Populate menu
-		spinner = view.findViewById(R.id.spinnerLocation)
-		spinner.adapter = ArrayAdapter(activity!!, android.R.layout.simple_list_item_1, names)
-		spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-			override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View, position: Int, id: Long) {
+		spinnerLocation = view.findViewById(R.id.spinnerLocation)
+		spinnerLocation.adapter = ArrayAdapter(activity!!, android.R.layout.simple_list_item_1, names)
+		spinnerLocation.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+			override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View?, position: Int, id: Long) {
+				Log.e("onItemSelected()", "called")
 				//Position 1 is "Other"
 				if (position != 1)
 					moveMapToLocation(LatLng(latitudes[position], longitudes[position]))
@@ -118,9 +146,9 @@ class FeederFragment : Fragment(), OnMapReadyCallback {
 	}
 
 	private fun populateExpiryMenu(view: View) {
-		val spinner = view.findViewById<Spinner>(R.id.spinnerExpiry)
-		spinner.adapter = ArrayAdapter(activity!!, android.R.layout.simple_list_item_1, arrayOf("<15 minutes", "<30 minutes", "<1 hour"))
-		spinner.setSelection(0)
+		spinnerExpiry = view.findViewById<Spinner>(R.id.spinnerExpiry)
+		spinnerExpiry.adapter = ArrayAdapter(activity!!, android.R.layout.simple_list_item_1, arrayOf("<15 minutes", "<30 minutes", "<1 hour"))
+		spinnerExpiry.setSelection(0)
 	}
 
 	private fun defineSubmitButtonBehavior(view: View) {
@@ -129,7 +157,7 @@ class FeederFragment : Fragment(), OnMapReadyCallback {
 			ConfirmDialog.confirmAction(Runnable {
 				val editTextMessage = view.findViewById<EditText>(R.id.editTextMessage)
 				val loc = crosshairLocation
-				val locName = names[spinner.selectedItemPosition]
+				val locName = names[spinnerLocation.selectedItemPosition]
 				val message = editTextMessage.text.toString()
 				val duration = when (view.findViewById<Spinner>(R.id.spinnerExpiry).selectedItemPosition) {
 					0 -> 15
@@ -142,7 +170,7 @@ class FeederFragment : Fragment(), OnMapReadyCallback {
 				val token = dataManager.getToken()
 				params["title"] = locName
 				params["body"] = message
-				params["data"] = "${loc.latitude},${loc.longitude},$duration"
+				params["data"] = "${loc!!.latitude},${loc.longitude},$duration"
 				params["auth"] = token
 
 				VolleyWrapper.post(view.context, url, params, Response.Listener { response ->
@@ -161,14 +189,14 @@ class FeederFragment : Fragment(), OnMapReadyCallback {
 		view.findViewById<Button>(R.id.buttonShowLocal).setOnClickListener {
 			ConfirmDialog.confirmAction(Runnable {
 				val loc = crosshairLocation
-				val locName = names[spinner.selectedItemPosition]
+				val locName = names[spinnerLocation.selectedItemPosition]
 				val message = view.findViewById<EditText>(R.id.editTextMessage).text.toString()
 				val duration = when (view.findViewById<Spinner>(R.id.spinnerExpiry).selectedItemPosition) {
 					0 -> 15
 					1 -> 30
 					else -> 60
 				}
-				NotificationShower.show(FoodEvent(locName, message, "${loc.latitude}:::::${loc.longitude}:::::$duration", System.currentTimeMillis()), dataManager, view.context)
+				NotificationShower.show(FoodEvent(locName, message, "${loc!!.latitude}:::::${loc.longitude}:::::$duration", System.currentTimeMillis()), dataManager, view.context)
 			}, R.string.confirm_send, context!!)
 		}
 	}
@@ -176,7 +204,20 @@ class FeederFragment : Fragment(), OnMapReadyCallback {
 	private fun loadMap(view: View, savedInstanceState: Bundle?) {
 		mapView = view.findViewById(R.id.mapView)
 		mapView.onCreate(savedInstanceState)
-		mapView.getMapAsync(this)
+		mapView.getMapAsync({
+			map = it
+			map!!.setOnCameraMoveListener({ this.displayCurrentLocation() })
+
+			if (savedInstanceState != null) {
+				moveMapToLocation(LatLng(
+						savedInstanceState.getDouble(LAT),
+						savedInstanceState.getDouble(LNG)
+				))
+			} else {
+				moveMapToLocation(currentLocation)
+			}
+			displayCurrentLocation()
+		})
 	}
 	//</editor-fold>
 
@@ -232,8 +273,10 @@ class FeederFragment : Fragment(), OnMapReadyCallback {
 	 */
 	@SuppressLint("MissingPermission")
 	private fun moveMapToLocation(latLng: LatLng) {
-		if (hasLocationAccess) map.isMyLocationEnabled = true
-		map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
+		if(map != null) {
+			if (hasLocationAccess) map!!.isMyLocationEnabled = true
+			map!!.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
+		}
 	}
 	//</editor-fold>
 
@@ -243,12 +286,6 @@ class FeederFragment : Fragment(), OnMapReadyCallback {
 	 *
 	 * @param googleMap the map which is now ready to be configured and used
 	 */
-	override fun onMapReady(googleMap: GoogleMap) {
-		map = googleMap
-		moveMapToLocation(currentLocation)
-		displayCurrentLocation()
-		map.setOnCameraMoveListener({ this.displayCurrentLocation() })
-	}
 
 	/**
 	 * Callback for requesting permissions

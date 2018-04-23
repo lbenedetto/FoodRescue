@@ -1,6 +1,5 @@
 package edu.ewu.team1.foodrescue.utilities
 
-import android.annotation.SuppressLint
 import android.content.SharedPreferences
 
 class DataManager(private val sharedPrefs: SharedPreferences) {

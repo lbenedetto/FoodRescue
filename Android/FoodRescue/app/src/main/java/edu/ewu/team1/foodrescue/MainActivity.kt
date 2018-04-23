@@ -34,6 +34,9 @@ class MainActivity : AppCompatActivity() {
 		const val AUTH_PAGE = "https://$SERVER_IP/android/login"
 		//    public static final String TOKEN_INVALIDATE = "/FoodRescue/invalidateToken.php";
 		const val SEND_NOTIFICATION = "/sender.php"//TODO: Ask brad where this is
+		const val TAG_SSO = "SSO"
+		const val TAG_EATER = "Eater"
+		const val TAG_FEEDER = "Feeder"
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,22 +48,23 @@ class MainActivity : AppCompatActivity() {
 		bottomNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 		username = dataManager.getUsername()
 		//Authentication process
-		if (username == DataManager.NO_USERNAME) {//If the user has not signed in before
-			val intent = intent
-			val extras = intent.extras
-			if (extras != null) {
-				val token = extras.getString("token") ?: DataManager.NO_TOKEN
-				username = extras.getString("uid") ?: DataManager.NO_USERNAME
-				if (username != DataManager.NO_USERNAME) {
-					dataManager.saveUsernameAndToken(username, token)
-					finalizeSignIn()
-					return
+		when {
+			username == DataManager.NO_USERNAME -> {//If the user has not signed in before
+				val intent = intent
+				val extras = intent.extras
+				if (extras != null) {
+					val token = extras.getString("token") ?: DataManager.NO_TOKEN
+					username = extras.getString("uid") ?: DataManager.NO_USERNAME
+					if (username != DataManager.NO_USERNAME) {
+						dataManager.saveUsernameAndToken(username, token)
+						finalizeSignIn()
+						return
+					}
 				}
+				setFragment(TAG_SSO)
+				bottomNavView.visibility = View.GONE
 			}
-			setFragment(SSOFragment())
-			bottomNavView.visibility = View.GONE
-		} else {
-			finalizeSignIn()
+			savedInstanceState == null -> finalizeSignIn()
 		}
 
 		checkPlayServices()
@@ -77,14 +81,14 @@ class MainActivity : AppCompatActivity() {
 			when (item.itemId) {
 				R.id.navigation_feeder -> {
 					if (!feederIsActive) {
-						setFragment(FeederFragment(), R.anim.slide_in_left, R.anim.slide_out_right)
+						setFragment(TAG_FEEDER, R.anim.slide_in_left, R.anim.slide_out_right)
 						feederIsActive = true
 					}
 					true
 				}
 				R.id.navigation_eater -> {
 					if (feederIsActive) {
-						setFragment(EaterFragment(), R.anim.slide_in_right, R.anim.slide_out_left)
+						setFragment(TAG_EATER, R.anim.slide_in_right, R.anim.slide_out_left)
 						feederIsActive = false
 					}
 					true
@@ -100,14 +104,14 @@ class MainActivity : AppCompatActivity() {
 	 * Switches the fragment in the fragment_container to the specified target by playing the
 	 * exit animation for the current fragment, and the entrance animation for the new fragment
 	 *
-	 * @param target            the fragment to switch to
+	 * @param tag               the tag of the fragment to switch to
 	 * @param entranceAnimation the entrance animation to use
 	 * @param exitAnimation     the exit animation to use
 	 */
-	private fun setFragment(target: Fragment, entranceAnimation: Int, exitAnimation: Int) {
+	private fun setFragment(tag: String, entranceAnimation: Int, exitAnimation: Int) {
 		supportFragmentManager.beginTransaction()
 				.setCustomAnimations(entranceAnimation, exitAnimation)
-				.replace(R.id.fragment_container, target, "fragment")
+				.replace(R.id.fragment_container, getFragmentInstance(tag), tag)
 				//.addToBackStack(null)
 				.commit()
 	}
@@ -115,11 +119,11 @@ class MainActivity : AppCompatActivity() {
 	/**
 	 * Switch the fragment in the fragment_container to the specified target with no animation
 	 *
-	 * @param target the fragment to switch to
+	 * @param tag the tag of the fragment to switch to
 	 */
-	private fun setFragment(target: Fragment) {
+	private fun setFragment(tag: String) {
 		supportFragmentManager.beginTransaction()
-				.replace(R.id.fragment_container, target, "fragment")
+				.replace(R.id.fragment_container, getFragmentInstance(tag), tag)
 				//.addToBackStack(null)
 				.commit()
 	}
@@ -142,9 +146,8 @@ class MainActivity : AppCompatActivity() {
 	 * Called whether or not CAS was actually contacted to sign in (ie, if user was already signed in)
 	 */
 	fun finalizeSignIn() {
-		setFragment(EaterFragment(), R.anim.slide_in_right, R.anim.slide_out_left)
+		setFragment(TAG_EATER, R.anim.slide_in_right, R.anim.slide_out_left)
 		Toast.makeText(this, "logged in as $username", Toast.LENGTH_LONG).show()
-		setFragment(EaterFragment())
 		selectMenuItem(R.id.navigation_eater)
 	}
 
@@ -203,8 +206,19 @@ class MainActivity : AppCompatActivity() {
 	private fun logout() {
 		//clear the username and auth token from local storage
 		dataManager.clearAll()
-
-		setFragment(SSOFragment())
+		setFragment(TAG_SSO)
 		bottomNavView.visibility = View.GONE
+	}
+
+	private fun getFragmentInstance(tag: String) : Fragment{
+		var fragment = supportFragmentManager.findFragmentByTag(tag)
+		if(fragment == null){
+			fragment = when(tag){
+				"Feeder" -> FeederFragment()
+				"Eater" -> EaterFragment()
+				else -> SSOFragment()
+			}
+		}
+		return fragment
 	}
 }
