@@ -1,3 +1,5 @@
+
+
 <html>
     <head>
         <!--NOTE: bootstrap template Srolling-nav was used -->
@@ -34,8 +36,9 @@
         <div class="container text-center box">
         <h2>Create New Food Event</h2>
 
-                <form method = "POST" action="auth_poster.php" id="f"></formmethod>
-                <p class="p2">Select location</p>
+                <form method = "POST" action="auth_poster.php" id="f">
+                <textarea name="body" class="comment" form="f" >Customize Message:</textarea>
+                <p class="p2">Select Nearest Building</p>
                 <select id="Location" class="select" onchange="getLocation()" style="border-style: double;
                 color:white; font-weight: bold;">
                         <option value="0" class="options">ART - Art Building</option>
@@ -67,6 +70,12 @@
                     <br>
                     <p>or customize exact location (right click):</p>
                     <br>
+                    <p class="p3">Select estimated time of availability:</p>
+                    <select name="duration" id="time" class="select2" style="border-style: double;color:white; font-weight: bold;">
+                        <option value="15" class="options"> < 15 minutes</option>
+                        <option value="30" class="options"> < 30 minutes</option>
+                        <option value="60" class="options"> < 1 hour</option>
+                    </select>
 
                    <div id="map"></div>
                     <br>
@@ -75,11 +84,13 @@
 
                     <input type="hidden" name="Lat" id="Lat" style="border-style: double;color:black;"><br><br>
                     <input type="hidden" name="Long" id="Long" style="border-style: double;color:black;"><br><br>
+                    <input type="hidden" name="data" id="data">
 
-                    <textarea name="body" class="comment" form="f" >Enter comment here..</textarea>
+                    <input type="hidden" name="auth">
 
-                    <input type="submit" class="sub" name="subnotification" value="SEND ANNOUNCEMENT">
-
+               <!--     <button onclick="getValues()" style="position: absolute; left:0%;">click here</button> -->
+                   <input type="submit" class="sub" name="subnotification" onclick="getValues()" value="SEND ANNOUNCEMENT">
+            
                 </form>
 
                 <div style="position: absolute; bottom: 5%; right: 10; text-align:right; color:white; z-index:2;">Powered by Google Maps API</div>

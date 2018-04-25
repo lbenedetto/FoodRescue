@@ -20,6 +20,20 @@ function initMap()
 
 }
 
+function getTime()
+{
+}
+
+function getValues()
+{
+    var lat = document.getElementById("Lat").value;
+    var long = document.getElementById("Long").value;
+    var time = document.getElementById("time").value;
+    document.getElementById("data").value = lat + ":::::" + lng + ":::::" + time;
+    console.log(document.getElementById("data").value);
+    
+}
+
 function getLocation()
 {
     var value = document.getElementById("Location").value;
