@@ -29,7 +29,7 @@ function getValues()
     var lat = document.getElementById("Lat").value;
     var long = document.getElementById("Long").value;
     var time = document.getElementById("time").value;
-    document.getElementById("data").value = lat + ":::::" + lng + ":::::" + time;
+    document.getElementById("data").value = lat + ":::::" + long + ":::::" + time;
     console.log(document.getElementById("data").value);
     
 }
@@ -69,7 +69,7 @@ function placeMarker(latLng) //map)
     var lng = latLng.lng();
     document.getElementById("Lat").value = lat;
     document.getElementById("Long").value = lng;
-
+    getValues();
 //    var str = "location is " + lat + " degrees latitude and " + lng + " degrees longitude.";
 
     //$("#markerLocation").val(str);
