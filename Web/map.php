@@ -86,8 +86,9 @@
                     <input type="hidden" name="Long" id="Long" style="border-style: double;color:black;"><br><br>
                     <input type="hidden" name="data" id="data">
 
-                    <input type="hidden" name="auth">
-
+                    <?php
+                            echo "<input type='hidden' name='auth' value = " . $_GET['token'] .">";
+                    ?>
                <!--     <button onclick="getValues()" style="position: absolute; left:0%;">click here</button> -->
                    <input type="submit" class="sub" name="subnotification" onclick="getValues()" value="SEND ANNOUNCEMENT">
             
