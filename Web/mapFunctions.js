@@ -1,6 +1,8 @@
 var prevMarker = null;
 var locations = new Array();
+var locNames = new Array();
 var map;
+var isCustom;
 
 // Used tutorial https://developers.google.com/maps/documentation/javascript/adding-a-google-map to get started
 function initMap()
@@ -14,6 +16,7 @@ function initMap()
 
     map.addListener("rightclick",function(e)
     {
+        isCustom = true;
         //placeMarker(e.latLng,map);
         placeMarker(e.latLng);
     });
@@ -22,6 +25,7 @@ function initMap()
 
 function getTime()
 {
+
 }
 
 function getValues()
@@ -31,6 +35,7 @@ function getValues()
     var time = document.getElementById("time").value;
     document.getElementById("data").value = lat + ":::::" + long + ":::::" + time;
     console.log(document.getElementById("data").value);
+    console.log(document.getElementById("title").value);
     
 }
 
@@ -39,6 +44,8 @@ function getLocation()
     var value = document.getElementById("Location").value;
     var latt = locations[value][0];
     var long = locations[value][1];
+    var title = locNames[value];
+    document.getElementById("title").value = title;
 
     var latlng = new google.maps.LatLng(latt, long);
    // var uluru = {lat: 47.491602, lng: -117.584417};
@@ -67,9 +74,14 @@ function placeMarker(latLng) //map)
     prevMarker = curMarker;
     var lat = latLng.lat();
     var lng = latLng.lng();
+    if(isCustom)
+    {
+        document.getElementById("title").value = "custom location";
+    }
     document.getElementById("Lat").value = lat;
     document.getElementById("Long").value = lng;
     getValues();
+    isCustom = false;
 //    var str = "location is " + lat + " degrees latitude and " + lng + " degrees longitude.";
 
     //$("#markerLocation").val(str);
@@ -122,3 +134,29 @@ locations[21] = new Array(47.489501, -117.581269);
 locations[22] = new Array(47.488010, -117.585680);
 locations[23] = new Array(47.493244, -117.584211);
 locations[24] = new Array(47.490194, -117.582904);
+
+locNames[0] = "ART - Art Building";
+locNames[1] = "CAD - Cadet Hall";
+locNames[2] = "CEB - Computing and Engineering Building";
+locNames[3] = "CHN - Cheney Hall";
+locNames[4] = "CMC - Communications Building";
+locNames[5] = "HAR - Hargreaves Hall";
+locNames[6] = "HUS - Huston Hall";
+locNames[7] = "ISL - Isle Hall";
+locations[8] = "JFK - JFK Library";
+locations[9] = "KGS - Kingston Hall";
+locations[10] = "MAL - Campus Mall";
+locations[11] = "MAR - Martin Hall";
+locations[12] = "MON - Monroe Hall";
+locations[13] = "MUS - Music Building";
+locations[14] = "PAT - Patterson Hall";
+locations[15] = "PAV - Special Events Pavilion";
+locations[16] = "PUB - Pence Union Building";
+locations[17] = "RTV - Radio-TV Building";
+locations[18] = "SCI - Science Building";
+locations[19] = "SHW - Showalter Hall";
+locations[20] = "SNR - Senior Hall";
+locations[21] = "SUT - Sutton Hall";
+locations[22] = "THE - University Theatre";
+locations[23] = "URC - Recreation Center";
+locations[24] = "WLM - Williamson Hall";

@@ -80,7 +80,7 @@
                    <div id="map"></div>
                     <br>
 
-                    <input type="hidden" name="title" value="Feeder Function">
+                    <input type="hidden" name="title" id="title">
 
                     <input type="hidden" name="Lat" id="Lat" style="border-style: double;color:black;"><br><br>
                     <input type="hidden" name="Long" id="Long" style="border-style: double;color:black;"><br><br>
