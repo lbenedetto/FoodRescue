@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 		const val CAS = "https://login.ewu.edu/cas/login?service="
 		const val AUTH_PAGE = "https://$SERVER_IP/android/login"
 		//    public static final String TOKEN_INVALIDATE = "/FoodRescue/invalidateToken.php";
-		const val SEND_NOTIFICATION = "/android/auth_poster.php"//TODO: Ask brad where this is
+		const val SEND_NOTIFICATION = "/android/login/auth_poster_and.php"
 		const val TAG_SSO = "SSO"
 		const val TAG_EATER = "Eater"
 		const val TAG_FEEDER = "Feeder"
