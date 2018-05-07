@@ -20,12 +20,13 @@ class FoodNotificationService : FirebaseMessagingService() {
 	//https://material.io/guidelines/patterns/notifications.html
 	override fun onMessageReceived(remoteMessage: RemoteMessage?) {
 		sharedPref = applicationContext.getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE)
-		if (remoteMessage!!.notification != null) {
-			val n = remoteMessage.notification
-			val title = n!!.title
-			val body = n.body
-			val data = remoteMessage.data["data"]
-			val foodEvent = FoodEvent(title, body, data, System.currentTimeMillis())
+		if(remoteMessage != null){
+			val title = remoteMessage.data["title"]
+			val body = remoteMessage.data["body"]
+			val lat = remoteMessage.data["lat"]
+			val lng = remoteMessage.data["lng"]
+			val expiry = remoteMessage.data["expiry"]
+			val foodEvent = FoodEvent(title, body, lat, lng, expiry, System.currentTimeMillis())
 			NotificationShower.show(foodEvent, DataManager(sharedPref), applicationContext)
 		}
 	}

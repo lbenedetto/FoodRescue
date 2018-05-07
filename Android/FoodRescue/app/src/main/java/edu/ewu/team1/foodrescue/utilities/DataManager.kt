@@ -25,7 +25,7 @@ class DataManager(private val sharedPrefs: SharedPreferences) {
 		saveAllFoodEvents(events)
 	}
 
-	private fun saveAllFoodEvents(events: Set<String>){
+	private fun saveAllFoodEvents(events: Set<String>) {
 		val editor = sharedPrefs.edit()
 		editor.putStringSet(FOOD_EVENTS_KEY, events)
 		editor.apply()

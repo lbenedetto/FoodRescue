@@ -1,99 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.ewu.team1.foodrescue">
+	package="edu.ewu.team1.foodrescue">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <uses-feature
-        android:glEsVersion="0x00020000"
-        android:required="true" />
+	<uses-feature
+		android:glEsVersion="0x00020000"
+		android:required="true" />
 
-    <permission
-        android:name="com.example.permission.MAPS_RECEIVE"
-        android:protectionLevel="signature" />
+	<permission
+		android:name="com.example.permission.MAPS_RECEIVE"
+		android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.example.permission.MAPS_RECEIVE" />
+	<uses-permission android:name="com.example.permission.MAPS_RECEIVE" />
 
-    <application
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+	<application
+		android:allowBackup="true"
+		android:icon="@mipmap/ic_launcher"
+		android:label="@string/app_name"
+		android:roundIcon="@mipmap/ic_launcher_round"
+		android:supportsRtl="true"
+		android:theme="@style/AppTheme">
 
-        <!-- TODO: (Medium) Use the Google API Console to restrict this key to only be able to be used by our app -->
-        <!-- You'll need our package name and SHA-1 signing-certificate fingerprint -->
-        <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDXWwdA4ONNbGRTI3tnx40rFsOOO4va_JI" />
+		<!-- TODO: (Medium) Use the Google API Console to restrict this key to only be able to be used by our app -->
+		<!-- You'll need our package name and SHA-1 signing-certificate fingerprint -->
+		<meta-data
+			android:name="com.google.android.maps.v2.API_KEY"
+			android:value="AIzaSyDXWwdA4ONNbGRTI3tnx40rFsOOO4va_JI" />
 
-        <!--
-             Set custom default icon. This is used when no icon is set for incoming notification messages.
-             See README(https://goo.gl/l4GJaQ) for more.
-        -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/crosshair" />
-        <!--
-             Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more.
-        -->
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_color"
-            android:resource="@color/colorAccent" />
+		<!--
+			 Set custom default icon. This is used when no icon is set for incoming notification messages.
+			 See README(https://goo.gl/l4GJaQ) for more.
+		-->
+		<meta-data
+			android:name="com.google.firebase.messaging.default_notification_icon"
+			android:resource="@drawable/burger_bell" />
+		<!--
+			 Set color used with incoming notification messages. This is used when no color is set for the incoming
+			 notification message. See README(https://goo.gl/6BKBk7) for more.
+		-->
+		<meta-data
+			android:name="com.google.firebase.messaging.default_notification_color"
+			android:resource="@color/colorAccent" />
 
-        <uses-library android:name="com.google.android.maps" />
+		<uses-library android:name="com.google.android.maps" />
 
-        <activity
+		<activity
 
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main"
-            android:windowSoftInputMode="adjustNothing">
+			android:name=".MainActivity"
+			android:label="@string/title_activity_main"
+			android:windowSoftInputMode="adjustNothing">
 
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Accepts URIs that begin with "http://foodrescue.ewu.edu" -->
-                <!--intent://foodrescue.ewu.edu#Intent;scheme=http;package=edu.ewu.team1.foodrescue;end-->
-                <data
-                    android:host="foodrescue.ewu.edu"
-                    android:scheme="http" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:host="foodrescue.ewu.edu"
-                    android:scheme="https"
-                    android:path="/login_redirect" />
-            </intent-filter>
-        </activity>
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
 
-        <service
-            android:name=".notifications.FoodNotificationService"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <service
-            android:name=".notifications.MyFirebaseInstanceIDService"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
-            </intent-filter>
-        </service>
-    </application>
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+				<!-- Accepts URIs that begin with "http://foodrescue.ewu.edu" -->
+				<!--intent://foodrescue.ewu.edu#Intent;scheme=http;package=edu.ewu.team1.foodrescue;end-->
+				<data
+					android:host="foodrescue.ewu.edu"
+					android:scheme="http" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+
+				<category android:name="android.intent.category.DEFAULT" />
+				<category android:name="android.intent.category.BROWSABLE" />
+
+				<data
+					android:host="foodrescue.ewu.edu"
+					android:path="/login_redirect"
+					android:scheme="https" />
+			</intent-filter>
+		</activity>
+
+		<service
+			android:name=".notifications.FoodNotificationService"
+			android:enabled="true"
+			android:exported="true">
+			<intent-filter>
+				<action android:name="com.google.firebase.MESSAGING_EVENT" />
+			</intent-filter>
+		</service>
+		<service
+			android:name=".notifications.MyFirebaseInstanceIDService"
+			android:enabled="true"
+			android:exported="true">
+			<intent-filter>
+				<action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+			</intent-filter>
+		</service>
+	</application>
 
 </manifest>

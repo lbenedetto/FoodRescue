@@ -170,8 +170,9 @@ class FeederFragment : Fragment() {
 				val token = dataManager.getToken()
 				params["title"] = locName
 				params["body"] = message
-				params["data"] = "${loc!!.latitude},${loc.longitude},$duration"
-				params["auth"] = token
+				params["lat"] = loc!!.latitude.toString()
+				params["lng"] = loc.longitude.toString()
+				params["expiry"] = duration.toString()
 
 				VolleyWrapper.post(view.context, url, params, Response.Listener { response ->
 					Log.e("post Response:", response)
@@ -196,7 +197,7 @@ class FeederFragment : Fragment() {
 					1 -> 30
 					else -> 60
 				}
-				NotificationShower.show(FoodEvent(locName, message, "${loc!!.latitude}:::::${loc.longitude}:::::$duration", System.currentTimeMillis()), dataManager, view.context)
+				NotificationShower.show(FoodEvent(locName, message, loc?.latitude, loc?.longitude, duration, System.currentTimeMillis()), dataManager, view.context)
 			}, R.string.confirm_send, context!!)
 		}
 	}

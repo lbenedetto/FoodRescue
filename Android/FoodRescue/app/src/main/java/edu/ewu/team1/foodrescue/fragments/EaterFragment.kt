@@ -36,7 +36,7 @@ class EaterFragment : Fragment() {
 		try {
 			for (d in data) {
 				if (!d.isEmpty()) {
-					val fe = FoodEvent(d)
+					val fe = FoodEvent.getFoodEvent(d)
 					if (fe.timestamp + (fe.duration * 60000) > System.currentTimeMillis())
 						events.add(fe)
 					else //Remove expired events from memory
