@@ -28,12 +28,12 @@ function initMap()
 
 function getValues()
 {
-    var lat = document.getElementById("Lat").value;
-    var long = document.getElementById("Long").value;
-    var time = document.getElementById("time").value;
-    document.getElementById("data").value = lat + ":::::" + long + ":::::" + time;
-    console.log(document.getElementById("data").value);
-    console.log(document.getElementById("title").value);
+	getLocation();
+    //var lat = document.getElementById("lat").value;
+    //var long = document.getElementById("lng").value;
+    //var time = document.getElementById("time").value;
+    //console.log(document.getElementById("data").value);
+    //console.log(document.getElementById("title").value);
     //popUpPhone();
     
 }
@@ -44,6 +44,8 @@ function getLocation()
     console.log(value);
     var latt = locations[value][0];
     var long = locations[value][1];
+	document.getElementById("lat").value = latt;
+	document.getElementById("lng").value = long;
     var title = locNames[value];
     document.getElementById("title").value = title;
     console.log(latt + " " + long);
