@@ -36,7 +36,7 @@
         <div class="container text-center box">
         <h2>Create New Food Event</h2>
 
-                <form method = "POST" action="auth_poster.php" id="f">
+                <form method = "POST" action="login/auth_poster_web.php" id="f">
                 <p class="p2">Select Nearest Building</p>
                 <select id="Location" class="select" onchange="getLocation()" style="border-style: double;
                 color:white; font-weight: bold;">
@@ -71,9 +71,9 @@
                     <br>
                     <p class="p3">Select estimated time of availability:</p>
                     <select name="duration" id="time" class="select2" style="border-style: double;color:white; font-weight: bold;">
-                        <option value="15" class="options"> less tha 15 minutes</option>
-                        <option value="30" class="options"> < 30 minutes</option>
-                        <option value="60" class="options"> < 1 hour</option>
+                        <option value="15" class="options"> less than 15 minutes</option>
+                        <option value="30" class="options"> less than 30 minutes</option>
+                        <option value="60" class="options"> less 1 hour</option>
                     </select>
 
                    <div id="map"></div>
