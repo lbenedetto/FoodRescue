@@ -70,7 +70,7 @@
                     <p>or customize exact location (right click):</p>
                     <br>
                     <p class="p3">Select estimated time of availability:</p>
-                    <select name="duration" id="time" class="select2" style="border-style: double;color:white; font-weight: bold;">
+                    <select name="expiry" id="time" class="select2" style="border-style: double;color:white; font-weight: bold;">
                         <option value="15" class="options"> less than 15 minutes</option>
                         <option value="30" class="options"> less than 30 minutes</option>
                         <option value="60" class="options"> less 1 hour</option>
@@ -80,10 +80,9 @@
                     <br>
 
                     <input type="hidden" name="title" id="title" value="">
-
-                    <input type="hidden" name="lat" id="Lat" style="border-style: double;color:black;"><br><br>
-                    <input type="hidden" name="long" id="Long" style="border-style: double;color:black;"><br><br>
-                    <input type="hidden" name="data" id="data">
+					
+                    <input type="hidden" name="lat" id="lat" style="border-style: double;color:black;"><br><br>
+                    <input type="hidden" name="lng" id="lng" style="border-style: double;color:black;"><br><br>
 
                     <?php
                             echo "<input type='hidden' name='auth' value = " . $_GET['token'] .">";
