@@ -41,11 +41,12 @@ function getValues()
 function getLocation()
 {
     var value = document.getElementById("Location").value;
+    console.log(value);
     var latt = locations[value][0];
     var long = locations[value][1];
     var title = locNames[value];
     document.getElementById("title").value = title;
-
+    console.log(latt + " " + long);
     var latlng = new google.maps.LatLng(latt, long);
    // var uluru = {lat: 47.491602, lng: -117.584417};
     map = new google.maps.Map(document.getElementById('map'),{
@@ -65,6 +66,8 @@ function placeMarker(latLng) //map)
 {
     if(prevMarker != null)
         prevMarker.setMap(null);
+    console.log(latLng.lat());
+    console.log(latLng.lng());
     var curMarker = new google.maps.Marker(
     {
         position: latLng,
@@ -142,20 +145,20 @@ locNames[4] = "CMC - Communications Building";
 locNames[5] = "HAR - Hargreaves Hall";
 locNames[6] = "HUS - Huston Hall";
 locNames[7] = "ISL - Isle Hall";
-locations[8] = "JFK - JFK Library";
-locations[9] = "KGS - Kingston Hall";
-locations[10] = "MAL - Campus Mall";
-locations[11] = "MAR - Martin Hall";
-locations[12] = "MON - Monroe Hall";
-locations[13] = "MUS - Music Building";
-locations[14] = "PAT - Patterson Hall";
-locations[15] = "PAV - Special Events Pavilion";
-locations[16] = "PUB - Pence Union Building";
-locations[17] = "RTV - Radio-TV Building";
-locations[18] = "SCI - Science Building";
-locations[19] = "SHW - Showalter Hall";
-locations[20] = "SNR - Senior Hall";
+locNames[8] = "JFK - JFK Library";
+locNames[9] = "KGS - Kingston Hall";
+locNames[10] = "MAL - Campus Mall";
+locNames[11] = "MAR - Martin Hall";
+locNames[12] = "MON - Monroe Hall";
+locNames[13] = "MUS - Music Building";
+locNames[14] = "PAT - Patterson Hall";
+locNames[15] = "PAV - Special Events Pavilion";
+locNames[16] = "PUB - Pence Union Building";
+locNames[17] = "RTV - Radio-TV Building";
+locNames[18] = "SCI - Science Building";
+locNames[19] = "SHW - Showalter Hall";
+locNames[20] = "SNR - Senior Hall";
 locations[21] = "SUT - Sutton Hall";
-locations[22] = "THE - University Theatre";
-locations[23] = "URC - Recreation Center";
-locations[24] = "WLM - Williamson Hall";
+locNames[22] = "THE - University Theatre";
+locNames[23] = "URC - Recreation Center";
+locNames[24] = "WLM - Williamson Hall";
