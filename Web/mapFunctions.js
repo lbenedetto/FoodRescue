@@ -3,6 +3,8 @@ var locations = new Array();
 var locNames = new Array();
 var map;
 var isCustom;
+var btn = document.getElementById("testBtn");
+var toClose = document.getElementById("close");
 
 // Used tutorial https://developers.google.com/maps/documentation/javascript/adding-a-google-map to get started
 function initMap()
@@ -23,10 +25,6 @@ function initMap()
 
 }
 
-function getTime()
-{
-
-}
 
 function getValues()
 {
@@ -36,6 +34,7 @@ function getValues()
     document.getElementById("data").value = lat + ":::::" + long + ":::::" + time;
     console.log(document.getElementById("data").value);
     console.log(document.getElementById("title").value);
+    //popUpPhone();
     
 }
 

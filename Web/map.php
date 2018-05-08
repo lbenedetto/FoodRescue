@@ -80,10 +80,10 @@
                    <div id="map"></div>
                     <br>
 
-                    <input type="hidden" name="title" id="title">
+                    <input type="hidden" name="title" id="title" value="">
 
-                    <input type="hidden" name="Lat" id="Lat" style="border-style: double;color:black;"><br><br>
-                    <input type="hidden" name="Long" id="Long" style="border-style: double;color:black;"><br><br>
+                    <input type="hidden" name="lat" id="Lat" style="border-style: double;color:black;"><br><br>
+                    <input type="hidden" name="long" id="Long" style="border-style: double;color:black;"><br><br>
                     <input type="hidden" name="data" id="data">
 
                     <?php
@@ -92,8 +92,8 @@
                <!--     <button onclick="getValues()" style="position: absolute; left:0%;">click here</button> -->
                    <input type="submit" class="sub" name="subnotification" onclick="getValues()" value="SEND ANNOUNCEMENT">
             
-                </form>
 
+                </form>
                 <div style="position: absolute; bottom: 5%; right: 10; text-align:right; color:white; z-index:2;">Powered by Google Maps API</div>
                 <div style="position: absolute; bottom: 0%; right: 10; text-align:right; color:white; z-index:2;">Base template Scrolling Nav by Bootstrap</div>
         </div>
