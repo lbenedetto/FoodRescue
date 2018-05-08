@@ -85,7 +85,7 @@ class FeederFragment : Fragment() {
 		outState.putInt(SELECTED_LOCATION, spinnerLocation.selectedItemPosition)
 		outState.putInt(SELECTED_EXPIRY, spinnerExpiry.selectedItemPosition)
 		outState.putDouble(LAT, crosshairLocation?.latitude ?: 47.491355)
-		outState.putDouble(LNG, crosshairLocation?.longitude?: -117.582798)
+		outState.putDouble(LNG, crosshairLocation?.longitude ?: -117.582798)
 	}
 
 	//<editor-fold desc="onCreate() Helper Methods Section">
@@ -146,7 +146,7 @@ class FeederFragment : Fragment() {
 	}
 
 	private fun populateExpiryMenu(view: View) {
-		spinnerExpiry = view.findViewById<Spinner>(R.id.spinnerExpiry)
+		spinnerExpiry = view.findViewById(R.id.spinnerExpiry)
 		spinnerExpiry.adapter = ArrayAdapter(activity!!, android.R.layout.simple_list_item_1, arrayOf("<15 minutes", "<30 minutes", "<1 hour"))
 		spinnerExpiry.setSelection(0)
 	}
@@ -167,7 +167,7 @@ class FeederFragment : Fragment() {
 				val url = MainActivity.SERVER_IP + MainActivity.SEND_NOTIFICATION
 
 				val params = HashMap<String, String>()
-				val token = dataManager.getToken()
+				params["auth"] = dataManager.getToken()
 				params["title"] = locName
 				params["body"] = message
 				params["lat"] = loc!!.latitude.toString()
@@ -274,7 +274,7 @@ class FeederFragment : Fragment() {
 	 */
 	@SuppressLint("MissingPermission")
 	private fun moveMapToLocation(latLng: LatLng) {
-		if(map != null) {
+		if (map != null) {
 			if (hasLocationAccess) map!!.isMyLocationEnabled = true
 			map!!.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
 		}
