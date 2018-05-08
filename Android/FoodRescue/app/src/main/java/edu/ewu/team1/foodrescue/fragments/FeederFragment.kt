@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.android.volley.Request
 import com.android.volley.Response
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -25,8 +26,10 @@ import edu.ewu.team1.foodrescue.notifications.NotificationShower
 import edu.ewu.team1.foodrescue.utilities.ConfirmDialog
 import edu.ewu.team1.foodrescue.utilities.DataManager
 import edu.ewu.team1.foodrescue.utilities.FoodEvent
-import edu.ewu.team1.foodrescue.utilities.VolleyWrapper
 import java.util.*
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+
 
 class FeederFragment : Fragment() {
 	//https://developers.google.com/maps/documentation/android-api/groundoverlay
@@ -164,22 +167,37 @@ class FeederFragment : Fragment() {
 					1 -> 30
 					else -> 60
 				}
-				val url = MainActivity.SERVER_IP + MainActivity.SEND_NOTIFICATION
+				//TODO: Change to https when server gets SSL
+				val url = "http://" + MainActivity.SERVER_IP + MainActivity.SEND_NOTIFICATION
 
-				val params = HashMap<String, String>()
-				params["auth"] = dataManager.getToken()
-				params["title"] = locName
-				params["body"] = message
-				params["lat"] = loc!!.latitude.toString()
-				params["lng"] = loc.longitude.toString()
-				params["expiry"] = duration.toString()
+				val postRequest = object : StringRequest(Request.Method.POST, url,
+						Response.Listener<String>
+						{ response ->
+							//TODO: Check if the server allowed the notification to be sent
+							//If it didn't, the user should be notified of how to become an authorized feeder
+							Log.d("Response", response)
+							Toast.makeText(view.context, "Response from server: $response", Toast.LENGTH_LONG).show()
+						},
+						Response.ErrorListener
+						{ response ->
+							Log.d("Error.Response", response.message)
+							Toast.makeText(view.context, "Response from server (error): ${response.message}", Toast.LENGTH_LONG).show()
+						}
+				) {
+					override fun getParams(): Map<String, String> {
+						val params = HashMap<String, String>()
+						params["auth"] = dataManager.getToken()
+						params["title"] = locName
+						params["body"] = message
+						params["lat"] = loc!!.latitude.toString()
+						params["lng"] = loc.longitude.toString()
+						params["expiry"] = duration.toString()
+						return params
+					}
 
-				VolleyWrapper.post(view.context, url, params, Response.Listener { response ->
-					Log.e("post Response:", response)
-					//TODO: Check if the server allowed the notification to be sent
-					//If it didn't, the user should be notified of how to become an authorized feeder
-					Toast.makeText(view.context, "Notification sent!", Toast.LENGTH_LONG).show()
-				})
+				}
+				// add it to the RequestQueue
+				Volley.newRequestQueue(context).add(postRequest)
 				editTextMessage.text.clear()
 			}, R.string.confirm_send, context!!)
 

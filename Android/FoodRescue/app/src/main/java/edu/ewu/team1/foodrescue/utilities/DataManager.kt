@@ -52,7 +52,7 @@ class DataManager(private val sharedPrefs: SharedPreferences) {
 	}
 
 	fun getToken(): String {
-		return sharedPrefs.getString(USERNAME_KEY, NO_USERNAME)
+		return sharedPrefs.getString(TOKEN_KEY, NO_USERNAME)
 	}
 
 	fun saveUsernameAndToken(username: String, token: String) {
