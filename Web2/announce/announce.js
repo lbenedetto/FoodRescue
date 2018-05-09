@@ -58,10 +58,11 @@ function sendNotification() {
 		"lat": location.lat,
 		"lng": location.lng,
 		"expiry": document.getElementById("buildingSelectorDropdownList").value,
-		"auth": "todo"
+		"auth": "todo",
+		"source" : "web"
 	};
 
-	$.post("/login/auth_poster_web.php",
+	$.post("api/announce",
 		data,
 		function (data) {
 			//TODO: Handle server response

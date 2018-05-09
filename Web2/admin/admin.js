@@ -1,12 +1,12 @@
 var TABLE = $('#table');
 var CLONE = $('#clone');
 var id;
-
+//TODO: Most of this code probably doesn't work, it was copy pasted from a CSCD378 assignment and has not yet been adapted
 $.fn.exists = function () {
 	return this.length !== 0;
 };
 
-$.get("admin.php", handleResponse);
+$.get("api/users/", handleResponse);
 
 function updateRow(id, data) {
 	var row = $("#" + id);
@@ -16,7 +16,7 @@ function updateRow(id, data) {
 		row.attr('id', id);
 	}
 	var col = row.find('td');
-	for (var i = 0; i < 5; i++) {
+	for (var i = 0; i < data.length; i++) {
 		col[i + 1].innerText = data[i];
 	}
 	if (!exists) {//Add it to the table if it isn't already in the table
@@ -29,7 +29,7 @@ function search() {
 	$.get("admin.php/?search=" + query, handleResponse);
 }
 
-function handleResponse(response){
+function handleResponse(response) {
 	var re = JSON.parse(response);
 	for (var i = 0; i < re.length; i++) {
 		var r = re[i];
