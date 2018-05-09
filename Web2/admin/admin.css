@@ -6,6 +6,38 @@ td {
 	max-width: 200px;
 }
 
+.narrow {
+	max-width: 75px;
+}
+
+#newMovieDiv {
+	border-radius: 5px;
+	background-color: #232323;
+	padding: 20px;
+	width: 400px;
+	z-index: 100;
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+	top: 50%;
+	box-shadow: 0 5px 5px #111111;
+}
+
+input[type=text] {
+	width: 100%;
+	padding: 12px 20px;
+	margin: 8px 0;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+.blur {
+	filter: blur(5px);
+	user-select: none;
+	pointer-events: none;
+}
+
 .prettyTable {
 	color: white;
 	width: 800px;
@@ -47,6 +79,14 @@ td {
 	margin-top: 3px;
 	display: inline-block;
 	width: 100px;
+}
+
+#newUserButton {
+	vertical-align: top;
+	margin-top: 3px;
+	display: inline-block;
+	margin-bottom: 8px;
+	width: 150px;
 }
 
 /** CHECKBOX CSS **/

@@ -37,7 +37,8 @@ function search() {
 			"search": query,
 			"auth": auth
 		},
-		handleResponse);
+		handleResponse
+	);
 }
 
 function handleResponse(response) {
@@ -46,4 +47,18 @@ function handleResponse(response) {
 		var r = re[i];
 		updateRow(r["id"], [r["name"], r["permission"]])
 	}
+}
+
+function newUser() {
+	var username = $("#searchBar").val();
+	$.post("api/users",
+		{
+			"username": username,
+			"permission": "1",
+			"auth": auth
+		},
+		function (response) {
+
+		}
+	);
 }

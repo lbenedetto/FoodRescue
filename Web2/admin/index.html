@@ -17,12 +17,16 @@
 </div>
 <div class="mainContent">
 	<h2 id="mainContentHeader">Manage User Permissions</h2>
-	<p class="p2">Search usernames:</p>
+	<p class="p2">Enter username:</p>
 	<div>
 		<textarea id="searchBar"></textarea>
 		<button id="searchButton" onclick="search()">
 			<span>Search</span>
 			<img src="assets/search.png" height="15">
+		</button>
+		<button id="newUserButton" onclick="newUser()">
+			<span>Add New User</span>
+			<img src="assets/edit.png" height="15">
 		</button>
 	</div>
 	<div id="table" class="table-editable" align="center">
@@ -58,6 +62,12 @@
 				<input type="checkbox">
 				<span class="checkmark"></span>
 			</label>
+		</td>
+		<td class="wide hide">
+			<button id="saveButton" onclick="search()">
+				<span>Search</span>
+				<img src="assets/search.png" height="15">
+			</button>
 		</td>
 	</tr>
 </table>

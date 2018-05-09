@@ -31,8 +31,17 @@
 	<div>
 		<input type="text" id="subscribeBar">
 		<select id="subscribeCarrier" style="border-style: double;color:white; font-weight: bold;">
-			<!--TODO: Populate with real data-->
-			<option value="TMO-CAR" class="options"> TMobile</option>
+			<option value="@message.alltel.com" class="options"> Alltel</option>
+			<option value="@txt.att.net" class="options"> AT&T</option>
+			<option value="@myboostmobile.com" class="options"> Boost Mobile</option>
+			<option value="@messaging.sprintpcs.com" class="options"> Sprint</option>
+			<option value="@tmomail.net" class="options"> T-Mobile</option>
+			<option value="@email.uscc.net" class="options"> U.S. Cellular</option>
+			<option value="@vtext.com" class="options"> Verizon</option>
+			<option value="@vmobl.com" class="options"> Virgin Mobile</option>
+			<option value="@text.republicwireless.com" class="options"> Repubilc Wireless</option>
+			<option value="@mms.cricketwireless.net" class="options"> Cricket Wireless</option>
+			<option value="@msg.fi.google.com" class="options"> Project Fi</option>
 		</select>
 		<button id="subscribeButton" onclick="subscribe()">
 			<span>Subscribe to SMS Notifications</span>
