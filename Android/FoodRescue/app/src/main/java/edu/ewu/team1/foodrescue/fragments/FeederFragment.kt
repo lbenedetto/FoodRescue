@@ -192,6 +192,7 @@ class FeederFragment : Fragment() {
 						params["lat"] = loc!!.latitude.toString()
 						params["lng"] = loc.longitude.toString()
 						params["expiry"] = duration.toString()
+						params["source"] = "android"
 						return params
 					}
 

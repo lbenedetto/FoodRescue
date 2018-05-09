@@ -50,20 +50,18 @@ function getBuilding() {
 }
 
 function sendNotification() {
-	var building = getBuilding();
 	var location = map.getCenter();
-	var data = {
-		"title": building[0],
-		"body": $("#customMessage").val(),
-		"lat": location.lat,
-		"lng": location.lng,
-		"expiry": document.getElementById("buildingSelectorDropdownList").value,
-		"auth": "todo",
-		"source" : "web"
-	};
 
 	$.post("api/announce",
-		data,
+		{
+			"title": getBuilding()[0],
+			"body": $("#customMessage").val(),
+			"lat": location.lat,
+			"lng": location.lng,
+			"expiry": document.getElementById("buildingSelectorDropdownList").value,
+			"auth": "todo",
+			"source": "web"
+		},
 		function (data) {
 			//TODO: Handle server response
 		}

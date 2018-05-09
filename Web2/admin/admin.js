@@ -1,12 +1,18 @@
 var TABLE = $('#table');
 var CLONE = $('#clone');
 var id;
+//TODO: Get auth token
+var auth;
 //TODO: Most of this code probably doesn't work, it was copy pasted from a CSCD378 assignment and has not yet been adapted
 $.fn.exists = function () {
 	return this.length !== 0;
 };
 
-$.get("api/users/", handleResponse);
+$.get("api/users/",
+	{
+		"auth": auth
+	},
+	handleResponse);
 
 function updateRow(id, data) {
 	var row = $("#" + id);
@@ -26,7 +32,12 @@ function updateRow(id, data) {
 
 function search() {
 	var query = $("#searchBar").val();
-	$.get("admin.php/?search=" + query, handleResponse);
+	$.get("api/users/",
+		{
+			"search": query,
+			"auth": auth
+		},
+		handleResponse);
 }
 
 function handleResponse(response) {
