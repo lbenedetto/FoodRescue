@@ -31,9 +31,8 @@ class MainActivity : AppCompatActivity() {
 	companion object {
 		const val SERVER_IP = "146.187.135.29"
 		const val CAS = "https://login.ewu.edu/cas/login?service="
-		const val AUTH_PAGE = "https://$SERVER_IP/android/login"
-		//    public static final String TOKEN_INVALIDATE = "/FoodRescue/invalidateToken.php";
-		const val SEND_NOTIFICATION = "/android/login/auth_poster_and.php"
+		const val AUTH_PAGE = "https://$SERVER_IP/api/login/android/"
+		const val SEND_NOTIFICATION = "/api/announce/"
 		const val TAG_SSO = "SSO"
 		const val TAG_EATER = "Eater"
 		const val TAG_FEEDER = "Feeder"
@@ -210,10 +209,10 @@ class MainActivity : AppCompatActivity() {
 		bottomNavView.visibility = View.GONE
 	}
 
-	private fun getFragmentInstance(tag: String) : Fragment{
+	private fun getFragmentInstance(tag: String): Fragment {
 		var fragment = supportFragmentManager.findFragmentByTag(tag)
-		if(fragment == null){
-			fragment = when(tag){
+		if (fragment == null) {
+			fragment = when (tag) {
 				"Feeder" -> FeederFragment()
 				"Eater" -> EaterFragment()
 				else -> SSOFragment()

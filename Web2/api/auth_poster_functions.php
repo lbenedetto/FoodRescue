@@ -48,7 +48,6 @@ function extractUid($response) {
 	$responseArray = preg_split("/\n/", $response);
 	// Get the line that has the cas:user tag
 	$casUserArray = preg_grep("/(\d+)<\/cas:user>/", $responseArray);
-	$uuiidd;
 	preg_match('#<cas:user>(.*?)</cas:user>#', $response, $uuiidd);
 	//echo "<br><br>$uuiidd[1]<br><br>";
 	//var_dump($uuiidd[1]);
@@ -73,8 +72,6 @@ function extractUid($response) {
 		return false;
 	} else {
 		return $uuiidd[1];
-
-
 	}
 }
 

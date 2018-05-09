@@ -67,9 +67,18 @@
 		<img src="assets/send.png" height="15">
 	</button>
 	<div style="color: white">Powered by Google Maps API</div>
+	<h2>Download Android App</h2>
+	<p>An Android App is also available to make it easier for you to announce food events. It also lets you stay signed
+		in so you don't have to waste time logging in each time you want to announce something</p>
+	<button id="downloadButton" onclick="downloadApp()">
+		<span>Get App</span>
+		<img src="../assets/download.png" height="15">
+	</button>
+	<iframe id="iframeAppDownloader" style="display:none;"></iframe>
 </div>
 </body>
 <script src="announce.js"></script>
+<script src="../global.js"></script>
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXWwdA4ONNbGRTI3tnx40rFsOOO4va_JI&callback=initMap"></script>
 </html>

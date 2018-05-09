@@ -92,7 +92,7 @@ textarea {
 select {
 	border-radius: 10px;
 	background: #474747;
-	height: 3em;
+	height: 40px;
 	width: 30em;
 	border: 5px solid transparent;
 }

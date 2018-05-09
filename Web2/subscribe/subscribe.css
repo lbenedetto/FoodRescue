@@ -1,14 +1,22 @@
 #subscribeBar {
 	display: inline-block;
 	resize: none;
-	height: 20px;
+	height: 28px;
 	width: 200px;
-	margin-bottom: 3px;
+	border-radius: 10px;
+	background: #474747;
+	border: 5px solid transparent;
+	color: white;
+}
+
+#subscribeCarrier {
+	vertical-align: top;
+	width: 200px;
 }
 
 #subscribeButton {
 	vertical-align: top;
-	margin-top: 3px;
 	display: inline-block;
 	width: 300px;
+	height: 40px;
 }

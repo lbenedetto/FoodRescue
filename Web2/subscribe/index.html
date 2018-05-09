@@ -16,10 +16,24 @@
 	</ul>
 </div>
 <div class="mainContent">
-	<h2 id="mainContentHeader">Manage SMS Alert Subscription</h2>
-	<p class="p2">Enter your phone number (xxx-xxx-xxxx):</p>
+	<h2 id="mainContentHeader">Download Android App</h2>
+	<p>An Android App is available so that you can receive push notifications of food availability</p>
+	<button id="downloadButton" onclick="downloadApp()">
+		<span>Get App</span>
+		<img src="../assets/download.png" height="15">
+	</button>
+	<iframe id="iframeAppDownloader" style="display:none;"></iframe>
+
+	<h2>Manage SMS Alert Subscription</h2>
+	<p>If you do not have an Android phone, or do not wish to install the app, you can also subscribe your phone number
+		to receive a text message whenever there is free food on campus</p>
+	<p class="p2">Enter your phone number (xxx xxx xxxx):</p>
 	<div>
-		<textarea id="subscribeBar"></textarea>
+		<input type="text" id="subscribeBar">
+		<select id="subscribeCarrier" style="border-style: double;color:white; font-weight: bold;">
+			<!--TODO: Populate with real data-->
+			<option value="TMO-CAR" class="options"> TMobile</option>
+		</select>
 		<button id="subscribeButton" onclick="subscribe()">
 			<span>Subscribe to SMS Notifications</span>
 			<img src="assets/sms.png" height="15">
@@ -28,4 +42,5 @@
 </div>
 </body>
 <script src="subscribe.js"></script>
+<script src="../global.js"></script>
 </html>
