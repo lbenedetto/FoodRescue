@@ -17,8 +17,50 @@
 </div>
 <div class="mainContent">
 	<h2 id="mainContentHeader">Manage User Permissions</h2>
-	<!--TODO write page content-->
+	<p class="p2">Search usernames:</p>
+	<div>
+		<textarea id="searchBar"></textarea>
+		<button id="searchButton" onclick="search()">
+			<span>Search</span>
+			<img src="assets/search.png" height="15">
+		</button>
+	</div>
+	<div id="table" class="table-editable" align="center">
+		<span class="table-add glyphicon glyphicon-plus"></span>
+		<table class="prettyTable table">
+			<tr id="0">
+				<th class="wide" width="150">Username</th>
+				<th class="wide" width="125">Can make announcements</th>
+			</tr>
+			<tr>
+				<!--Username-->
+				<td class="wide">lbenedetto</td>
+				<!--Switch-->
+				<td class="wide">
+					<label class="container">
+						<input type="checkbox">
+						<span class="checkmark"></span>
+					</label>
+				</td>
+			</tr>
+		</table>
+	</div>
 </div>
+
+<table id="clone" class="hide">
+	<!-- This is our clonable table line -->
+	<tr>
+		<!--Username-->
+		<td class="wide"></td>
+		<!--Switch-->
+		<td class="wide">
+			<label class="container">
+				<input type="checkbox">
+				<span class="checkmark"></span>
+			</label>
+		</td>
+	</tr>
+</table>
 </body>
 <script src="admin.js"></script>
 </html>
