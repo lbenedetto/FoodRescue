@@ -2,20 +2,21 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Title</title>
 	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<link href="css/stylesheet.css" rel="stylesheet">
+	<link href="../global.css" rel="stylesheet">
+	<link href="announce.css" rel="stylesheet">
+	<title>Make Announcement</title>
 </head>
 <body>
 <div id="navbar">
 	<ul>
-		<li><img src="assets/burger_bell.png" id="icon" class="img" height="45" width="45"></li>
+		<li><img src="../assets/burger_bell.png" id="icon" class="img" height="45" width="45"></li>
 		<li><h2>Food Rescue</h2></li>
 	</ul>
 </div>
 <div class="mainContent">
-	<h2 id="toph2">Create New Food Event</h2>
+	<h2 id="mainContentHeader">Create New Food Event</h2>
 	<p class="p2">Customize Message:</p>
 	<textarea id="customMessage"></textarea>
 	<p class="p2">Select Nearest Building:</p>
@@ -61,11 +62,12 @@
 		<div id="map"></div>
 		<div id="crosshair"><img src="assets/crosshair.png" width="50" height="50"></div>
 	</div>
-	<button style="float: right; margin-top: 1em" onclick="sendNotification()">Announce <img src="assets/send.png" height="15"></button>
+	<button style="float: right; margin-top: 1em" onclick="sendNotification()">Announce <img src="assets/send.png"
+	                                                                                         height="15"></button>
 	<div style="color: white">Powered by Google Maps API</div>
 </div>
 </body>
-<script src="js/main.js"></script>
+<script src="announce.js"></script>
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDXWwdA4ONNbGRTI3tnx40rFsOOO4va_JI&callback=initMap"></script>
 </html>
