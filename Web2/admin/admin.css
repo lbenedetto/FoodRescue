@@ -57,6 +57,10 @@ input[type=text] {
 	background-color: #5e5e5e
 }
 
+.prettyTable tr:nth-child(odd) {
+	background-color: #303030
+}
+
 .prettyTable th {
 	background-color: #b41f35;
 	color: white;

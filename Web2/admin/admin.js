@@ -1,9 +1,8 @@
 var TABLE = $('#table');
 var CLONE = $('#clone');
-var id;
+var id = 0;
 //TODO: Get auth token
 var auth;
-//TODO: Most of this code probably doesn't work, it was copy pasted from a CSCD378 assignment and has not yet been adapted
 $.fn.exists = function () {
 	return this.length !== 0;
 };
@@ -12,20 +11,22 @@ $.get("api/users/",
 	{
 		"auth": auth
 	},
-	handleResponse);
+	handleResponse
+);
 
 function updateRow(id, data) {
 	var row = $("#" + id);
 	var exists = row.exists();
+	//If the row doesn't exist yet, clone a new one
 	if (!exists) {
 		row = CLONE.find('tr.hide').clone(true).removeClass('hide table-line');
 		row.attr('id', id);
 	}
+	//Modify the data of the row
 	var col = row.find('td');
-	for (var i = 0; i < data.length; i++) {
-		col[i + 1].innerText = data[i];
-	}
-	if (!exists) {//Add it to the table if it isn't already in the table
+	col[0].innerText = data;
+	//Add it to the table if it isn't already in the table
+	if (!exists) {
 		TABLE.find('table').append(row);
 	}
 }
@@ -54,11 +55,12 @@ function newUser() {
 	$.post("api/users",
 		{
 			"username": username,
-			"permission": "1",
+			"permission": "0",
 			"auth": auth
 		},
 		function (response) {
-
+			id++;
+			updateRow(id, username);
 		}
 	);
 }
