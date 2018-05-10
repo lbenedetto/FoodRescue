@@ -6,7 +6,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 	case 'POST':
 		if (isset($_POST['number']) && isset($_POST['carrier']) && isset($_POST['uname'])) {
 			$conn = getConn();
-			$stmt = $conn->prepare("INSERT INTO users (uname, number, carrier) VALUES (?, ?, ?)");  // Look for uid
+			$stmt = $conn->prepare("INSERT INTO sms_info (uname, number, carrier) VALUES (?, ?, ?)");  // Look for uid
 			$stmt->bindValue(1, $_POST['uname'], PDO::PARAM_STR);
 			$stmt->bindValue(2, $_POST['number'], PDO::PARAM_STR);
 			$stmt->bindValue(3, $_POST['carrier'], PDO::PARAM_STR);
