@@ -31,7 +31,7 @@ function updateRow(id, data) {
 }
 
 function search() {
-	var query = $("#searchBar").val();
+	var query = $("#usernameField").val();
 	$.get("api/users/",
 		{
 			"search": query,
@@ -50,7 +50,7 @@ function handleResponse(response) {
 }
 
 function newUser() {
-	var username = $("#searchBar").val();
+	var username = $("#usernameField").val();
 	$.post("api/users",
 		{
 			"username": username,
