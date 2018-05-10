@@ -19,7 +19,35 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		{
 			$token = bin2hex(openssl_random_pseudo_bytes(64));
 			$conn = getConn();
-			$stmt = $conn->prepare("INSERT INTO users (uname, auth_token, feeder_perm) VALUES (?, ?, ?)");  
+			$stmt = getUnameRow($_POST['username'], $conn);
+			if ($stmt->rowCount() == 1)
+			{
+				$stmt = $conn->prepare("UPDATE users SET feeder_perm=?, WHERE uname = ?;");
+				$stmt->bindValue(1, $_POST['username'], PDO::PARAM_STR);
+				$stmt->execute();
+			}
+			else
+			{
+				$stmt = $conn->prepare("INSERT INTO users (auth_token, uname, feeder_perm) VALUES (?, ?, ?);");
+				$stmt->bindValue(2, $uid, PDO::PARAM_STR);
+				$stmt->bindValue(1, $token, PDO::PARAM_STR);
+				$stmt->bindValue(3, $perm, PDO::PARAM_STR);
+				$stmt->execute();
+			}
+			
+			
+			
+		}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			/*$stmt = $conn->prepare("INSERT INTO users (uname, auth_token, feeder_perm) VALUES (?, ?, ?)");  
 			$stmt->bindValue(1, $_POST['username'], PDO::PARAM_STR);
 			$stmt->bindValue(2, $token, PDO::PARAM_STR);
 			$stmt->bindValue(3, $_POST['permission'], PDO::PARAM_STR);
@@ -31,13 +59,17 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		}
 		else
 			echo "No username specified.";
-		
+		*/
 		// $token = bin2hex(openssl_random_pseudo_bytes(64));
 		//TODO: Update users permissions
 		//Parameters: username=lbenedetto permission=1 auth=authtoken
 		//Put the username and permission in the database if the authtoken is from an admin
 		break;
 	case 'GET':
+		$conn = getConn();
+		//$stmt = getUnameRow($_POST['username'], $conn);
+		
+		
 		//TODO: Return from database with search
 		//Parameters: searchByName=lbene auth=authtoken
 		//Parameters: searchByPermissions=1 auth=authtoken
