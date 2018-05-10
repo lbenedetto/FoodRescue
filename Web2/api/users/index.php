@@ -4,11 +4,24 @@ include '../auth_poster_functions.php';
 
 switch ($_SERVER['REQUEST_METHOD']) {
 	case 'POST':
-		if (isset($_POST['username']) && isset($_POST['permission']) && isset($_POST['auth'])) {
+		if (isset($_POST['auth']))
+			//make sure the auth comes from the admin
+		else
+		{
+			echo "Only the admin can make changes to the users in this way.";
+			break;
+		}
+		if (isset($_POST['permission']))
+			$perm = $_POST['permission'];
+		else
+			$perm = 0;
+		if (isset($_POST['username'])) 
+		{
+			$token = bin2hex(openssl_random_pseudo_bytes(64));
 			$conn = getConn();
 			$stmt = $conn->prepare("INSERT INTO users (uname, auth_token, feeder_perm) VALUES (?, ?, ?)");  
 			$stmt->bindValue(1, $_POST['username'], PDO::PARAM_STR);
-			$stmt->bindValue(2, $_POST['auth'], PDO::PARAM_STR);
+			$stmt->bindValue(2, $token, PDO::PARAM_STR);
 			$stmt->bindValue(3, $_POST['permission'], PDO::PARAM_STR);
 			try {
 				$stmt->execute();
@@ -16,6 +29,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
 				echo "Connection failed: " . $e->getMessage();
 			}
 		}
+		else
+			echo "No username specified.";
+		
+		// $token = bin2hex(openssl_random_pseudo_bytes(64));
 		//TODO: Update users permissions
 		//Parameters: username=lbenedetto permission=1 auth=authtoken
 		//Put the username and permission in the database if the authtoken is from an admin
