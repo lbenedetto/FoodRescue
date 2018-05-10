@@ -4,6 +4,18 @@ include '../auth_poster_functions.php';
 
 switch ($_SERVER['REQUEST_METHOD']) {
 	case 'POST':
+		if (isset($_POST['username']) && isset($_POST['permission']) && isset($_POST['auth'])) {
+			$conn = getConn();
+			$stmt = $conn->prepare("INSERT INTO users (uname, auth_token, feeder_perm) VALUES (?, ?, ?)");  
+			$stmt->bindValue(1, $_POST['username'], PDO::PARAM_STR);
+			$stmt->bindValue(2, $_POST['auth'], PDO::PARAM_STR);
+			$stmt->bindValue(3, $_POST['permission'], PDO::PARAM_STR);
+			try {
+				$stmt->execute();
+			} catch (PDOException $e) {
+				echo "Connection failed: " . $e->getMessage();
+			}
+		}
 		//TODO: Update users permissions
 		//Parameters: username=lbenedetto permission=1 auth=authtoken
 		//Put the username and permission in the database if the authtoken is from an admin
