@@ -60,7 +60,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 				}
 			}
 		} else {
-			header("Location: https://login.ewu.edu/cas/login?service=https://146.187.135.29/android/login");
+			header("Location: https://login.ewu.edu/cas/login?service=https://146.187.135.29/api/login/android");
 			exit;
 		}
 		break;

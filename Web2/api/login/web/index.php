@@ -31,7 +31,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 							if (isset($row['auth_token'])) // already have an auth token on file for this uid
 							{
 								echo json_encode($row['auth_token']);
-								header("Location: https://146.187.135.29/web/map.php?token=" . $row['auth_token'] . "&username=" . $uid);
+								header("Location: https://146.187.135.29/announce/?token=" . $row['auth_token'] . "&username=" . $uid);
 							} else // no auth token found, generate one and send it as JSON
 							{
 								$token = bin2hex(openssl_random_pseudo_bytes(64));
@@ -40,7 +40,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 								$stmt->bindValue(2, $uid, PDO::PARAM_STR);
 								$stmt->execute();
 								echo json_encode($token);
-								header("Location: https://146.187.135.29/web/map.php?token=" . $token . "&username=" . $uid);
+								header("Location: https://146.187.135.29/announce/?token=" . $token . "&username=" . $uid);
 							}
 						}
 						if ($stmt->rowCount() == 0) // if you don't find it, make a new entry
@@ -54,7 +54,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 								$stmt->bindValue(1, $token, PDO::PARAM_STR);
 								$stmt->execute();
 								echo json_encode($token);
-								header("Location: https://146.187.135.29/web/map.php?token=" . $token . "&username=" . $uid);
+								header("Location: https://146.187.135.29/announce/?token=" . $token . "&username=" . $uid);
 							} catch (PDOException $e) {
 								echo "Query failed: " . $e->getMessage();
 							}
@@ -65,7 +65,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 				}
 			}
 		} else
-			header("Location: https://login.ewu.edu/cas/login?service=https://146.187.135.29/web/login");
+			header("Location: https://login.ewu.edu/cas/login?service=https://146.187.135.29/api/login/web");
 		break;
 	default:
 		header("HTTP/1.0 405 MethodNotAllowed");
