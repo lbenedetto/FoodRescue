@@ -158,9 +158,8 @@ function sendDatamessage($title, $body, $lat, $lng, $expiry)
 }
 
 
-function getUnameRow($username)
+function getUnameRow($username, $conn)
 {
-	$conn = getConn();
 	if ($conn)
 	{
 		$stmt = $conn->prepare("SELECT * FROM databasetest.users WHERE uname = ?");  // Look for uid
@@ -176,6 +175,8 @@ function getUnameRow($username)
 			return 0;
 		}
 	}
+	echo "no conn";
+	return 0;
 }
 
 
