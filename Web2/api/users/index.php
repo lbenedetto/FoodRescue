@@ -6,7 +6,22 @@ switch ($_SERVER['REQUEST_METHOD']) {
 	case 'POST':
 		$conn = getConn();
 		if (isset($_POST['auth']))
-			//make sure the auth comes from the admin
+		{
+			$stmt = $conn->prepare("SELECT FROM users WHERE auth_token = ?);");
+			$stmt->bindValue(1, $_POST['auth'], PDO::PARAM_STR);
+			$stmt->execute();
+			if ($stmt->rowCount() == 1)
+			{
+				$row = $stmt->fetch(PDO::FETCH_ASSOC);
+				if ($row['feeder_perm'] != 2)
+				{
+					echo "user does not have permission";
+					break;
+				}
+			}
+			else
+				echo "auth token not found.";
+		}
 		else
 		{
 			echo "Only the admin can make changes to the users in this way.";
@@ -79,3 +94,4 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		//If search is (for example) 1, then return all users with permissions level 1 (feeders I think is what you set that as)
 		break;
 }
+
