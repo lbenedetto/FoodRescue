@@ -4,6 +4,7 @@ include '../auth_poster_functions.php';
 
 switch ($_SERVER['REQUEST_METHOD']) {
 	case 'POST':
+		$conn = getConn();
 		if (isset($_POST['auth']))
 			//make sure the auth comes from the admin
 		else
@@ -18,7 +19,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		if (isset($_POST['username'])) 
 		{
 			$token = bin2hex(openssl_random_pseudo_bytes(64));
-			$conn = getConn();
 			$stmt = getUnameRow($_POST['username'], $conn);
 			if ($stmt->rowCount() == 1)
 			{
