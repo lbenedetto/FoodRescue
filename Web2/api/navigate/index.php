@@ -28,9 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET')
   }
   
   if ($perm > 0)
-    echo '<li><a href="../announce/"></li>\n';
+    echo '<li><a href="../announce/">Make Announcements</li>\n';
   if ($perm > 1)
-    echo '<li><a href="../admin/"></li>\n';
+    echo '<li><a href="../admin/">Admin</li>\n';
     
     
   
