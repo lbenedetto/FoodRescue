@@ -1,11 +1,9 @@
 <?php
 include '../../auth_poster_functions.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'GET') 
-{
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 
-	if (isset($_GET['ticket'])) 
-	{
+	if (isset($_GET['ticket'])) {
 		$response = responseForTicket($_GET["ticket"], "android");
 		if (!$response)
 			echo "no response for ticket<br>";
@@ -36,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET')
 						} else // no auth token found, generate one and send it as JSON
 						{
 							$token = bin2hex(openssl_random_pseudo_bytes(64));
-							$stmt = $conn->prepare("UPDATE users SET auth_token=?, WHERE uname = ?;");
+							$stmt = $conn->prepare("UPDATE users SET auth_token=? WHERE uname = ?;");
 							$stmt->bindValue(1, $token, PDO::PARAM_STR);
 							$stmt->bindValue(2, $uid, PDO::PARAM_STR);
 							$stmt->execute();
@@ -55,15 +53,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET')
 						//echo json_encode($token . "that");
 						header("Location: intent://foodrescue.ewu.edu#Intent;scheme=http;package=edu.ewu.team1.foodrescue;S.token=" . $token . ";S.uid=" . $uid . ";end");
 						exit;
+					}
 				}
 			}
 		}
-	}
-	else
-	{
+	} else {
 		header("Location: https://login.ewu.edu/cas/login?service=https://146.187.135.29/api/login/android");
 		exit;
 	}
-}
-else
+} else
 	header("HTTP/1.0 405 MethodNotAllowed");

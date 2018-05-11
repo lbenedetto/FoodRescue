@@ -52,14 +52,14 @@ function getBuilding() {
 function sendNotification() {
 	var location = map.getCenter();
 
-	$.post("api/announce",
+	$.post("../api/announce",
 		{
 			"title": getBuilding()[0],
 			"body": $("#customMessage").val(),
 			"lat": location.lat,
 			"lng": location.lng,
-			"expiry": document.getElementById("buildingSelectorDropdownList").value,
-			"auth": "todo",
+			"expiry": $("#buildingSelectorDropdownList").val(),
+			"auth": auth,
 			"source": "web"
 		},
 		function (data) {

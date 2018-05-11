@@ -10,6 +10,14 @@
 	<title>SMS Subscription</title>
 </head>
 <body>
+<?php
+$token = $_GET['token'];
+if (isset($token)) {
+	echo "<input type='hidden' name='auth' value=$token>";
+} else {
+	header("Location: https://login.ewu.edu/cas/login?service=https://146.187.135.29/web/login");
+}
+?>
 <div id="navbar">
 	<ul>
 		<li><img src="../assets/burger_bell.png" id="icon" class="img" height="45" width="45"></li>

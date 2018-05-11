@@ -32,7 +32,6 @@ function extractUid($response)
     $responseArray = preg_split("/\n/", $response);
     // Get the line that has the cas:user tag
     $casUserArray = preg_grep("/(\d+)<\/cas:user>/", $responseArray);
-    $uuiidd;
     preg_match('#<cas:user>(.*?)</cas:user>#', $response, $uuiidd);
     if (!$uuiidd[1]) {
         return false;
@@ -70,13 +69,13 @@ function sendDatamessage($title, $body, $lat, $lng, $expiry)
 {
 	//echo "<br><br>data";
 	$fcmUrl = 'https://fcm.googleapis.com/fcm/send';
-	
+
 	$dataInData =
         [
             'title' => $title,
-			'body' => $body, 
-			'lat' => $lat, 
-			'lng' => $lng, 
+			'body' => $body,
+			'lat' => $lat,
+			'lng' => $lng,
 			'expiry' => $expiry
         ];
     $fcmDatamessage =
@@ -89,8 +88,8 @@ function sendDatamessage($title, $body, $lat, $lng, $expiry)
             'Authorization: key=' . API_ACCESS_KEY,
             'Content-Type: application/json'
         ];
-	
-	
+
+
 	try
 	{
 		$ch = curl_init();
@@ -101,11 +100,11 @@ function sendDatamessage($title, $body, $lat, $lng, $expiry)
 		}
 	}
 	catch(Exception $e)
-						{
-							echo "Connection failed: " . $e->getMessage();
-						}
+	{
+		echo "Connection failed: " . $e->getMessage();
+	}
 	if($ch == false)
-                syslog(LOG_INFO,"Falied to create a curl session");
+        syslog(LOG_INFO,"Falied to create a curl session");
 	//echo "sup3";
     curl_setopt($ch, CURLOPT_URL,$fcmUrl);
 	//curl_setopt($ch, CURLOPT_CAINFO, 'cacert.pem');
@@ -116,8 +115,8 @@ function sendDatamessage($title, $body, $lat, $lng, $expiry)
 	curl_setopt($ch, CURLOPT_VERBOSE, true);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-	
-	
+
+
 	//curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
     //curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
     curl_setopt($ch, CURLOPT_NOBODY, false);
@@ -133,22 +132,22 @@ function sendDatamessage($title, $body, $lat, $lng, $expiry)
     $result = curl_exec($ch);
 	}
 	catch(Exception $e)
-						{
-							echo "caught";
-							echo "Connection failed: " . $e->getMessage();
-						}
+		{
+			echo "caught";
+			echo "Connection failed: " . $e->getMessage();
+		}
 	//echo "<br>".curl_error($ch);
 	//echo "<br>".curl_getinfo($ch);
-	
-	$curldata = 
+
+	$curldata =
 	[
 		'title' => "\n<br>".$title."<br>\n",
 		'info' => curl_getinfo($ch),
 		'result' => $result
 	];
-	
+
 	file_put_contents("logfile.txt", $curldata,  FILE_APPEND);
-	
+
     curl_close($ch);
 	//echo "curl closed";
 

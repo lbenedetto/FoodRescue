@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET')
 						else // no auth token found, generate one and send it as JSON
 						{
 							$token = bin2hex(openssl_random_pseudo_bytes(64));
-							$stmt = $conn->prepare("UPDATE users SET auth_token=?, WHERE uname = ?;");
+							$stmt = $conn->prepare("UPDATE users SET auth_token=? WHERE uname = ?;");
 							$stmt->bindValue(1, $token, PDO::PARAM_STR);
 							$stmt->bindValue(2, $uid, PDO::PARAM_STR);
 							$stmt->execute();

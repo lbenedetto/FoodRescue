@@ -1,13 +1,12 @@
 var TABLE = $('#table');
 var CLONE = $('#clone');
 var id = 0;
-//TODO: Get auth token
-var auth;
+
 $.fn.exists = function () {
 	return this.length !== 0;
 };
 
-$.get("api/users/",
+$.get("../api/users/",
 	{
 		"auth": auth
 	},
@@ -26,16 +25,14 @@ function updateRow(id, data) {
 	var col = row.find('td');
 	col[0].innerText = data[0];
 	if (data[1] === 0)
-		col[1].innerHTML = "<td class=\"wide\"><label class=\"container\" onchange=\"toggleCheckbox(this, " + id + ")\"><input type=\"checkbox\"><span class=\"checkmark\"></span></label></td>";
+		col[1].innerHTML = "<td class='wide'><label class='container' onchange='toggleCheckbox(this, " + id + ")'><input type='checkbox'><span class='checkmark'></span></label></td>";
 	else
-		col[1].innerHTML = "<td class=\"wide\"><label class=\"container\" onchange=\"toggleCheckbox(this, " + id + ")\"><input type=\"checkbox\" checked=\"checked\"><span class=\"checkmark\"></span></label></td>";
+		col[1].innerHTML = "<td class='wide'><label class='container' onchange='toggleCheckbox(this, " + id + ")'><input type='checkbox' checked='checked'><span class='checkmark'></span></label></td>";
 	//Add it to the table if it isn't already in the table
 	if (!exists) {
 		TABLE.find('table').append(row);
 	}
 }
-
-var noButton = "<td class=\"wide hide\">not modified</td>";
 
 function toggleCheckbox(box, id) {
 	box.checked = !box.checked;
@@ -46,7 +43,7 @@ function toggleCheckbox(box, id) {
 		var col = row.find('td');
 		if (col[2].innerHTML === "not modified") {
 			//TODO: This button should be in the same column as the check box
-			col[2].innerHTML = "<button id=\"saveButton\" onclick=\"save(" + id + "," + box.checked + ")\"><span>Save</span><img src=\"assets/save.png\" height=\"15\"></button>";
+			col[2].innerHTML = "<button id='saveButton' onclick='save(" + id + "," + box.checked + ")'><span>Save</span><img src='assets/save.png' height='15'></button>";
 			$(col[2]).removeClass('hide');
 		} else {
 			col[2].innerHTML = "not modified";
@@ -59,7 +56,7 @@ function save(id, isChecked) {
 	var row = $("#" + id);
 	var col = row.find('td');
 	var username = col[0].innerText;
-	$.post("api/users",
+	$.post("../api/users",
 		{
 			"username": username,
 			"permission": isChecked,
@@ -74,7 +71,7 @@ function save(id, isChecked) {
 
 function search() {
 	var query = $("#usernameField").val();
-	$.get("api/users/",
+	$.get("../api/users/",
 		{
 			"search": query,
 			"auth": auth
@@ -95,7 +92,7 @@ function newUser() {
 	var username = $("#usernameField").val();
 	id++;
 	updateRow(id, [username, 0]);
-	$.post("api/users",
+	$.post("../api/users",
 		{
 			"username": username,
 			"permission": "0",
