@@ -10,7 +10,7 @@ function responseForTicket($ticket, $who)
 	global $casService, $thisService;
 
 	//$casGet = "$casService/serviceValidate?ticket=$ticket&service=" . urlencode($thisService);
-	$casGet = "https://login.ewu.edu/cas/serviceValidate?ticket=$ticket&service=https://146.187.135.29/" . $who . "/login";
+	$casGet = "https://login.ewu.edu/cas/serviceValidate?ticket=$ticket&service=https://146.187.135.29/api/login/$who";
 	$response = file_get_contents($casGet);
 	echo "Response: $response :done";
 	if (preg_match('/cas:authenticationSuccess/', $response)) {
