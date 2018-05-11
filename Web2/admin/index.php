@@ -10,20 +10,13 @@
 	<title>Admin Portal</title>
 </head>
 <body>
-<?php
-if (isset($_GET['auth'])) {
-	$auth = $_GET['auth'];
-	echo "<input id='auth' type='hidden' name='auth' value='$auth'>";
-} else {
-	header("Location: https://login.ewu.edu/cas/login?service=https://146.187.135.29/web/login");
-}
-?>
+<?php include "../api/login/web/checkAuth.php" ?>
 <div id="navbar">
 	<ul>
 		<li><img src="../assets/burger_bell.png" id="icon" class="img" height="45" width="45"></li>
 		<li><h2>Food Rescue</h2></li>
 		<li><a href="../subscribe/">Get Notified</a></li>
-		<?php include "../api/navigate";?>
+		<?php include "../api/navigate"; ?>
 	</ul>
 </div>
 <div class="mainContent">
