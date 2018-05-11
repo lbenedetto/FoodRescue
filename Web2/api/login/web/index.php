@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 			}
 		}
 	} else {
-		header("Location: https://login.ewu.edu/cas/login?service=https://146.187.135.29/api/web/login/");
+		header("Location: https://login.ewu.edu/cas/login?service=https://146.187.135.29/api/login/web/");
 	}
 } else {
 	header("HTTP/1.0 405 MethodNotAllowed");
