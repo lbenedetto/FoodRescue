@@ -1,3 +1,4 @@
+//TODO: Add a little loading icon for all actions?
 var TABLE = $('#table');
 var CLONE = $('#clone');
 var id = 0;
@@ -25,9 +26,9 @@ function updateRow(id, data) {
 	var col = row.find('td');
 	col[0].innerText = data[0];
 	if (data[1] === 0)
-		col[1].innerHTML = "<td class='wide'><label class='container' onchange='toggleCheckbox(this, " + id + ")'><input type='checkbox'><span class='checkmark'></span></label></td>";
+		col[1].innerHTML = "<td class='wide'><label class='checkboxContainer' onchange='toggleCheckbox(this, " + id + ")'><input type='checkbox'><span class='checkmark'></span></label></td>";
 	else
-		col[1].innerHTML = "<td class='wide'><label class='container' onchange='toggleCheckbox(this, " + id + ")'><input type='checkbox' checked='checked'><span class='checkmark'></span></label></td>";
+		col[1].innerHTML = "<td class='wide'><label class='checkboxContainer' onchange='toggleCheckbox(this, " + id + ")'><input type='checkbox' checked='checked'><span class='checkmark'></span></label></td>";
 	//Add it to the table if it isn't already in the table
 	if (!exists) {
 		TABLE.find('table').append(row);
@@ -38,16 +39,15 @@ function toggleCheckbox(box, id) {
 	box.checked = !box.checked;
 	var row = $("#" + id);
 	var exists = row.exists();
+	var saveButton = "<button id='saveButton' onclick='save(" + id + "," + box.checked + ")'><span>Save</span><img src='assets/save.png' height='15'></button>";
 	//This should always be true
 	if (exists) {
-		var col = row.find('td');
-		if (col[2].innerHTML === "not modified") {
-			//TODO: This button should be in the same column as the check box
-			col[2].innerHTML = "<button id='saveButton' onclick='save(" + id + "," + box.checked + ")'><span>Save</span><img src='assets/save.png' height='15'></button>";
-			$(col[2]).removeClass('hide');
+		var col = $(row.find('td')[1]);
+		if (col[0].innerHTML.indexOf("<button") === -1) {
+			col.append(saveButton);
+			// col[1].innerHTML = col[1].innerHTML + saveButton;
 		} else {
-			col[2].innerHTML = "not modified";
-			$(col[2]).addClass('hide');
+			col.find('button').remove();
 		}
 	}
 }
@@ -63,8 +63,8 @@ function save(id, isChecked) {
 			"auth": auth
 		},
 		function (response) {
-			id++;
-			updateRow(id, [username, 0]);
+			//TODO: Check if response was a success
+			$(row.find('td')[1]).find('button').remove();
 		}
 	);
 }
@@ -99,6 +99,7 @@ function newUser() {
 			"auth": auth
 		},
 		function (response) {
+			//TODO: Check if it worked
 			id++;
 			updateRow(id, [username, 0]);
 		}

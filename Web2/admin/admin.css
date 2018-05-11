@@ -32,6 +32,15 @@ input[type=text] {
 	box-sizing: border-box;
 }
 
+.checkboxColumn label {
+	display: inline-block !important;
+}
+
+.checkboxColumn button {
+	vertical-align: top;
+	display: inline-block !important;
+}
+
 .blur {
 	filter: blur(5px);
 	user-select: none;
@@ -95,7 +104,7 @@ input[type=text] {
 
 /** CHECKBOX CSS **/
 /* The container */
-.container {
+.checkboxContainer {
 	display: block;
 	position: relative;
 	padding-left: 35px;
@@ -109,7 +118,7 @@ input[type=text] {
 }
 
 /* Hide the browser's default checkbox */
-.container input {
+.checkboxContainer input {
 	position: absolute;
 	opacity: 0;
 	cursor: pointer;
@@ -126,12 +135,12 @@ input[type=text] {
 }
 
 /* On mouse-over, add a grey background color */
-.container:hover input ~ .checkmark {
+.checkboxContainer:hover input ~ .checkmark {
 	background-color: #ccc;
 }
 
 /* When the checkbox is checked, add a blue background */
-.container input:checked ~ .checkmark {
+.checkboxContainer input:checked ~ .checkmark {
 	background-color: #b41f35;
 }
 
@@ -143,12 +152,12 @@ input[type=text] {
 }
 
 /* Show the checkmark when checked */
-.container input:checked ~ .checkmark:after {
+.checkboxContainer input:checked ~ .checkmark:after {
 	display: block;
 }
 
 /* Style the checkmark/indicator */
-.container .checkmark:after {
+.checkboxContainer .checkmark:after {
 	left: 9px;
 	top: 5px;
 	width: 5px;

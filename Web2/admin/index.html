@@ -10,14 +10,14 @@
 	<title>Admin Portal</title>
 </head>
 <body>
-<?php
-$token = $_GET['token'];
-if (isset($token)) {
-	echo "<input type='hidden' name='auth' value=$token>";
-} else {
-	header("Location: https://login.ewu.edu/cas/login?service=https://146.187.135.29/web/login");
-}
-?>
+<!--<?php-->
+<!--if (isset($token)) {-->
+	<!--$token = $_GET['token'];-->
+	<!--echo "<input type='hidden' name='auth' value=$token>";-->
+<!--} else {-->
+	<!--header("Location: https://login.ewu.edu/cas/login?service=https://146.187.135.29/web/login");-->
+<!--}-->
+<!--?>-->
 <div id="navbar">
 	<ul>
 		<li><img src="../assets/burger_bell.png" id="icon" class="img" height="45" width="45"></li>
@@ -53,10 +53,10 @@ if (isset($token)) {
 	<!-- This is our clonable table line -->
 	<tr class="hide">
 		<!--Username-->
-		<td class="wide"></td>
+		<td class="wide username"></td>
 		<!--Switch-->
-		<td class="wide">
-			<label class="container" onchange="toggleCheckbox(this, 1)">
+		<td class="wide checkboxColumn">
+			<label class="checkboxContainer" onchange="toggleCheckbox(this, 1)">
 				<input type="checkbox">
 				<span class="checkmark"></span>
 			</label>
