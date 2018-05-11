@@ -48,7 +48,7 @@ function getConn()
     $servername = $p_ini['Database']['servername'];
     $username = $p_ini['Database']['username'];
     $password = $p_ini['Database']['password'];
-    $database = 'databasetest';
+    $database = 'foodrescue';
 //    echo "$servername
 //$username
 //$password
@@ -161,7 +161,7 @@ function getUnameRow($username, $conn)
 {
 	if ($conn)
 	{
-		$stmt = $conn->prepare("SELECT * FROM databasetest.users WHERE uname = ?");  // Look for uid
+		$stmt = $conn->prepare("SELECT * FROM foodrescue.users WHERE uname = ?");  // Look for uid
 		$stmt->bindValue(1, $username, PDO::PARAM_STR);
 		try
 		{

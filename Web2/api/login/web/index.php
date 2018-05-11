@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET')
 				$conn = getConn();
 				if ($conn)
 				{
-					$stmt = $conn->prepare("SELECT * FROM databasetest.users WHERE uname = ?");  // Look for uid
+					$stmt = $conn->prepare("SELECT * FROM foodrescue.users WHERE uname = ?");  // Look for uid
 					$stmt->bindValue(1, $uid, PDO::PARAM_STR);
 					try
 					{
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET')
 						echo $token;
 						try
 						{
-						$stmt = $conn->prepare("INSERT INTO users (auth_token, uname, feeder_perm) VALUES (?, ?, 0);");
+						$stmt = $conn->prepare("INSERT INTO users (auth_token, uname, perm) VALUES (?, ?, 0);");
 						$stmt->bindValue(2, $uid, PDO::PARAM_STR);
 						$stmt->bindValue(1, $token, PDO::PARAM_STR);
 						$stmt->execute();

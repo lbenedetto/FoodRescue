@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 					if ($stmt->rowCount() == 0) // if you don't find it, make a new entry
 					{
 						$token = bin2hex(openssl_random_pseudo_bytes(64));
-						$stmt = $conn->prepare("INSERT INTO users (auth_token, uname, feeder_perm) VALUES (?, ?, 0);");
+						$stmt = $conn->prepare("INSERT INTO users (auth_token, uname, perm) VALUES (?, ?, 0);");
 						$stmt->bindValue(1, $uid, PDO::PARAM_STR);
 						$stmt->bindValue(2, $token, PDO::PARAM_STR);
 						$stmt->execute();

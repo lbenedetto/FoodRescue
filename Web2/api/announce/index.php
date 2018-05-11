@@ -5,7 +5,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 	case 'POST':
 		if (isset($_POST['title']) && isset($_POST['body']) && isset($_POST['lat']) && isset($_POST['lng']) && isset($_POST['expiry']) && isset($_POST['auth']) && isset($_POST['source'])) {
 			$conn = getConn();
-			$stmt = $conn->prepare("SELECT * FROM databasetest.users WHERE auth_token = ?");  // Look for uid
+			$stmt = $conn->prepare("SELECT * FROM foodrescue.users WHERE auth_token = ?");  // Look for uid
 			$stmt->bindValue(1, $_POST['auth'], PDO::PARAM_STR);
 			try {
 				$stmt->execute();
@@ -17,7 +17,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			if ($stmt->rowCount() == 1) // Found the auth token
 			{
 				$row = $stmt->fetch(PDO::FETCH_ASSOC);
-				if ($row['feeder_perm'] == 1) {
+				if ($row['perm'] == 1) {
 					echo "<br>sending  " . $_POST['title'] . "  " . $_POST['body'] . "  " . $_POST['data'] . "<br>";
 					sendDatamessage($_POST['title'], $_POST['body'], $_POST['lat'], $_POST['lng'], $_POST['expiry']);
 					//header("Location: https://login.ewu.edu/cas/login?service=https://146.187.135.29/web/login");

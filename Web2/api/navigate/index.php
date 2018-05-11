@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET')
       if ($stmt->rowCount() == 1) // Found the id
       {
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        $perm = $row['feeder_perm'];         
+        $perm = $row['perm'];
       }
     }
   }
