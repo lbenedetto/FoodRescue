@@ -104,13 +104,6 @@
 			android:contentDescription="@string/crosshair_location_selector"
 			android:src="@drawable/crosshair" />
 
-		<TextView
-			android:id="@+id/textViewLatLng"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="lat/lng: (47.48,-117.58)"
-			android:textColor="@color/black" />
-
 	</RelativeLayout>
 
 	<Button

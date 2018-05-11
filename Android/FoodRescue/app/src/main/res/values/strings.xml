@@ -2,7 +2,7 @@
     <string name="app_name">Food Rescue</string>
     <string name="announce">Announce</string>
     <string name="custom_message">Customize Message:</string>
-    <string name="customize_exact_location">Customize Exact Location:</string>
+    <string name="customize_exact_location">Fine-tune Exact Location:</string>
     <string name="select_nearest_building">Select Nearest Building:</string>
     <string name="notifications_when_food_is_available">Notify when food is available</string>
     <string name="notifications_when_food_is_no_longer_available">Notify when food is no longer available</string>

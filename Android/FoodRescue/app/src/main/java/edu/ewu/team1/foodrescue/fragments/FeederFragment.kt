@@ -39,7 +39,6 @@ class FeederFragment : Fragment() {
 	private lateinit var spinnerLocation: Spinner
 	private lateinit var spinnerExpiry: Spinner
 	private var hasLocationAccess = false
-	private lateinit var location: TextView
 	private lateinit var dataManager: DataManager
 	private lateinit var editText: EditText
 
@@ -65,7 +64,6 @@ class FeederFragment : Fragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		Log.e("onViewCreated()", "called")
 		dataManager = (activity as MainActivity).dataManager
-		location = view.findViewById(R.id.textViewLatLng)
 		editText = view.findViewById(R.id.editTextMessage)
 		loadMap(view, savedInstanceState)
 		populateLocationMenu(view)
@@ -226,7 +224,6 @@ class FeederFragment : Fragment() {
 		mapView.onCreate(savedInstanceState)
 		mapView.getMapAsync({
 			map = it
-			map!!.setOnCameraMoveListener({ this.displayCurrentLocation() })
 
 			if (savedInstanceState != null) {
 				moveMapToLocation(LatLng(
@@ -236,7 +233,6 @@ class FeederFragment : Fragment() {
 			} else {
 				moveMapToLocation(currentLocation)
 			}
-			displayCurrentLocation()
 		})
 	}
 	//</editor-fold>
@@ -279,14 +275,6 @@ class FeederFragment : Fragment() {
 		}
 
 	/**
-	 * Displays the LatLng of the center of the crosshairs in a text view
-	 */
-	private fun displayCurrentLocation() {
-		val loc = crosshairLocation
-		location.text = loc.toString()
-	}
-
-	/**
 	 * Centers the map on the specified location and resets the zoom level
 	 *
 	 * @param latLng The location to center the map on
@@ -322,7 +310,6 @@ class FeederFragment : Fragment() {
 		mapView.onResume()
 		super.onResume()
 	}
-
 
 	override fun onPause() {
 		super.onPause()
