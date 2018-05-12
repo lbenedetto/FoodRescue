@@ -11,7 +11,6 @@ ul {
 	list-style-type: none;
 	margin: 0;
 	overflow: hidden;
-	background-color: #b41f35;
 }
 
 #navbar {
@@ -19,6 +18,18 @@ ul {
 	position: fixed;
 	top: 0;
 	width: 100%;
+	background-color: #b41f35;
+	height: 72px !important;
+}
+
+#title {
+	vertical-align: center;
+	height: 32px !important;
+	width: 165px !important;
+	font-size: 28px;
+	display: block;
+	font-weight: bold;
+	margin-top: 17px;
 }
 
 li {
@@ -28,18 +39,30 @@ li {
 }
 
 li a {
+	height: 100%;
+	color: white;
 	display: block;
 	text-align: center;
 	padding: 14px 16px;
 	text-decoration: none;
 }
 
+#links a {
+	display: inline-block;
+	margin-top: 11px;
+	height: 100%;
+}
+
+#links {
+	height: 100%;
+}
+
 #icon {
-	padding-top: 10px;
+	padding-top: 13px;
 }
 
 li a:hover {
-	background-color: #111;
+	background-color: #7a0e1e;
 }
 
 /** END HEADER BAR **/
@@ -63,6 +86,7 @@ button > img,
 button > span {
 	vertical-align: middle;
 }
+
 button:active {
 	transform: translateY(2px);
 }

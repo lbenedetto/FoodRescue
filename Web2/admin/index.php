@@ -14,9 +14,11 @@
 <div id="navbar">
 	<ul>
 		<li><img src="../assets/burger_bell.png" id="icon" class="img" height="45" width="45"></li>
-		<li><h2>Food Rescue</h2></li>
-		<li><a href="../subscribe/">Get Notified</a></li>
-		<?php include "../api/navigate"; ?>
+		<li id="title">Food Rescue</li>
+		<li id="links">
+			<a href="../subscribe/">Get Notified</a>
+			<?php include "../api/navigate"; ?>
+		</li>
 	</ul>
 </div>
 <div class="mainContent">
@@ -56,7 +58,6 @@
 				<span class="checkmark"></span>
 			</label>
 		</td>
-		<td class="wide hide">not modified</td>
 	</tr>
 </table>
 </body>

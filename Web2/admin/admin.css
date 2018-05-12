@@ -41,12 +41,6 @@ input[type=text] {
 	display: inline-block !important;
 }
 
-.blur {
-	filter: blur(5px);
-	user-select: none;
-	pointer-events: none;
-}
-
 .prettyTable {
 	color: white;
 	width: 800px;

@@ -14,9 +14,11 @@
 <div id="navbar">
 	<ul>
 		<li><img src="../assets/burger_bell.png" id="icon" class="img" height="45" width="45"></li>
-		<li><h2>Food Rescue</h2></li>
-		<li><a href="../subscribe/">Get Notified</a></li>
-		<?php include "../api/navigate"; ?>
+		<li id="title">Food Rescue</li>
+		<li id="links">
+			<a href="../subscribe/">Get Notified</a>
+			<?php include "../api/navigate"; ?>
+		</li>
 	</ul>
 </div>
 <div class="mainContent">
@@ -62,7 +64,7 @@
 	</select>
 	<p class="p3">Fine-tune exact location:</p>
 	<!--https://stackoverflow.com/questions/4130237/displaying-crosshairs-in-the-center-of-a-javascript-google-map-->
-	<div id="container">
+	<div id="mapContainer">
 		<div id="map"></div>
 		<div id="crosshair"><img src="assets/crosshair.png" width="50" height="50"></div>
 	</div>

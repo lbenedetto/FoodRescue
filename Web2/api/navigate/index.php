@@ -9,9 +9,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		$perm = getUserPermissionLevel($_GET['auth']);
 	}
 	if ($perm > 0)
-		echo '<li><a href="../announce/">Make Announcements</li>\n';
+		echo '<a href="../announce/">Make Announcements</a>\n';
 	if ($perm > 1)
-		echo '<li><a href="../admin/">Admin</li>\n';
+		echo '<a href="../admin/">Manage Users</a>\n';
 
 
 } else
