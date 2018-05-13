@@ -27,15 +27,16 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			$perm = 0;
 		if (isset($_POST['username'])) {
 			$token = bin2hex(openssl_random_pseudo_bytes(64));
-			$stmt = getUnameRow($_POST['username'], $conn);
+			$uid = $_POST['username'];
+			$stmt = getUnameRow($uid, $conn);
 			if ($stmt->rowCount() == 1) {
 				$stmt = $conn->prepare("UPDATE users SET perm = ? WHERE uname = ?;");
-				$stmt->bindValue(1, $_POST['username'], PDO::PARAM_STR);
+				$stmt->bindValue(1, $uid, PDO::PARAM_STR);
 				$stmt->execute();
 			} else {
 				$stmt = $conn->prepare("INSERT INTO users (auth_token, uname, perm) VALUES (?, ?, ?);");
-				$stmt->bindValue(2, $uid, PDO::PARAM_STR);
 				$stmt->bindValue(1, $token, PDO::PARAM_STR);
+				$stmt->bindValue(2, $uid, PDO::PARAM_STR);
 				$stmt->bindValue(3, $perm, PDO::PARAM_STR);
 				$stmt->execute();
 			}
