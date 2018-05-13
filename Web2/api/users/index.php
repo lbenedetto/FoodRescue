@@ -6,7 +6,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 	case 'POST':
 		$conn = getConn();
 		if (isset($_POST['auth'])) {
-			$stmt = $conn->prepare("SELECT FROM users WHERE auth_token = ?);");
+			$stmt = $conn->prepare("SELECT 1 FROM users WHERE auth_token = ?;");
 			$stmt->bindValue(1, $_POST['auth'], PDO::PARAM_STR);
 			$stmt->execute();
 			if ($stmt->rowCount() == 1) {
@@ -29,7 +29,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			$token = bin2hex(openssl_random_pseudo_bytes(64));
 			$stmt = getUnameRow($_POST['username'], $conn);
 			if ($stmt->rowCount() == 1) {
-				$stmt = $conn->prepare("UPDATE users SET perm=?, WHERE uname = ?;");
+				$stmt = $conn->prepare("UPDATE users SET perm = ? WHERE uname = ?;");
 				$stmt->bindValue(1, $_POST['username'], PDO::PARAM_STR);
 				$stmt->execute();
 			} else {

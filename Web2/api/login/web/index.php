@@ -57,13 +57,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 					$perm = getUserPermissionLevel($token);
 					switch ($perm) {
 						case 0:
-							header("Location: https://146.187.135.29/subscribe/?token=" . $token . "&username=" . $uid);
+							header("Location: ".SITE_URL."subscribe/?token=" . $token . "&username=" . $uid);
 							exit;
 						case 1:
-							header("Location: https://146.187.135.29/announce/?token=" . $token . "&username=" . $uid);
+							header("Location: ".SITE_URL."announce/?token=" . $token . "&username=" . $uid);
 							exit;
 						case 2:
-							header("Location: https://146.187.135.29/admin/?token=" . $token . "&username=" . $uid);
+							header("Location: ".SITE_URL."admin/?token=" . $token . "&username=" . $uid);
 							exit;
 					}
 
@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 			}
 		}
 	} else {
-		header("Location: https://login.ewu.edu/cas/login?service=https://146.187.135.29/api/login/web/");
+		header("Location: https://login.ewu.edu/cas/login?service=".SITE_URL."api/login/web/");
 	}
 } else {
 	header("HTTP/1.0 405 MethodNotAllowed");
