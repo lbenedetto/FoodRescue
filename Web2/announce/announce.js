@@ -29,9 +29,56 @@ var buildings = [
 	["WLM - Williamson Hall", 47.490194, -117.582904]
 ];
 
+// Preventing the Google Maps library from downloading an extra font
+(function () {
+	var isRobotoStyle = function (element) {
+
+		// roboto font download
+		if (element.href
+			&& element.href.indexOf('https://fonts.googleapis.com/css?family=Roboto') === 0) {
+			return true;
+		}
+		// roboto style elements
+		if (element.tagName.toLowerCase() === 'style'
+			&& element.styleSheet
+			&& element.styleSheet.cssText
+			&& element.styleSheet.cssText.replace('\r\n', '').indexOf('.gm-style') === 0) {
+			element.styleSheet.cssText = '';
+			return true;
+		}
+		// roboto style elements for other browsers
+		if (element.tagName.toLowerCase() === 'style'
+			&& element.innerHTML
+			&& element.innerHTML.replace('\r\n', '').indexOf('.gm-style') === 0) {
+			element.innerHTML = '';
+			return true;
+		}
+		// when google tries to add empty style
+		return element.tagName.toLowerCase() === 'style'
+			&& !element.styleSheet && !element.innerHTML;
+	};
+
+	// we override these methods only for one particular head element
+	// default methods for other elements are not affected
+	var head = $('head')[0];
+
+	var insertBefore = head.insertBefore;
+	head.insertBefore = function (newElement, referenceElement) {
+		if (!isRobotoStyle(newElement)) {
+			insertBefore.call(head, newElement, referenceElement);
+		}
+	};
+
+	var appendChild = head.appendChild;
+	head.appendChild = function (textNode) {
+		if (!isRobotoStyle($(textNode)[0])) {
+			appendChild.call(head, textNode);
+		}
+	};
+})();
 
 function initMap() {
-	var location = {lat: 47.491099, lng: -117.581438};
+	var location = {lat: 47.491355, lng: -117.582798};
 	map = new google.maps.Map(document.getElementById('map'), {
 		zoom: 17,
 		center: location

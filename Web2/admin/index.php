@@ -14,7 +14,7 @@
 <div id="navbar">
 	<ul>
 		<li><img src="../assets/burger_bell.png" id="icon" class="img" height="45" width="45"></li>
-		<li id="title">Food Rescue</li>
+		<li><h2>Food Rescue</h2></li>
 		<li id="links">
 			<a href="../subscribe/">Get Notified</a>
 			<?php include "../api/navigate"; ?>

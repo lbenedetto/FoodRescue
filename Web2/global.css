@@ -11,6 +11,7 @@ ul {
 	list-style-type: none;
 	margin: 0;
 	overflow: hidden;
+	height: 100%;
 }
 
 #navbar {
@@ -19,46 +20,26 @@ ul {
 	top: 0;
 	width: 100%;
 	background-color: #b41f35;
-	height: 72px !important;
-}
-
-#title {
-	vertical-align: center;
-	height: 32px !important;
-	width: 165px !important;
-	font-size: 28px;
-	display: block;
-	font-weight: bold;
-	margin-top: 17px;
+	height: 55px;
 }
 
 li {
 	padding-left: 1em;
 	float: left;
-	color: white;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 }
 
 li a {
+	padding-left: .5em;
+	padding-right: .5em;
 	height: 100%;
-	color: white;
-	display: block;
-	text-align: center;
-	padding: 14px 16px;
 	text-decoration: none;
-}
-
-#links a {
-	display: inline-block;
-	margin-top: 11px;
-	height: 100%;
-}
-
-#links {
-	height: 100%;
-}
-
-#icon {
-	padding-top: 13px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 }
 
 li a:hover {
@@ -103,7 +84,7 @@ button:active {
 
 /** END BUTTON **/
 /** GENERAL STYLING **/
-li, h2, p, textarea {
+li, h2, p, textarea, a{
 	color: white;
 }
 
