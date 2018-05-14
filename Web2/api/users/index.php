@@ -5,9 +5,9 @@ include '../auth_poster_functions.php';
 switch ($_SERVER['REQUEST_METHOD']) {
 	case 'POST':
 		$conn = getConn();
-		if (isset($_POST['auth'])) {
+		if (isset($_POST['auth_token'])) {
 			$stmt = $conn->prepare("SELECT 1 FROM users WHERE auth_token = ?;");
-			$stmt->bindValue(1, $_POST['auth'], PDO::PARAM_STR);
+			$stmt->bindValue(1, $_POST['auth_token'], PDO::PARAM_STR);
 			$stmt->execute();
 			if ($stmt->rowCount() == 1) {
 				$row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -26,7 +26,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		else
 			$perm = 0;
 		if (isset($_POST['username'])) {
-			$token = bin2hex(openssl_random_pseudo_bytes(64));
+			$auth_token = bin2hex(openssl_random_pseudo_bytes(64));
 			$uid = $_POST['username'];
 			$stmt = getUnameRow($uid, $conn);
 			if ($stmt->rowCount() == 1) {
@@ -35,7 +35,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 				$stmt->execute();
 			} else {
 				$stmt = $conn->prepare("INSERT INTO users (auth_token, uname, perm) VALUES (?, ?, ?);");
-				$stmt->bindValue(1, $token, PDO::PARAM_STR);
+				$stmt->bindValue(1, $auth_token, PDO::PARAM_STR);
 				$stmt->bindValue(2, $uid, PDO::PARAM_STR);
 				$stmt->bindValue(3, $perm, PDO::PARAM_STR);
 				$stmt->execute();

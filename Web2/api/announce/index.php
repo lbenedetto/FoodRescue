@@ -3,10 +3,10 @@ include '../auth_poster_functions.php';
 
 switch ($_SERVER['REQUEST_METHOD']) {
 	case 'POST':
-		if (isset($_POST['title']) && isset($_POST['body']) && isset($_POST['lat']) && isset($_POST['lng']) && isset($_POST['expiry']) && isset($_POST['auth']) && isset($_POST['source'])) {
+		if (isset($_POST['title']) && isset($_POST['body']) && isset($_POST['lat']) && isset($_POST['lng']) && isset($_POST['expiry']) && isset($_POST['auth_token']) && isset($_POST['source'])) {
 			$conn = getConn();
 			$stmt = $conn->prepare("SELECT * FROM foodrescue.users WHERE auth_token = ?");  // Look for uid
-			$stmt->bindValue(1, $_POST['auth'], PDO::PARAM_STR);
+			$stmt->bindValue(1, $_POST['auth_token'], PDO::PARAM_STR);
 			try {
 				$stmt->execute();
 			} catch (PDOException $e) {
@@ -24,7 +24,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 					exit;
 				} else echo "Not allowed!";
 			} else {
-				echo "<br> auth token " . $_POST['auth'] . " not found... <br>";
+				echo "<br> auth token " . $_POST['auth_token'] . " not found... <br>";
 				//sendRequest($_POST['title'], $_POST['body'], $_POST['data']);
 			}
 		} else {

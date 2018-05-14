@@ -31,39 +31,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 						$row = $stmt->fetch(PDO::FETCH_ASSOC);
 						if (isset($row['auth_token'])) // already have an auth token on file for this uid
 						{
-							$token = $row['auth_token'];
+							$auth_token = $row['auth_token'];
 						} else // no auth token found, generate one and send it as JSON
 						{
-							$token = bin2hex(openssl_random_pseudo_bytes(64));
+							$auth_token = bin2hex(openssl_random_pseudo_bytes(64));
 							$stmt = $conn->prepare("UPDATE users SET auth_token=? WHERE uname = ?;");
-							$stmt->bindValue(1, $token, PDO::PARAM_STR);
+							$stmt->bindValue(1, $auth_token, PDO::PARAM_STR);
 							$stmt->bindValue(2, $uid, PDO::PARAM_STR);
 							$stmt->execute();
 
 						}
 					} else if ($rowCount == 0) // if you don't find it, make a new entry
 					{
-						$token = bin2hex(openssl_random_pseudo_bytes(64));
+						$auth_token = bin2hex(openssl_random_pseudo_bytes(64));
 						try {
 							$stmt = $conn->prepare("INSERT INTO users (auth_token, uname, perm) VALUES (?, ?, 0);");
-							$stmt->bindValue(1, $token, PDO::PARAM_STR);
+							$stmt->bindValue(1, $auth_token, PDO::PARAM_STR);
 							$stmt->bindValue(2, $uid, PDO::PARAM_STR);
 							$stmt->execute();
 						} catch (PDOException $e) {
 							echo "Query failed: " . $e->getMessage();
 						}
 					}
-					echo json_encode($token);
-					$perm = getUserPermissionLevel($token);
+					echo json_encode($auth_token);
+					$perm = getUserPermissionLevel($auth_token);
 					switch ($perm) {
 						case 0:
-							header("Location: ".SITE_URL."subscribe/?token=" . $token . "&username=" . $uid);
+							header("Location: " . SITE_URL . "subscribe/?token=" . $auth_token . "&username=" . $uid);
 							exit;
 						case 1:
-							header("Location: ".SITE_URL."announce/?token=" . $token . "&username=" . $uid);
+							header("Location: " . SITE_URL . "announce/?token=" . $auth_token . "&username=" . $uid);
 							exit;
 						case 2:
-							header("Location: ".SITE_URL."admin/?token=" . $token . "&username=" . $uid);
+							header("Location: " . SITE_URL . "admin/?token=" . $auth_token . "&username=" . $uid);
 							exit;
 					}
 
@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 			}
 		}
 	} else {
-		header("Location: https://login.ewu.edu/cas/login?service=".SITE_URL."api/login/web/");
+		header("Location: https://login.ewu.edu/cas/login?service=" . SITE_URL . "api/login/web/");
 	}
 } else {
 	header("HTTP/1.0 405 MethodNotAllowed");

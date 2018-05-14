@@ -9,7 +9,7 @@ $.fn.exists = function () {
 
 $.get("../api/users/",
 	{
-		"auth": auth
+		"auth_token": auth_token
 	},
 	handleResponse
 );
@@ -60,7 +60,7 @@ function save(id, isChecked) {
 		{
 			"username": username,
 			"permission": isChecked,
-			"auth": auth
+			"auth_token": auth_token
 		},
 		function (response) {
 			//TODO: Check if response was a success
@@ -74,7 +74,7 @@ function search() {
 	$.get("../api/users/",
 		{
 			"search": query,
-			"auth": auth
+			"auth_token": auth_token
 		},
 		handleResponse
 	);
@@ -96,7 +96,7 @@ function newUser() {
 		{
 			"username": username,
 			"permission": "0",
-			"auth": auth
+			"auth_token": auth_token
 		},
 		function (response) {
 			//TODO: Check if it worked

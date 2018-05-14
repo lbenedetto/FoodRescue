@@ -33,25 +33,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 							exit;
 						} else // no auth token found, generate one and send it as JSON
 						{
-							$token = bin2hex(openssl_random_pseudo_bytes(64));
+							$auth_token = bin2hex(openssl_random_pseudo_bytes(64));
 							$stmt = $conn->prepare("UPDATE users SET auth_token=? WHERE uname = ?;");
 							$stmt->bindValue(1, $token, PDO::PARAM_STR);
 							$stmt->bindValue(2, $uid, PDO::PARAM_STR);
 							$stmt->execute();
 							//echo json_encode($token . "this");
-							header("Location: intent://foodrescue.ewu.edu#Intent;scheme=http;package=edu.ewu.team1.foodrescue;S.token=" . $token . ";S.uid=" . $uid . ";end");
+							header("Location: intent://foodrescue.ewu.edu#Intent;scheme=http;package=edu.ewu.team1.foodrescue;S.token=" . $auth_token . ";S.uid=" . $uid . ";end");
 							exit;
 						}
 					}
 					if ($stmt->rowCount() == 0) // if you don't find it, make a new entry
 					{
-						$token = bin2hex(openssl_random_pseudo_bytes(64));
+						$auth_token = bin2hex(openssl_random_pseudo_bytes(64));
 						$stmt = $conn->prepare("INSERT INTO users (auth_token, uname, perm) VALUES (?, ?, 0);");
 						$stmt->bindValue(1, $uid, PDO::PARAM_STR);
 						$stmt->bindValue(2, $token, PDO::PARAM_STR);
 						$stmt->execute();
 						//echo json_encode($token . "that");
-						header("Location: intent://foodrescue.ewu.edu#Intent;scheme=http;package=edu.ewu.team1.foodrescue;S.token=" . $token . ";S.uid=" . $uid . ";end");
+						header("Location: intent://foodrescue.ewu.edu#Intent;scheme=http;package=edu.ewu.team1.foodrescue;S.token=" . $auth_token . ";S.uid=" . $uid . ";end");
 						exit;
 					}
 				}

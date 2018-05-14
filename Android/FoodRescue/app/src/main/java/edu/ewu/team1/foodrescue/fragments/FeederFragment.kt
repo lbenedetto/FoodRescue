@@ -184,7 +184,7 @@ class FeederFragment : Fragment() {
 				) {
 					override fun getParams(): Map<String, String> {
 						val params = HashMap<String, String>()
-						params["auth"] = dataManager.getToken()
+						params["auth_token"] = dataManager.getToken()
 						params["title"] = locName
 						params["body"] = message
 						params["lat"] = loc!!.latitude.toString()

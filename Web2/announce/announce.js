@@ -106,7 +106,7 @@ function sendNotification() {
 			"lat": location.lat,
 			"lng": location.lng,
 			"expiry": $("#buildingSelectorDropdownList").val(),
-			"auth": auth,
+			"auth_token": auth_token,
 			"source": "web"
 		},
 		function (data) {

@@ -5,8 +5,8 @@
 //Eater gets only Eater page, ect
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	$perm = 0;
-	if (isset($_GET['auth'])) {
-		$perm = getUserPermissionLevel($_GET['auth']);
+	if (isset($_GET['auth_token'])) {
+		$perm = getUserPermissionLevel($_GET['auth_token']);
 	}
 	if ($perm > 0)
 		echo '<a href="../announce/">Make Announcements</a>\n';

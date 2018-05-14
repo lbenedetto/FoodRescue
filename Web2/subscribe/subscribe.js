@@ -4,7 +4,7 @@ function subscribe() {
 	number = number.replace(/\D/g, '');
 	//Phone numbers with area codes are 10 digits
 	if (number.length === 10) {
-		$.post("../api/subscribe/?number=" + number + "&auth=" + auth,
+		$.post("../api/subscribe/?number=" + number + "&auth_token=" + auth_token,
 			data,
 			function (data) {
 				//TODO: Handle server response
