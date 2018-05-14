@@ -47,7 +47,7 @@
 </div>
 
 <table id="clone" class="hide">
-	<!-- This is our clonable table line -->
+	<!-- This is our cloneable table line -->
 	<tr class="hide">
 		<!--Username-->
 		<td class="wide username"></td>

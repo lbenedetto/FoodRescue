@@ -29,7 +29,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			}
 		} else {
 			$src = $_POST['source'];
-			header("Location: https://login.ewu.edu/cas/login?service=".SITE_URL."api/login/$src/");
+			header("Location: https://login.ewu.edu/cas/login?service=".$_SESSION['SITE_URL']."api/login/$src/");
 		}
 		exit;
 	default:

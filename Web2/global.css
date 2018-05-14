@@ -49,7 +49,6 @@ li a:hover {
 /** END HEADER BAR **/
 /** BUTTON **/
 button {
-	color: #fff;
 	background-color: #b41f35;
 	border: none;
 	border-radius: 5px;
@@ -84,7 +83,7 @@ button:active {
 
 /** END BUTTON **/
 /** GENERAL STYLING **/
-li, h2, p, textarea, a{
+*{
 	color: white;
 }
 
@@ -106,8 +105,11 @@ select {
 	margin: 80px auto;
 	width: 50em;
 	min-height: 100%;
-	padding: 1em 1em 50px;
+	padding: 1em 1em;
 	background: #262626;
+	border: none;
+	border-radius: 5px;
+	box-shadow: 0 2px 5px #161616;
 }
 
 #mainContentHeader {

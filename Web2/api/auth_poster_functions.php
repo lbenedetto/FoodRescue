@@ -2,7 +2,7 @@
 // <!-- Some of this code comes from Berkely-->
 //<!--https://calnetweb.berkeley.edu/calnet-technologists/cas/casifying-your-web-application-or-web-server/cas-code-samples/cas-->
 define('API_ACCESS_KEY', 'AAAAZ9gqXJw:APA91bEYHdK7fnJ-9Uj3wqrs3xShJVYyuUcC3rHXS7LaYtCrKYv8CdUHXjq9pNmTwSxBZTO2z4-AhWLJW8_DjtauE-ZzWCq34J-WOzuy9WEWxI9Qe_w1Rv8XKmK8w7paoZk-zsVqiZpV');
-define('SITE_URL', 'https://146.187.135.29/');
+$_SESSION['SITE_URL'] = 'https://146.187.135.29/';
 $casService = 'https://login.ewu.edu/cas';
 $thisService = 'http://foodrescue.ewu.edu' . $_SERVER['PHP_SELF'];
 
@@ -11,7 +11,7 @@ function responseForTicket($ticket, $who)
 	global $casService, $thisService;
 
 	//$casGet = "$casService/serviceValidate?ticket=$ticket&service=" . urlencode($thisService);
-	$casGet = "https://login.ewu.edu/cas/serviceValidate?ticket=$ticket&service=".SITE_URL."api/login/$who";
+	$casGet = "https://login.ewu.edu/cas/serviceValidate?ticket=$ticket&service=".$_SESSION['SITE_URL']."api/login/$who";
 	$response = file_get_contents($casGet);
 	echo "Response: $response :done";
 	if (preg_match('/cas:authenticationSuccess/', $response)) {
