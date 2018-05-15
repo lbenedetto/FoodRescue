@@ -10,14 +10,18 @@
 	<title>Make Announcement</title>
 </head>
 <body>
-<?php include "../api/login/web/checkAuth.php" ?>
+<?php   include "../api/login/web/checkAuth.php"; 
+	include "../api/auth_poster_functions.php";
+?>
 <div id="navbar">
 	<ul>
 		<li><img src="../assets/burger_bell.png" id="icon" class="img" height="45" width="45"></li>
 		<li><h2>Food Rescue</h2></li>
 		<li id="links">
 			<a href="../subscribe/">Get Notified</a>
-			<?php include "../api/navigate"; ?>
+<?php 
+	addNavs(); 
+	?>
 		</li>
 	</ul>
 </div>
