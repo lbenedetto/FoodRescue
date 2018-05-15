@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include '../../auth_poster_functions.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
@@ -55,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 					}
 					echo json_encode($auth_token);
 					$perm = getUserPermissionLevel($auth_token);
+					$_SESSION['auth_token'] = $auth_token;
 					switch ($perm) {
 						case 0:
 							header("Location: " . $_SESSION['SITE_URL'] . "subscribe/?auth_token=" . $auth_token . "&username=" . $uid);
