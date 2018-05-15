@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		echo '<a href="../announce/">Make Announcements</a>\n';
 	if ($perm > 1)
 		echo '<a href="../admin/">Manage Users</a>\n';
-
+	echo '<a href="../admin/">Manage Users</a>\n';
 
 } else
 	header("HTTP/1.0 405 MethodNotAllowed");
