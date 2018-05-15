@@ -26,7 +26,7 @@
 		<img src="assets/signin.png" height="15">
 	</button>
 	<button id="downloadButton" onclick="downloadApp()">
-		<span>Get App</span>
+		<span>Get App</span
 		<img src="assets/download.png" height="15">
 	</button>
 	<iframe id="iframeAppDownloader" style="display:none;"></iframe>

@@ -57,13 +57,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 					$perm = getUserPermissionLevel($auth_token);
 					switch ($perm) {
 						case 0:
-							header("Location: " . $_SESSION['SITE_URL'] . "subscribe/?auth=" . $auth_token . "&username=" . $uid);
+							header("Location: " . $_SESSION['SITE_URL'] . "subscribe/?auth_token=" . $auth_token . "&username=" . $uid);
 							exit;
 						case 1:
-							header("Location: " . $_SESSION['SITE_URL'] . "announce/?auth=" . $auth_token . "&username=" . $uid);
+							header("Location: " . $_SESSION['SITE_URL'] . "announce/?auth_token=" . $auth_token . "&username=" . $uid);
 							exit;
 						case 2:
-							header("Location: " . $_SESSION['SITE_URL'] . "admin/?auth=" . $auth_token . "&username=" . $uid);
+							header("Location: " . $_SESSION['SITE_URL'] . "admin/?auth_token=" . $auth_token . "&username=" . $uid);
 							exit;
 					}
 

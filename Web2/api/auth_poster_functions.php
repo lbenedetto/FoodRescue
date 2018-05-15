@@ -169,13 +169,13 @@ function getUnameRow($username, $conn)
 	return 0;
 }
 
-function getUserPermissionLevel($token)
+function getUserPermissionLevel($auth_token)
 {
 	$perm = 0;
 	$conn = getConn();
 	if ($conn) {
 		$stmt = $conn->prepare("SELECT * FROM users WHERE auth_token = ?");  // Look for uid
-		$stmt->bindValue(1, $token, PDO::PARAM_STR);
+		$stmt->bindValue(1, $auth_token, PDO::PARAM_STR);
 		try {
 			$stmt->execute();
 		} catch (PDOException $e) {

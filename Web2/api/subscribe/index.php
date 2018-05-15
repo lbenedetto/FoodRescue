@@ -3,6 +3,7 @@ include '../auth_poster_functions.php';
 
 switch ($_SERVER['REQUEST_METHOD']) {
 	//TODO: Make sure this code works the same for adding a new phone number to a user, or updating an existing phone number
+	//TODO: Add authentication
 	case 'POST':
 		if (isset($_POST['number']) && isset($_POST['carrier']) && isset($_POST['uname'])) {
 			$conn = getConn();
