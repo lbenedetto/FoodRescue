@@ -200,9 +200,9 @@ function addNavs()
 			$perm = getUserPermissionLevel($_SESSION['auth_token']);
 		}
 		if ($perm > 0)
-			echo '<a href="../announce/">Make Announcements</a>\n';
+			echo '<a href="../announce/">Make Announcements</a>';
 		if ($perm > 1)
-			echo '<a href="../admin/">Manage Users</a>\n';
+			echo '<a href="../admin/">Manage Users</a>';
 }
 
 ?>
