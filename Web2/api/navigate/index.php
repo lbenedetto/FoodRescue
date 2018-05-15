@@ -8,6 +8,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 	if (isset($_GET['auth_token'])) {
 		$perm = getUserPermissionLevel($_GET['auth_token']);
 	}
+	if (isset($_SESSION['auth_token'])) {
+		$perm = getUserPermissionLevel($_SESSION['auth_token']);
+	}
 	if ($perm > 0)
 		echo '<a href="../announce/">Make Announcements</a>\n';
 	if ($perm > 1)
