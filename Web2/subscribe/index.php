@@ -16,7 +16,7 @@
 		<li><img src="../assets/burger_bell.png" id="icon" class="img" height="45" width="45"></li>
 		<li><h2>Food Rescue</h2></li>
 		<li id="links">
-			<a href="../subscribe/">Get Notified</a>
+			<a href="../subscribe/<?php echo "?auth_token=$_GET['auth_token']" ?>">Get Notified</a>
 			<?php include "../api/navigate"; ?>
 		</li>
 	</ul>
