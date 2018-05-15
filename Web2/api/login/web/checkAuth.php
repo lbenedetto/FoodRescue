@@ -1,4 +1,5 @@
 <?php
+session_start();
 include "../../auth_poster_functions.php";
 if (isset($_GET['auth_token'])) 
 {
