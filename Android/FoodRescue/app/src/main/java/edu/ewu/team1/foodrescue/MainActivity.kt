@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 				val intent = intent
 				val extras = intent.extras
 				if (extras != null) {
-					val token = extras.getString("token") ?: DataManager.NO_TOKEN
+					val token = extras.getString("auth_token") ?: DataManager.NO_TOKEN
 					username = extras.getString("uid") ?: DataManager.NO_USERNAME
 					if (username != DataManager.NO_USERNAME) {
 						dataManager.saveUsernameAndToken(username, token)

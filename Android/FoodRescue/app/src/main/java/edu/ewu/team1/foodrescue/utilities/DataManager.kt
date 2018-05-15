@@ -7,7 +7,7 @@ class DataManager(private val sharedPrefs: SharedPreferences) {
 		const val FOOD_EVENTS_KEY = "food_events"
 		const val NOTIFICATION_ID_KEY = "notification_id"
 		const val USERNAME_KEY = "username"
-		const val TOKEN_KEY = "token"
+		const val TOKEN_KEY = "auth_token"
 		const val NOTIFICATIONS_ENABLED_KEY = "notifications_enabled"
 		const val NO_USERNAME = "NoUsername"
 		const val NO_TOKEN = "NoToken"
