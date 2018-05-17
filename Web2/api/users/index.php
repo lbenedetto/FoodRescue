@@ -31,13 +31,14 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			$stmt = getUnameRow($uid, $conn);
 			if ($stmt->rowCount() == 1) {
 				$stmt = $conn->prepare("UPDATE users SET perm = ? WHERE uname = ?;");
-				$stmt->bindValue(1, $uid, PDO::PARAM_STR);
+				$stmt->bindValue(1, $perm, PDO::PARAM_INT);
+				$stmt->bindValue(2, $uid, PDO::PARAM_STR);
 				$stmt->execute();
 			} else {
 				$stmt = $conn->prepare("INSERT INTO users (auth_token, uname, perm) VALUES (?, ?, ?);");
 				$stmt->bindValue(1, $auth_token, PDO::PARAM_STR);
 				$stmt->bindValue(2, $uid, PDO::PARAM_STR);
-				$stmt->bindValue(3, $perm, PDO::PARAM_STR);
+				$stmt->bindValue(3, $perm, PDO::PARAM_INT);
 				$stmt->execute();
 			}
 
