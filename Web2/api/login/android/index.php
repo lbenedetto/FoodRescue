@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 			}
 		}
 	} else {
-		header("Location: https://login.ewu.edu/cas/login?service=".$_SESSION['SITE_URL']."api/login/android");
+		header("Location: https://login.ewu.edu/cas/login?service=".$_SESSION['SITE_URL']."api/login/android/");
 		exit;
 	}
 } else
