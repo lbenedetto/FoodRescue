@@ -122,7 +122,8 @@
 		android:text="@string/announce"
 		android:textColor="#ffffff"
 		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toEndOf="parent" />
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toEndOf="@+id/buttonShowLocal" />
 
 	<TextView
 		android:id="@+id/textViewCustomizeExpiry"
@@ -159,6 +160,7 @@
 		android:drawableEnd="@drawable/ic_bug_report_white_24dp"
 		android:drawableRight="@drawable/ic_bug_report_white_24dp"
 		android:text="Show Locally"
+		android:visibility="gone"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintEnd_toStartOf="@+id/buttonSubmit"
 		app:layout_constraintStart_toStartOf="@+id/guideline2"

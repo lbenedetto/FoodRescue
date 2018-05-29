@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
 	companion object {
 		const val SERVER_IP = "146.187.135.29"
 		const val CAS = "https://login.ewu.edu/cas/login?service="
-		const val AUTH_PAGE = "https://$SERVER_IP/api/login/android/"
+		const val AUTH_PAGE = "https://$SERVER_IP/api/login/android"
 		const val SEND_NOTIFICATION = "/api/announce/"
 		const val TAG_SSO = "SSO"
 		const val TAG_EATER = "Eater"
