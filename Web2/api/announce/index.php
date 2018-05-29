@@ -17,7 +17,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
 			if ($stmt->rowCount() == 1) // Found the auth token
 			{
 				$row = $stmt->fetch(PDO::FETCH_ASSOC);
-				if ($row['perm'] == 1) {
+				if ($row['perm'] >= 1) {
 					echo "<br>sending  " . $_POST['title'] . "  " . $_POST['body'] . "  " . $_POST['data'] . "<br>";
 					sendDatamessage($_POST['title'], $_POST['body'], $_POST['lat'], $_POST['lng'], $_POST['expiry']);
 					//header("Location: https://login.ewu.edu/cas/login?service=https://146.187.135.29/web/login");
