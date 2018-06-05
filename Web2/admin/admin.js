@@ -9,7 +9,7 @@ $.fn.exists = function () {
 
 $.get("../api/users/",
 	{
-		"auth_token": auth_token
+		auth_token: auth_token
 	},
 	handleResponse
 );
