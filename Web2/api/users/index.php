@@ -36,6 +36,16 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		}
 		break;
 	case 'GET':
+		if (!isset($_POST['auth_token']))
+		{
+			echo "auth_token not found.";
+			break;
+		}
+		if (!isAdmin($_POST['auth_token']))
+		{
+			echo "Not authorized.";
+			break;
+		}
 		$conn = getConn();
 		if (isset($_POST['search']))
 			$search = $_POST['search']) + '%';
