@@ -73,8 +73,8 @@ function search() {
 	var query = $("#usernameField").val();
 	$.get("../api/users/",
 		{
-			query: "search",
-			auth_token: "auth_token"
+			search: query,
+			auth_token: auth_token
 		},
 		handleResponse
 	);
