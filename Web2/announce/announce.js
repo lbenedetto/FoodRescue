@@ -98,9 +98,10 @@ function getBuilding() {
 
 function sendNotification() {
 	var location = map.getCenter();
-
-	$.post("../api/announce",
-		{
+	$.ajax({
+		type: "POST",
+		url: "../api/announce",
+		data: {
 			"title": getBuilding()[0],
 			"body": $("#customMessage").val(),
 			"lat": location.lat,
@@ -109,9 +110,5 @@ function sendNotification() {
 			"auth_token": auth_token,
 			"source": "web"
 		},
-		function (data) {
-			//TODO: Handle server response
-		}
-	);
-
+	});
 }
