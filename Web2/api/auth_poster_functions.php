@@ -9,8 +9,6 @@ $thisService = 'http://foodrescue.ewu.edu' . $_SERVER['PHP_SELF'];
 function responseForTicket($ticket, $who)
 {
 	global $casService, $thisService;
-
-	//$casGet = "$casService/serviceValidate?ticket=$ticket&service=" . urlencode($thisService);
 	$casGet = "https://login.ewu.edu/cas/serviceValidate?ticket=$ticket&service=".$_SESSION['SITE_URL']."api/login/$who";
 	$response = file_get_contents($casGet);
 	echo "Response: $response :done";
@@ -27,11 +25,7 @@ function responseForTicket($ticket, $who)
 */
 function extractUid($response)
 {
-	echo $response . "<br>vardump:";
-	var_dump($response);
-	// Turn the response into an array
 	$responseArray = preg_split("/\n/", $response);
-	// Get the line that has the cas:user tag
 	$casUserArray = preg_grep("/(\d+)<\/cas:user>/", $responseArray);
 	preg_match('#<cas:user>(.*?)</cas:user>#', $response, $uuiidd);
 	if (!$uuiidd[1]) {
@@ -50,10 +44,6 @@ function getConn()
 	$username = $p_ini['Database']['username'];
 	$password = $p_ini['Database']['password'];
 	$database = 'foodrescue';
-//    echo "$servername
-//$username
-//$password
-//$database";
 	try {
 		$conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -68,7 +58,6 @@ function getConn()
 
 function sendDatamessage($title, $body, $lat, $lng, $expiry)
 {
-	//echo "<br><br>data";
 	$fcmUrl = 'https://fcm.googleapis.com/fcm/send';
 
 	$dataInData =
@@ -102,37 +91,26 @@ function sendDatamessage($title, $body, $lat, $lng, $expiry)
 	}
 	if ($ch == false)
 		syslog(LOG_INFO, "Falied to create a curl session");
-	//echo "sup3";
 	curl_setopt($ch, CURLOPT_URL, $fcmUrl);
-	//curl_setopt($ch, CURLOPT_CAINFO, 'cacert.pem');
 	curl_setopt($ch, CURLOPT_POST, true);
 	curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	// trying
 	curl_setopt($ch, CURLOPT_VERBOSE, true);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-
-
-	//curl_setopt($ch, CURLOPT_COOKIEJAR, "cookie.txt");
-	//curl_setopt($ch, CURLOPT_COOKIEFILE, "cookie.txt");
 	curl_setopt($ch, CURLOPT_NOBODY, false);
 	curl_setopt($ch, CURLOPT_HEADER, true);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 	curl_setopt($ch, CURLOPT_TIMEOUT, 40000);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-	//curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 	curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fcmDatamessage));
-	//echo "sup4";
 	try {
 		$result = curl_exec($ch);
 	} catch (Exception $e) {
 		echo "caught";
 		echo "Connection failed: " . $e->getMessage();
 	}
-	//echo "<br>".curl_error($ch);
-	//echo "<br>".curl_getinfo($ch);
 
 	$curldata =
 		[
@@ -144,18 +122,16 @@ function sendDatamessage($title, $body, $lat, $lng, $expiry)
 	file_put_contents("logfile.txt", $curldata, FILE_APPEND);
 
 	curl_close($ch);
-	//echo "curl closed";
 	sendSMS($dataInData);
 	echo "<br>" . $result;
 	echo "<br>done.";
-	//exit;
 }
 
 
 function getUnameRow($username, $conn)
 {
 	if ($conn) {
-		$stmt = $conn->prepare("SELECT * FROM foodrescue.users WHERE uname = ?");  // Look for uid
+		$stmt = $conn->prepare("SELECT * FROM foodrescue.users WHERE uname = ?"); 
 		$stmt->bindValue(1, $username, PDO::PARAM_STR);
 		try {
 			$stmt->execute();
