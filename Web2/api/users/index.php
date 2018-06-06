@@ -36,42 +36,47 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		}
 		break;
 	case 'GET':
-		if (!isset($_POST['auth_token']))
+		if (!isset($_GET['auth_token']))
 		{
 			echo "auth_token not found.";
 			break;
 		}
-		if (!isAdmin($_POST['auth_token']))
+		if (!isAdmin($_GET['auth_token']))
 		{
 			echo "Not authorized.";
 			break;
 		}
 		$conn = getConn();
-		if (isset($_POST['search']))
-			$search = $_POST['search']) + '%';
+		if (isset($_GET['search']))
+			$search = $_GET['search'].'%';
 		else
-			$search = "%";
-		if (isset($_POST['auth_token'])) 
+			$search = '%';
+		
+		if (isset($_GET['auth_token'])) 
 		{
-			$stmt = $conn->prepare("SELECT uname FROM users WHERE UPPER(uname) LIKE UPPER(?) ODRER BY uname FETCH FIRST 50 ROWS ONLY;");
-			$stmt->bindValue(1, $search, PDO::PARAM_INT);
+			//$stmt = $conn->prepare("SELECT uname FROM users WHERE UPPER(uname) LIKE UPPER(?) ODRER BY uname FETCH FIRST 50 ROWS ONLY;");
+			$stmt = $conn->prepare("SELECT uname FROM users WHERE uname LIKE ?;");
+			//$stmt = $conn->prepare("SELECT uname FROM users;");
+			$stmt->bindValue(1, $search, PDO::PARAM_STR);
 			$stmt->execute();
-			$outputArray = $stmt->fetch(PDO::FETCH_ASSOC);
+			$outputArray = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			echo json_encode($outputArray);
 		}
 		break;
 }
 
-function isAdmin($auth_token_to_be_checked):
+function isAdmin($auth_token_to_be_checked)
 {
 	$conn = getConn();
-	$stmt = $conn->prepare("SELECT 1 FROM users WHERE auth_token = ?;");
+	$stmt = $conn->prepare("SELECT * FROM users WHERE auth_token = ?;");
 	$stmt->bindValue(1, $auth_token_to_be_checked, PDO::PARAM_STR);
 	$stmt->execute();
 	if ($stmt->rowCount() == 1) {
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
 		if ($row['perm'] == 2) 
 			return true;
-		return false;
 	}
+	echo "end";
+	return false;
 }
+
