@@ -36,12 +36,12 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		}
 		break;
 	case 'GET':
-		if (!isset($_GET['auth_token']))
+		if (!isset($_SESSION['auth_token']))
 		{
 			echo "auth_token not found.";
 			break;
 		}
-		if (!isAdmin($_GET['auth_token']))
+		if (!isAdmin($_SESSION['auth_token']))
 		{
 			echo "Not authorized.";
 			break;
@@ -52,10 +52,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
 		else
 			$search = '%';
 		
-		if (isset($_GET['auth_token'])) 
+		if (isset($_SESSION['auth_token'])) 
 		{
 			//$stmt = $conn->prepare("SELECT uname FROM users WHERE UPPER(uname) LIKE UPPER(?) ODRER BY uname FETCH FIRST 50 ROWS ONLY;");
-			$stmt = $conn->prepare("SELECT uname FROM users WHERE uname LIKE ?;");
+			$stmt = $conn->prepare("SELECT uname, perm FROM users WHERE uname LIKE ?;");
 			//$stmt = $conn->prepare("SELECT uname FROM users;");
 			$stmt->bindValue(1, $search, PDO::PARAM_STR);
 			$stmt->execute();
