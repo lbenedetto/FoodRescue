@@ -145,7 +145,7 @@ function sendDatamessage($title, $body, $lat, $lng, $expiry)
 
 	curl_close($ch);
 	//echo "curl closed";
-
+	sendSMS($dataInData);
 	echo "<br>" . $result;
 	echo "<br>done.";
 	//exit;
@@ -203,6 +203,11 @@ function addNavs()
 			echo '<a href="../announce/">Make Announcements</a>';
 		if ($perm > 1)
 			echo '<a href="../admin/">Manage Users</a>';
+}
+
+function sendSMS()
+{
+	// This cannot be used until there is a way of recieving texts as well as sending.	
 }
 
 ?>
