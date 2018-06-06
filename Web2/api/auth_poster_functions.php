@@ -19,10 +19,7 @@ function responseForTicket($ticket, $who)
 	}
 }
 
-/*
-* Returns the UID from the passed in response, or it
-* returns false if there is no UID.
-*/
+
 function extractUid($response)
 {
 	$responseArray = preg_split("/\n/", $response);
@@ -47,8 +44,6 @@ function getConn()
 	try {
 		$conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		//var_dump($conn);
-		//echo "Database connection sucessful\n";
 		return $conn;
 	} catch (PDOException $e) {
 		echo "Connection failed: " . $e->getMessage();
