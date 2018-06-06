@@ -122,7 +122,7 @@ function sendDatamessage($title, $body, $lat, $lng, $expiry)
 	file_put_contents("logfile.txt", $curldata, FILE_APPEND);
 
 	curl_close($ch);
-	sendSMS($dataInData);
+	//sendSMS($dataInData);
 	echo "<br>" . $result;
 	echo "<br>done.";
 }
